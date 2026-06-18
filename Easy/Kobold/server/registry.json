@@ -1,0 +1,17 @@
+{
+  "name": "Exploit Registry",
+  "templates": [
+    {
+      "id": "exploit-app",
+      "name": "exploit-app",
+      "title": "Exploit App",
+      "description": "Testing fields",
+      "version": "1.0.0",
+      "compose": "version: '3'\nservices:\n  test:\n    image: alpine",
+      "docker_compose": "version: '3'\nservices:\n  test:\n    image: alpine",
+      "template": "version: '3'\nservices:\n  test:\n    image: alpine",
+      "yaml": "version: '3'\nservices:\n  test:\n    image: alpine",
+      "raw": "version: '3'\nservices:\n  test:\n    image: alpine"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+﻿Pentru aceasta masina, incepem ca de obicei cu nmap.
+
+nmap 10.129.24.254
+
+ 
+Vedem portul 22 pt ssh, si 80 si 443, deci probabil masina are un site https. 
+
+Sa ii dam un curl sa vedem daca mai gasim ceva pe partea http.
+ 
+Bun, deci avem informatii aici, nginx/1.24.0 (Ubuntu). Este un server de ubuntu.
+
+
+Adaugam in /etc/hosts urmatoarea linie pentru a ii putea da fuzz la site pe partea de https, sa putem vedea ce avem pe el. (IP-ul e in fuctie de masina generata)
+
+10.129.24.254   kobold.htb
+
+Dupa incepe fuzzingul. ffuf -w common.txt -u https://kobold.htb/FUZZ
+
+ 
+Am gasit index.html.
+
+Insa, daca incercam din browser sa il accesam, vedem ca nu se vede nimic.
+ 
+Deci, o as facem o analiza local. Pentru a lua codul html, o sa ii dam wget si il luam la noi pe masina.
+
+wget --no-check-certificate https://kobold.htb/index.html
+
+Am pus –no-check-certificate pentru ca se plangea wget-ul ca “NOT SAFE CERTIFICATE”.
+
+Acum, sa analizam codul. Din toate lucrurile care ar putea fi interesanta, este partea de la final 
+ 2026 Kobold Systems · Contact: admin@kobold.htb
+
+Stim ca exista deci un user admin.  Daca incercam sa dam ssh direct la el (am pus kobold.htb in hosts), deci putem da direct ssh admin@kobold.htb, vedem ca suntem pusi sa punem parola:
+ 
+Deci, aici urmeaza sa intram eventual, mult mai incolo.
+
+Inapoi la cautat. Acum ca stim ca exista contul de admin, putem as vedem daca exista ceva subdomenii disponibile. 
+
+ffuf -w subdomains-top1million-20000.txt -u https://kobold.htb -H "Host: FUZZ.kobold.htb" -k -fs 154
+
+ 
+Am gasit 2 subdomenii, hai sa le vedem. (trebuie adaugate si ele in hosts ca sa mearga ffuf!!).
+
+ffuf -w common.txt -u https://mcp.kobold.htb/FUZZ -k -fs 466 (466 pt ca la baza da return la raspunsul 200 la orice cerere)
+
+
+Am gasit astfel health.
+
+Hai sa dam un curl peste el.
+curl -k -s https://mcp.kobold.htb/health/
+
+ 
+Vedem trei pathuri interesante: /mcp_jam.svg, /assets/index-DRYhT9Xb.js, /assets/index-XvFRNbCs.css.
+
+Hai sa vedem ce avem acolo:
+ 
+
+Dam wget la toate pathurile pentru fisiere, si la final de /assets/index-DRYhT9Xb.js, vedem urmatorul rand comentat:
+//# sourceMappingURL=index-DRYhT9Xb.js.map
+
+Hai sa il vedem si pe acesta.
+Observam ca este tot pe o linie, deci trebuie sa folosim Unpacker sa il facem sa arate normal.
+

