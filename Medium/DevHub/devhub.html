@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevHub - Internal Development Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #eee; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; margin-bottom: 60px; }
+        header h1 { font-size: 3rem; color: #00d9ff; margin-bottom: 10px; }
+        header p { font-size: 1.2rem; color: #888; }
+        .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 40px rgba(0,217,255,0.2); }
+        .service-card h3 { color: #00d9ff; margin-bottom: 15px; font-size: 1.4rem; }
+        .service-card p { color: #aaa; line-height: 1.6; }
+        .service-card .status { margin-top: 15px; padding: 8px 15px; border-radius: 20px; display: inline-block; font-size: 0.85rem; }
+        .status.active { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+        .status.internal { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        footer { text-align: center; margin-top: 60px; color: #555; }
+        .tech-stack { margin-top: 40px; text-align: center; }
+        .tech-stack span { display: inline-block; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; margin: 5px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DevHub</h1>
+            <p>Internal Development & Analytics Platform</p>
+        </header>
+        
+        <div class="services">
+            <div class="service-card">
+                <h3>MCP Inspector</h3>
+                <p>Model Context Protocol development and debugging tool. Used by the dev team for building and testing MCP servers.</p>
+                <span class="status active">Active - Port 6274</span>
+            </div>
+            
+            <div class="service-card">
+                <h3>Analytics Dashboard</h3>
+                <p>Jupyter-based analytics environment for data processing and visualization. Access restricted to analyst team.</p>
+                <span class="status internal">Internal Only - localhost:8888</span>
+            </div>
+            
+            <div class="service-card">
+                <h3>Code Repository</h3>
+                <p>Internal Git server for version control and collaboration. Project documentation and deployment scripts.</p>
+                <span class="status internal">Maintenance Mode</span>
+            </div>
+        </div>
+        
+        <div class="tech-stack">
+            <span>Node.js</span>
+            <span>Python 3</span>
+            <span>Jupyter</span>
+            <span>MCP Protocol</span>
+            <span>Ubuntu 24.04</span>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 DevHub Team - For Internal Use Only</p>
+        </footer>
+    </div>
+</body>
+</html>
