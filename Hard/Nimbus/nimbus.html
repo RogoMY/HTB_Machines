@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Nimbus — Internal Job Scheduler</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: ui-monospace, Menlo, monospace; background: #1a1a1a; color: #d0d0d0; line-height: 1.5; padding: 2rem; max-width: 720px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin-bottom: 0.25rem; color: #e6db74; }
+.tag { color: #8b949e; font-size: 0.875rem; margin-bottom: 2rem; }
+nav { border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 0.75rem 0; margin-bottom: 2rem; }
+nav a { color: #66d9ef; text-decoration: none; margin-right: 2rem; }
+.panel { border: 1px solid #333; padding: 1rem; margin-bottom: 1rem; }
+.panel h3 { color: #a6e22e; margin-bottom: 0.5rem; font-size: 1rem; }
+.panel p { color: #aaa; font-size: 0.875rem; }
+.meta { font-size: 0.75rem; color: #555; margin-top: 2rem; border-top: 1px solid #222; padding-top: 1rem; }
+.meta a { color: #555; }
+</style>
+</head>
+<body>
+<h1>Nimbus</h1>
+<div class="tag">Internal job scheduler — Nimbus Labs Engineering</div>
+<nav>
+    <a href="/jobs">Submit Job</a>
+    <a href="/login">Sign In</a>
+</nav>
+<div class="panel"><h3>What is this?</h3><p>Nimbus runs scheduled and on-demand background jobs across our worker fleet. Used internally for backups, ETL, report generation, and anything that needs to run on a timer or off the request path.</p></div>
+<div class="panel"><h3>How do I submit a job?</h3><p>Drop the YAML in our internal Git, then point the <a href="/jobs" style="color:#66d9ef">job submitter</a> at the raw URL. Or paste the YAML directly for ad-hoc runs.</p></div>
+<div class="panel"><h3>Need shell access on a worker?</h3><p>Use SSH. Your SSH key needs to be approved by a DevOps lead. Ping marcus on Slack.</p></div>
+<div class="meta">nimbus v1.4.2 · <a href="/api/v1/health">healthcheck</a> · <a href="/docs">docs</a> (wiki)</div>
+</body>
+</html>

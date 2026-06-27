@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Submit Job — Nimbus</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: ui-monospace, Menlo, monospace; background: #1a1a1a; color: #d0d0d0; line-height: 1.5; padding: 2rem; max-width: 720px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin-bottom: 0.25rem; color: #e6db74; }
+.tag { color: #8b949e; font-size: 0.875rem; margin-bottom: 2rem; }
+nav { border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 0.75rem 0; margin-bottom: 2rem; }
+nav a { color: #66d9ef; text-decoration: none; margin-right: 2rem; }
+.tabs { display: flex; border-bottom: 1px solid #333; }
+.tab { padding: 0.5rem 1rem; cursor: pointer; color: #888; background: none; border: none; font-family: inherit; font-size: 0.875rem; border-bottom: 2px solid transparent; }
+.tab.active { color: #e6db74; border-bottom: 2px solid #e6db74; }
+.pane { display: none; padding: 1.5rem; border: 1px solid #333; border-top: none; }
+.pane.active { display: block; }
+label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: #aaa; }
+input[type=text], input[type=url], textarea { width: 100%; padding: 0.6rem; background: #0d0d0d; border: 1px solid #333; color: #d0d0d0; font-family: inherit; font-size: 0.875rem; }
+textarea { min-height: 240px; resize: vertical; }
+button { margin-top: 1rem; background: #444; color: #eee; border: 1px solid #555; padding: 0.5rem 1.25rem; cursor: pointer; font-family: inherit; }
+.hint { color: #666; font-size: 0.75rem; margin-top: 0.5rem; }
+.ex { background: #0d0d0d; padding: 0.75rem; font-size: 0.8rem; color: #aaa; margin-top: 1rem; border: 1px solid #222; }
+</style>
+</head>
+<body>
+<h1>Submit Job</h1>
+<div class="tag">Submit a job by raw Git URL or paste YAML directly.</div>
+<nav><a href="/">Home</a><a href="/jobs">Submit Job</a><a href="/login">Sign In</a></nav>
+<div class="tabs">
+    <button class="tab active" data-pane="url-pane">By URL</button>
+    <button class="tab" data-pane="yaml-pane">Paste YAML</button>
+</div>
+<div id="url-pane" class="pane active">
+    <form method="POST" action="/jobs/preview">
+        <label for="url">Raw Git URL</label>
+        <input type="url" name="url" id="url" placeholder="https://gitlab.example.com/devops/jobs/raw/main/backup.yaml">
+        <p class="hint">URL must point to a .yaml file. Internal addresses and metadata endpoints are blocked.</p>
+        <button type="submit">Preview Job</button>
+    </form>
+</div>
+<div id="yaml-pane" class="pane">
+    <form method="POST" action="/jobs/preview">
+        <label for="yaml_body">YAML body</label>
+        <textarea name="yaml_body" id="yaml_body" placeholder="name: my-job&#10;schedule: '*/5 * * * *'"></textarea>
+        <p class="hint">Parsed with safe_load. No code execution at submission time.</p>
+        <button type="submit">Preview Job</button>
+    </form>
+</div>
+<div class="ex">Example: <pre style="margin-top:0.5rem">name: nightly-db-backup
+schedule: "0 2 * * *"
+runtime: python3.11</pre></div>
+<script>
+document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.pane').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById(t.dataset.pane).classList.add('active');
+    });
+});
+</script>
+</body>
+</html>
