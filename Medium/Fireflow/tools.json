@@ -1,0 +1,14 @@
+[
+  {
+    "name": "ping_host",
+    "description": "Ping a target host 3 times and return ICMP output."
+  },
+  {
+    "name": "get_metrics_summary",
+    "description": "Return a summary of system memory and load average from /proc."
+  },
+  {
+    "name": "list_running_tasks",
+    "description": "List the top 20 running processes sorted by CPU usage."
+  }
+]
