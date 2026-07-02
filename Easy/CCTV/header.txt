@@ -1,0 +1,8 @@
+GET /zm/index.php?view=request&request=event&action=removetag&tid=1 HTTP/1.1
+Host: cctv.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Goanna/6.8 Firefox/128.0 PaleMoon/34.1.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/jxl,image/webp,image/apng,video/x-matroska,video/webm,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Cookie: zmSkin=classic; zmCSS=base; ZMSESSID=0l8f6t5o335hope7cuacmbr9t6
+Connection: keep-alive
