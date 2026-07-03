@@ -1,0 +1,267 @@
+╔══════════╣ D-Bus Analysis (T1559.001)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#d-bus
+NAME                            PID PROCESS         USER             CONNECTION    UNIT                        SESSION DESCRIPTION
+:1.0                            762 systemd-timesyn systemd-timesync :1.0          systemd-timesyncd.service   -       -
+:1.1                            761 systemd-resolve systemd-resolve  :1.1          systemd-resolved.service    -       -
+:1.12                           895 networkd-dispat root             :1.12         networkd-dispatcher.service -       -
+:1.13                           901 snapd           root             :1.13         snapd.service               -       -
+:1.2                              1 systemd         root             :1.2          init.scope                  -       -
+:1.3                            896 polkitd         root             :1.3          polkit.service              -       -
+:1.4                            903 udisksd         root             :1.4          udisks2.service             -       -
+:1.5                            927 ModemManager    root             :1.5          ModemManager.service        -       -
+:1.534                        37818 busctl          mcp-dev          :1.534        mcpjam.service              -       -
+:1.6                            902 systemd-logind  root             :1.6          systemd-logind.service      -       -
+com.ubuntu.SoftwareProperties     - -               -                (activatable) -                           -       -
+org.freedesktop.DBus              1 systemd         root             -             init.scope                  -       -
+org.freedesktop.ModemManager1   927 ModemManager    root             :1.5          ModemManager.service        -       -
+org.freedesktop.PackageKit        - -               -                (activatable) -                           -       -
+org.freedesktop.PolicyKit1      896 polkitd         root             :1.3          polkit.service              -       -
+org.freedesktop.UDisks2         903 udisksd         root             :1.4          udisks2.service             -       -
+org.freedesktop.UPower            - -               -                (activatable) -                           -       -
+org.freedesktop.bolt              - -               -                (activatable) -                           -       -
+org.freedesktop.fwupd             - -               -                (activatable) -                           -       -
+org.freedesktop.hostname1         - -               -                (activatable) -                           -       -
+org.freedesktop.locale1           - -               -                (activatable) -                           -       -
+org.freedesktop.login1          902 systemd-logind  root             :1.6          systemd-logind.service      -       -
+org.freedesktop.network1          - -               -                (activatable) -                           -       -
+org.freedesktop.resolve1        761 systemd-resolve systemd-resolve  :1.1          systemd-resolved.service    -       -
+org.freedesktop.systemd1          1 systemd         root             :1.2          init.scope                  -       -
+org.freedesktop.thermald          - -               -                (activatable) -                           -       -
+org.freedesktop.timedate1         - -               -                (activatable) -                           -       -
+org.freedesktop.timesync1       762 systemd-timesyn systemd-timesync :1.0          systemd-timesyncd.service   -       -
+
+╔══════════╣ Active Ports (T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#open-ports
+══╣ Active Ports (netstat) (T1049)
+tcp        0      0 0.0.0.0:6274            0.0.0.0:*               LISTEN      1293/node           
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:5000          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:8888          0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+══╣ Local-only listeners (loopback) (T1049)
+tcp   LISTEN 0      128        127.0.0.1:5000      0.0.0.0:*                                              
+tcp   LISTEN 0      128        127.0.0.1:8888      0.0.0.0:*                                              
+══╣ Unique listener bind addresses (T1049)
+0.0.0.0
+127.0.0.1
+127.0.0.53%lo
+::
+══╣ Potential local forwarders/relays (T1049)
+mcp-dev    38442  0.0  0.0   3688  1064 ?        S    20:54   0:00 sed -E s,socat|ssh|-L|-R|-D|ncat|nc,.[1;31;103m&.[0m,g
+══╣ Polkit Binary (T1548.003,T1068)
+Pkexec binary found at: /usr/bin/pkexec
+Pkexec binary has SUID bit set!
+-rwsr-xr-x 1 root root 30872 Apr 10 10:59 /usr/bin/pkexec
+pkexec version 0.105
+Potentially vulnerable to CVE-2021-4034 (PwnKit) - check distro patches
+
+══╣ Polkit Policies (T1548.003)
+Checking /etc/polkit-1/localauthority.conf.d/:
+
+[Configuration]
+AdminIdentities=unix-user:0
+[Configuration]
+AdminIdentities=unix-group:sudo;unix-group:admin
+Checking /usr/share/polkit-1/rules.d/:
+// -*- mode: js2 -*-
+polkit.addRule(function(action, subject) {
+    if ((action.id === "org.freedesktop.bolt.enroll" ||
+	action.id === "org.freedesktop.bolt.authorize" ||
+	action.id === "org.freedesktop.bolt.manage") &&
+        subject.active === true && subject.local === true &&
+        subject.isInGroup("sudo")) {
+            return polkit.Result.YES;
+    }
+});
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.fwupd.update-internal" &&
+        subject.active == true && subject.local == true &&
+        subject.isInGroup("sudo")) {
+            return polkit.Result.YES;
+    }
+});
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.freedesktop.packagekit.upgrade-system" ||
+         action.id == "org.freedesktop.packagekit.trigger-offline-update") &&
+        subject.active == true && subject.local == true &&
+        subject.isInGroup("sudo")) {
+            return polkit.Result.YES;
+    }
+});
+// This file is part of systemd.
+// See systemd-networkd.service(8) and polkit(8) for more information.
+
+// Allow systemd-networkd to set timezone, get product UUID,
+// and transient hostname
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.freedesktop.hostname1.set-hostname" ||
+         action.id == "org.freedesktop.hostname1.get-product-uuid" ||
+         action.id == "org.freedesktop.timedate1.set-timezone") &&
+        subject.user == "systemd-network") {
+        return polkit.Result.YES;
+    }
+});
+
+══╣ Polkit Authentication Agent (T1548.004)
+root         896  0.0  0.1 234512  6848 ?        Ssl  20:43   0:00 /usr/libexec/polkitd --no-debug
+╔══════════╣ Searching uncommon passwd files (splunk) (T1552.001)
+passwd file: /etc/pam.d/passwd
+passwd file: /etc/passwd
+passwd file: /snap/core20/2686/etc/pam.d/passwd
+passwd file: /snap/core20/2686/etc/passwd
+passwd file: /snap/core20/2686/usr/share/bash-completion/completions/passwd
+passwd file: /snap/core20/2686/usr/share/lintian/overrides/passwd
+passwd file: /snap/core20/2686/var/lib/extrausers/passwd
+passwd file: /snap/core20/2866/etc/pam.d/passwd
+passwd file: /snap/core20/2866/etc/passwd
+passwd file: /snap/core20/2866/usr/share/bash-completion/completions/passwd
+passwd file: /snap/core20/2866/usr/share/lintian/overrides/passwd
+passwd file: /snap/core20/2866/var/lib/extrausers/passwd
+passwd file: /usr/share/bash-completion/completions/passwd
+passwd file: /usr/share/lintian/overrides/passwd
+                     ╔════════════════════════════════════╗
+══════════════════════╣ Files with Interesting Permissions ╠══════════════════════
+                      ╚════════════════════════════════════╝
+╔══════════╣ SUID - Check easy privesc, exploits and write perms (T1548.001)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid
+-rwsr-xr-x 1 root root 227K Mar  2 13:08 /usr/bin/sudo  --->  check_if_the_sudo_version_is_vulnerable
+-rwsr-xr-x 1 root root 55K Mar  6 16:10 /usr/bin/su
+-rwsr-xr-x 1 root root 71K Feb  6  2024 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 35K Mar 23  2022 /usr/bin/fusermount3
+-rwsr-xr-x 1 root root 40K Feb  6  2024 /usr/bin/newgrp  --->  HP-UX_10.20
+-rwsr-xr-x 1 root root 44K Feb  6  2024 /usr/bin/chsh
+-rwsr-xr-x 1 root root 47K Mar  6 16:10 /usr/bin/mount  --->  Apple_Mac_OSX(Lion)_Kernel_xnu-1699.32.7_except_xnu-1699.24.8
+-rwsr-xr-x 1 root root 59K Feb  6  2024 /usr/bin/passwd  --->  Apple_Mac_OSX(03-2006)/Solaris_8/9(12-2004)/SPARC_8/9/Sun_Solaris_2.3_to_2.5.1(02-1997)
+-rwsr-xr-x 1 root root 72K Feb  6  2024 /usr/bin/chfn  --->  SuSE_9.3/10
+-rwsr-xr-x 1 root root 35K Mar  6 16:10 /usr/bin/umount  --->  BSD/Linux(08-1996)
+-rwsr-xr-x 1 root root 31K Apr 10 10:59 /usr/bin/pkexec  --->  Linux4.10_to_5.1.17(CVE-2019-13272)/rhel_6(CVE-2011-1485)/Generic_CVE-2021-4034
+-rwsr-xr-x 1 root root 23K Apr 10 10:59 /usr/libexec/polkit-agent-helper-1
+-rwsr-xr-- 1 root messagebus 35K Oct 25  2022 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+-rwsr-xr-x 1 root root 331K Apr 28 00:38 /usr/lib/openssh/ssh-keysign
+-rwsr-xr-x 1 root root 84K Feb  6  2024 /snap/core20/2686/usr/bin/chfn  --->  SuSE_9.3/10
+-rwsr-xr-x 1 root root 52K Feb  6  2024 /snap/core20/2686/usr/bin/chsh
+-rwsr-xr-x 1 root root 87K Feb  6  2024 /snap/core20/2686/usr/bin/gpasswd
+-rwsr-xr-x 1 root root 55K Apr  9  2024 /snap/core20/2686/usr/bin/mount  --->  Apple_Mac_OSX(Lion)_Kernel_xnu-1699.32.7_except_xnu-1699.24.8
+-rwsr-xr-x 1 root root 44K Feb  6  2024 /snap/core20/2686/usr/bin/newgrp  --->  HP-UX_10.20
+-rwsr-xr-x 1 root root 67K Feb  6  2024 /snap/core20/2686/usr/bin/passwd  --->  Apple_Mac_OSX(03-2006)/Solaris_8/9(12-2004)/SPARC_8/9/Sun_Solaris_2.3_to_2.5.1(02-1997)
+-rwsr-xr-x 1 root root 67K Apr  9  2024 /snap/core20/2686/usr/bin/su
+-rwsr-xr-x 1 root root 163K Jun 25  2025 /snap/core20/2686/usr/bin/sudo  --->  check_if_the_sudo_version_is_vulnerable
+-rwsr-xr-x 1 root root 39K Apr  9  2024 /snap/core20/2686/usr/bin/umount  --->  BSD/Linux(08-1996)
+-rwsr-xr-- 1 root systemd-resolve 51K Oct 25  2022 /snap/core20/2686/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+-rwsr-xr-x 1 root root 467K Apr 11  2025 /snap/core20/2686/usr/lib/openssh/ssh-keysign
+-rwsr-xr-x 1 root root 84K Feb  6  2024 /snap/core20/2866/usr/bin/chfn  --->  SuSE_9.3/10
+-rwsr-xr-x 1 root root 52K Feb  6  2024 /snap/core20/2866/usr/bin/chsh
+-rwsr-xr-x 1 root root 87K Feb  6  2024 /snap/core20/2866/usr/bin/gpasswd
+-rwsr-xr-x 1 root root 55K Mar  6 16:20 /snap/core20/2866/usr/bin/mount  --->  Apple_Mac_OSX(Lion)_Kernel_xnu-1699.32.7_except_xnu-1699.24.8
+-rwsr-xr-x 1 root root 44K Feb  6  2024 /snap/core20/2866/usr/bin/newgrp  --->  HP-UX_10.20
+-rwsr-xr-x 1 root root 67K Feb  6  2024 /snap/core20/2866/usr/bin/passwd  --->  Apple_Mac_OSX(03-2006)/Solaris_8/9(12-2004)/SPARC_8/9/Sun_Solaris_2.3_to_2.5.1(02-1997)
+-rwsr-xr-x 1 root root 67K Mar  6 16:20 /snap/core20/2866/usr/bin/su
+-rwsr-xr-x 1 root root 163K Jun 25  2025 /snap/core20/2866/usr/bin/sudo  --->  check_if_the_sudo_version_is_vulnerable
+-rwsr-xr-x 1 root root 39K Mar  6 16:20 /snap/core20/2866/usr/bin/umount  --->  BSD/Linux(08-1996)
+-rwsr-xr-- 1 root systemd-resolve 51K Oct 25  2022 /snap/core20/2866/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+-rwsr-xr-x 1 root root 467K Mar  5 19:37 /snap/core20/2866/usr/lib/openssh/ssh-keysign
+
+╔══════════╣ SGID (T1548.001)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid
+-rwxr-sr-x 1 root shadow 71K Feb  6  2024 /usr/bin/chage
+-rwxr-sr-x 1 root shadow 23K Feb  6  2024 /usr/bin/expiry
+-rwxr-sr-x 1 root crontab 39K Mar 23  2022 /usr/bin/crontab
+-rwxr-sr-x 1 root _ssh 287K Apr 28 00:38 /usr/bin/ssh-agent
+-rwxr-sr-x 1 root shadow 27K Jun 12  2025 /usr/sbin/unix_chkpwd
+-rwxr-sr-x 1 root shadow 23K Jun 12  2025 /usr/sbin/pam_extrausers_chkpwd
+-rwxr-sr-x 1 root utmp 15K Mar 24  2022 /usr/lib/x86_64-linux-gnu/utempter/utempter
+-rwxr-sr-x 1 root shadow 83K Feb  6  2024 /snap/core20/2686/usr/bin/chage
+-rwxr-sr-x 1 root shadow 31K Feb  6  2024 /snap/core20/2686/usr/bin/expiry
+-rwxr-sr-x 1 root systemd-timesync 343K Apr 11  2025 /snap/core20/2686/usr/bin/ssh-agent
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /snap/core20/2686/usr/sbin/pam_extrausers_chkpwd
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /snap/core20/2686/usr/sbin/unix_chkpwd
+-rwxr-sr-x 1 root shadow 83K Feb  6  2024 /snap/core20/2866/usr/bin/chage
+-rwxr-sr-x 1 root shadow 31K Feb  6  2024 /snap/core20/2866/usr/bin/expiry
+-rwxr-sr-x 1 root systemd-timesync 343K Mar  5 19:37 /snap/core20/2866/usr/bin/ssh-agent
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /snap/core20/2866/usr/sbin/pam_extrausers_chkpwd
+-rwxr-sr-x 1 root shadow 43K Jan 10  2024 /snap/core20/2866/usr/sbin/unix_chkpwd
+
+╔══════════╣ Files with ACLs (limited to 50) (T1222)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#acls
+
+
+
+
+files with acls in searched folders Not Found
+Files with capabilities (limited to 50):
+/usr/bin/mtr-packet cap_net_raw=ep
+/usr/bin/ping cap_net_raw=ep
+/usr/lib/snapd/snap-confine cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_setgid,cap_setuid,cap_sys_chroot,cap_sys_ptrace,cap_sys_admin,cap_sys_resource=p
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper cap_net_bind_service,cap_net_admin=ep
+/snap/core20/2686/usr/bin/ping cap_net_raw=ep
+/snap/core20/2866/usr/bin/ping cap_net_raw=ep
+/snap/snapd/26865/usr/lib/snapd/snap-confine cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_setgid,cap_setuid,cap_sys_chroot,cap_sys_ptrace,cap_sys_admin,cap_sys_resource=p
+/snap/snapd/25935/usr/lib/snapd/snap-confine cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_setgid,cap_setuid,cap_sys_chroot,cap_sys_ptrace,cap_sys_admin=p
+
+
+
+╔══════════╣ Interesting writable files owned by me or writable by everyone (not in Home) (max 200) (T1574.009,T1574.010)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files
+/home/mcp-dev
+/opt/mcpjam
+/opt/mcpjam/package.json
+/run/lock
+/run/screen
+/run/screen/S-mcp-dev
+/tmp
+/tmp/.ICE-unix
+/tmp/.Test-unix
+/tmp/.X11-unix
+/tmp/.XIM-unix
+/tmp/.font-unix
+#)You_can_write_even_more_files_inside_last_directory
+
+/tmp/node-compile-cache/v25.9.0-x64-392347a2-1001
+/tmp/tmux-1001
+/var/crash
+/var/tmp
+╔══════════╣ Backup folders (T1552.001)
+drwx------ 2 root root 4096 Jan 22 14:51 /etc/lvm/backup
+drwxr-xr-x 2 root root 3 Apr 15  2020 /snap/core20/2686/var/backups
+total 0
+
+drwxr-xr-x 2 root root 3 Apr 15  2020 /snap/core20/2866/var/backups
+total 0
+
+drwxr-xr-x 3 root root 4096 May 26 08:42 /var/backups
+
+
+══════════╣ Searching *password* or *credential* files in home (limit 70) (T1552.001)
+/etc/pam.d/common-password
+/opt/mcpjam/node_modules/@auth/core/providers/credentials.d.ts
+/opt/mcpjam/node_modules/@auth/core/providers/credentials.d.ts.map
+/opt/mcpjam/node_modules/@auth/core/providers/credentials.js
+/opt/mcpjam/node_modules/@auth/core/src/providers/credentials.ts
+/opt/mcpjam/node_modules/@radix-ui/react-one-time-password-field
+/opt/mcpjam/node_modules/@radix-ui/react-one-time-password-field/src/one-time-password-field.test.tsx
+/opt/mcpjam/node_modules/@radix-ui/react-one-time-password-field/src/one-time-password-field.tsx
+/opt/mcpjam/node_modules/@radix-ui/react-password-toggle-field
+/opt/mcpjam/node_modules/@radix-ui/react-password-toggle-field/src/password-toggle-field.test.tsx
+/opt/mcpjam/node_modules/@radix-ui/react-password-toggle-field/src/password-toggle-field.tsx
+/opt/mcpjam/node_modules/caniuse-lite/data/features/credential-management.js
+/opt/mcpjam/node_modules/caniuse-lite/data/features/passwordrules.js
+/opt/mcpjam/node_modules/simple-icons/icons/1password.svg
+/usr/bin/systemd-ask-password
+/usr/bin/systemd-tty-ask-password-agent
+/usr/lib/git-core/git-credential
+/usr/lib/git-core/git-credential-cache
+/usr/lib/git-core/git-credential-cache--daemon
+/usr/lib/git-core/git-credential-store
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/lib/grub/i386-pc/password.mod
+/usr/lib/grub/i386-pc/password_pbkdf2.mod
+/usr/lib/python3/dist-packages/keyring/__pycache__/credentials.cpython-310.pyc
+/usr/lib/python3/dist-packages/keyring/credentials.py
+/usr/lib/python3/dist-packages/launchpadlib/__pycache__/credentials.cpython-310.pyc
+/usr/lib/python3/dist-packages/launchpadlib/credentials.py
+/usr/lib/python3/dist-packages/launchpadlib/tests/__pycache__/test_credential_store.cpython-310.pyc
+/usr/lib/python3/dist-packages/launchpadlib/tests/test_credential_store.py
+/usr/lib/python3/dist-packages/oauthlib/oauth2/rfc6749/grant_types/__pycache__/client_credentials.cpython-310.pyc
