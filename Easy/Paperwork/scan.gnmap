@@ -1,0 +1,4 @@
+# Nmap 7.95 scan initiated Sun Jul 12 13:04:50 2026 as: nmap -sV -sC -oA scan 10.129.50.175
+Host: 10.129.50.175 (paperwork.htb)	Status: Up
+Host: 10.129.50.175 (paperwork.htb)	Ports: 22/open/tcp//ssh//OpenSSH 10.0p2 Ubuntu 5ubuntu5.4 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//nginx 1.28.0 (Ubuntu)/	Ignored State: closed (998)
+# Nmap done at Sun Jul 12 13:05:02 2026 -- 1 IP address (1 host up) scanned in 11.71 seconds
